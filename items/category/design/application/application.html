@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="tivo admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, Tivo admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="pixelstrap">
+    <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
+    <title>Tivo - Premium Admin Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar/scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/dropzone/dropzone.css">
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/bootstrap.css">
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+</head>
+
+<body>
+    <!-- tap on top starts-->
+    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+    <!-- tap on tap ends-->
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"> </div>
+        <div class="dot"></div>
+    </div>
+    <!-- Loader ends-->
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <!-- Page Header Start-->
+        <div id="header"></div>
+        <!-- Page Header Ends-->
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+            <div id="sidebar"></div>
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Add Items</h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="/"><i data-feather="home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">Items</li>
+                                    <li class="breadcrumb-item active">Add Items</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid add-product">
+                    <div class="row">
+                        <div class="col-xl-0">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="product-info">
+
+                                        <h5>Upload Image</h5>
+                                        <form id="myForm">
+                                            <div class="product-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <input class="form-control" type="file" aria-label="file example" id="fileButton" accept="image/*" required="" data-bs-original-title="" title="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Url Image</label>
+                                                            <input class="form-control" placeholder="Image Url" type="text" id="img" required readonly>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <h5>Description</h5>
+                                        <form>
+                                            <div class="product-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Items Name</label>
+                                                            <input class="form-control" placeholder="Enter Items Name" type="text" id="name" required>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Items Author</label>
+                                                            <input class="form-control" placeholder="Enter Items Author" type="text" id="author" required>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Items Url Instagram</label>
+                                                            <input class="form-control" placeholder="Enter Items Url Instagram" type="text" pattern="https://www.instagram.com/.*" id="displayPreview">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <div class="row">
+                                                    <div class="col-sm-12 text-end">
+                                                        <button class="btn btn-primary me-3" type="submit">ADD </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+            <!-- footer start-->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 p-0 footer-left">
+                            <p class="mb-0">Copyright © 2023 Tivo. All rights reserved.</p>
+                        </div>
+                        <div class="col-md-6 p-0 footer-right">
+                            <p class="mb-0">Hand-crafted & made with <i class="fa fa-heart font-danger"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- latest jquery-->
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap js-->
+    <script src="/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- feather icon js-->
+    <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
+    <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
+    <!-- scrollbar js-->
+    <script src="/assets/js/scrollbar/simplebar.js"></script>
+    <script src="/assets/js/scrollbar/custom.js"></script>
+    <!-- Sidebar jquery-->
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/sidebar-menu.js"></script>
+    <script src="/assets/js/dropzone/dropzone.js"></script>
+    <script src="/assets/js/dropzone/dropzone-script.js"></script>
+    <script src="/assets/js/form-validation-custom.js"></script>
+    <script src="/assets/js/tooltip-init.js"></script>
+    <!-- Template js-->
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/theme-customizer/customizer.js"></script>
+    <!-- login js-->
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  <script>
+    // Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+authDomain: "koraa-id.firebaseapp.com",
+projectId: "koraa-id",
+storageBucket: "koraa-id.appspot.com",
+messagingSenderId: "360256061577",
+appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+measurementId: "G-VJT00SD3NT"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Access Firestore collection
+    const db = firebase.firestore().collection("/koraa/items/category/ux design/application/");
+
+    // Get the form element
+    var myForm = document.getElementById('myForm');
+
+    // Listen for form submission
+    myForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get form values
+      var img = document.getElementById('img').value;
+      var name = document.getElementById('name').value;
+      var author = document.getElementById('author').value;
+      var displayPreview = document.getElementById('displayPreview').value;
+
+
+      // Save data to Firestore
+      db.add({
+        img: img,
+        name: name,
+        author: author,
+        displayPreview: displayPreview,
+        
+      })
+      .then(function(docRef) {
+        alert('Form submitted successfully');
+        myForm.reset();
+        console.log('Document written with ID: ', docRef.id);
+      })
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+      });
+    });
+
+    // Upload image to Firebase Storage
+    var storageRef = firebase.storage().ref();
+
+    document.getElementById('fileButton').addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      var fileName = Date.now() + '_' + file.name;
+      var uploadTask = storageRef.child('items/category/ux design/application/' + fileName).put(file);
+
+      uploadTask.on('state_changed', function(snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      }, function(error) {
+        console.error('Error uploading file: ', error);
+      }, function() {
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log('File available at', downloadURL);
+          document.getElementById('img').value = downloadURL;
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
