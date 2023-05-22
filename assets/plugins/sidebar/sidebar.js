@@ -60,7 +60,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/p/calendar" onclick="CalendarLink(event)">
+                    <a class="sidebar-link sidebar-title link-nav" href="/p/calendar">
                       <i data-feather="calendar"></i>
                       <span>Calendar</span>
                     </a>
@@ -73,9 +73,34 @@ function showgallery(curarra) {
                       <span class="lan-6">Design</span>
                     </a>
                     <ul class="sidebar-submenu">
-                      <li><a href="/items/category/design/application" onclick="DesignApplicationLink(event)">Application</a></li>
-                      <li><a href="chart-widget.html">Web Design</a></li>
+                      <li><a href="/items/category/design/application">Application</a></li>
+                      <li><a href="">Web Design</a></li>
                     </ul>
+                  </li>
+
+                  <li class="sidebar-list">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <i data-feather="code"></i>
+                      <span class="lan-6">Source Code</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="">Admin Dashbords</a></li>
+                    </ul>
+                  </li>
+
+                  <li class="sidebar-list">
+                    <a class="sidebar-link sidebar-title link-nav">
+                      <span>Help</span>
+                    </a>
+                  </li>
+
+                  <li class="sidebar-list">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="">
+                      <i data-feather="file-text"></i>
+                      <span>Starter Kit</span>
+                    </a>
                   </li>
 
                 </ul>

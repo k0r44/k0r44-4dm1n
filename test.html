@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Firestore Count</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Total Document Count: <span id="totalCount"></span></h1>
+
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+  authDomain: "koraa-id.firebaseapp.com",
+  projectId: "koraa-id",
+  storageBucket: "koraa-id.appspot.com",
+  messagingSenderId: "360256061577",
+  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+  measurementId: "G-VJT00SD3NT"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the Firestore database
+    var firestore = firebase.firestore();
+
+    // Recursive function to count all documents in a collection, including subcollections
+    function countDocuments(collectionRef) {
+      return collectionRef.get().then(function(querySnapshot) {
+        var totalCount = querySnapshot.size;
+        querySnapshot.forEach(function(doc) {
+          totalCount++; // Count the document itself
+          totalCount += countDocuments(collectionRef.doc(doc.id).collection("subcollection")); // Count subcollection documents recursively
+        });
+        return totalCount;
+      });
+    }
+
+    // Get the total document count
+    countDocuments(firestore.collection("koraa/items/category/")).then(function(totalCount) {
+      document.getElementById("totalCount").textContent = totalCount;
+    }).catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+  </script>
+</body>
+</html>
