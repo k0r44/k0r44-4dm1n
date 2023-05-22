@@ -43,7 +43,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="https://koraa-admin-dash.vercel.app/">
+                    <a class="sidebar-link sidebar-title link-nav" href="/public/">
                       <i data-feather="home"></i>
                       <span>Dashboards</span>
                     </a>
