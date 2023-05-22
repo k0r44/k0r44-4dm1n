@@ -20,7 +20,7 @@ window.TivoAdminConfig = {
 };
 
 
-// Menu Link
+/* Menu Link
 
 function CalendarLink(event) {
     event.preventDefault();

@@ -27,7 +27,7 @@ function showgallery(curarra) {
               <div class="back-btn"><i data-feather="grid"></i></div>
           
             </div>
-            <div class="logo-icon-wrapper"><a href="index.html">
+            <div class="logo-icon-wrapper"><a href="/">
                 <div class="icon-box-sidebar"><i data-feather="grid"></i></div></a></div>
             <nav class="sidebar-main">
               <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
