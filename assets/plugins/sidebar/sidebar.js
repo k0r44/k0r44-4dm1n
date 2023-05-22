@@ -52,7 +52,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/public/">
+                    <a class="sidebar-link sidebar-title link-nav" href="/">
                       <i data-feather="home"></i>
                       <span>Dashboards</span>
                     </a>
@@ -60,7 +60,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/p/calendar/" onclick="CalendarLink(event)">
+                    <a class="sidebar-link sidebar-title link-nav" href="/p/calendar" onclick="CalendarLink(event)">
                       <i data-feather="calendar"></i>
                       <span>Calendar</span>
                     </a>
@@ -73,7 +73,7 @@ function showgallery(curarra) {
                       <span class="lan-6">Design</span>
                     </a>
                     <ul class="sidebar-submenu">
-                      <li><a href="/items/category/design/application/" onclick="DesignApplicationLink(event)">Application</a></li>
+                      <li><a href="/items/category/design/application" onclick="DesignApplicationLink(event)">Application</a></li>
                       <li><a href="chart-widget.html">Web Design</a></li>
                     </ul>
                   </li>
