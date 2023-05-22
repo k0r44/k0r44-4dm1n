@@ -22,7 +22,7 @@ function showgallery(curarra) {
         <div class="sidebar-wrapper">
           <div>
             <div class="logo-wrapper">
-              <a href="index.html">
+              <a href="/">
                 <img class="img-fluid for-light" src="/assets/img/logo/kora.png" alt=""></a>
               <div class="back-btn"><i data-feather="grid"></i></div>
           
@@ -43,7 +43,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/index.html">
+                    <a class="sidebar-link sidebar-title link-nav" href="https://koraa-admin-dash.vercel.app/">
                       <i data-feather="home"></i>
                       <span>Dashboards</span>
                     </a>
