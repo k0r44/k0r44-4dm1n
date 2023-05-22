@@ -25,16 +25,25 @@ function showgallery(curarra) {
               <a href="/">
                 <img class="img-fluid for-light" src="/assets/img/logo/kora.png" alt=""></a>
               <div class="back-btn"><i data-feather="grid"></i></div>
-          
             </div>
-            <div class="logo-icon-wrapper"><a href="/">
-                <div class="icon-box-sidebar"><i data-feather="grid"></i></div></a></div>
+
+            <div class="logo-icon-wrapper">
+              <a href="/">
+                <div class="icon-box-sidebar">
+                  <i data-feather="grid"></i>
+                </div>
+              </a>
+            </div>
+
             <nav class="sidebar-main">
               <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
               <div id="sidebar-menu">
                 <ul class="sidebar-links" id="simple-bar">
                   <li class="back-btn">
-                    <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                    <div class="mobile-back text-end">
+                      <span>Back</span>
+                      <i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
+                    </div>
                   </li>
                   <li class="pin-title sidebar-list">
                     <h6>Pinned</h6>
@@ -43,7 +52,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/index.html">
+                    <a class="sidebar-link sidebar-title link-nav" href="/public/">
                       <i data-feather="home"></i>
                       <span>Dashboards</span>
                     </a>
