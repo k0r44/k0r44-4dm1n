@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login and Daftar Firebase</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login and Daftar Firebase</h1>
+        <div id="login-form">
+            <h2>Masuk</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Masuk</button>
+        </div>
+        <div id="signup-form">
+            <h2>Daftar</h2>
+            <input type="email" id="new-email" placeholder="Email" required>
+            <input type="password" id="new-password" placeholder="Password" required>
+            <select id="kategori" required>
+                <option value="">Pilih Kategori</option>
+                <option value="code">Code</option>
+                <option value="design">Design</option>
+            </select>
+            <button onclick="signup()">Daftar</button>
+        </div>
+        <div id="success-message"></div>
+        <div id="error-message"></div>
+    </div>
+
+    <div id="category-content"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="/config/db.js"></script>
+    <script src="/config/users/auth.js"></script>
+</body>
+
+</html>

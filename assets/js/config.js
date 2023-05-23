@@ -20,18 +20,3 @@ window.TivoAdminConfig = {
 };
 
 
-/* Menu Link
-
-function CalendarLink(event) {
-    event.preventDefault();
-    history.pushState(null, null, '/');
-    window.location.href = '/p/calendar/calendar.html';
-}
-
-
-
-function DesignApplicationLink(event) {
-    event.preventDefault();
-    history.pushState(null, null, '/');
-    window.location.href = '/items/category/design/application/application.html';
-}

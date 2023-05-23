@@ -1,4 +1,10 @@
+import('/assets/plugins/sidebar/kora.min.js');
+import('/assets/plugins/sidebar/sidebar.js');
 
+// Design Sidebar 
+import('/assets/plugins/sidebar/design/kora.min.js');
+
+import('/assets/plugins/footer/kora.min.js');
 
   var page_wrapper = localStorage.getItem("page-wrapper", null);
 

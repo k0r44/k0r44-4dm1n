@@ -1,7 +1,3 @@
-import('/assets/plugins/sidebar/kora.min.js');
-import('/assets/plugins/sidebar/sidebar.js');
-
-import('/assets/plugins/footer/kora.min.js');
 (function ($) {
     "use strict";
 
