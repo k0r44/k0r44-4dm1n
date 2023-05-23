@@ -1,4 +1,4 @@
-firebase.initializeApp(firebaseConfig);
+
     var db = firebase.firestore();
 
     // Get elements
