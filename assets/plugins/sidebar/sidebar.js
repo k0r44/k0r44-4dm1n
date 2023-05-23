@@ -68,25 +68,18 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/category/design/">
                       <i data-feather="image"></i>
-                      <span class="lan-6">Design</span>
+                      <span>Design</span>
                     </a>
-                    <ul class="sidebar-submenu">
-                      <li><a href="/items/category/design/application">Application</a></li>
-                      <li><a href="">Web Design</a></li>
-                    </ul>
                   </li>
 
                   <li class="sidebar-list">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/category/source-code/">
                       <i data-feather="code"></i>
-                      <span class="lan-6">Source Code</span>
+                      <span>Source Code</span>
                     </a>
-                    <ul class="sidebar-submenu">
-                      <li><a href="">Admin Dashbords</a></li>
-                    </ul>
                   </li>
 
                   <li class="sidebar-list">

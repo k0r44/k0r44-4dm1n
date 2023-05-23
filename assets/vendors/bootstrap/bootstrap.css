@@ -618,6 +618,12 @@ progress {
     height: auto;
 }
 
+.img-logo {
+    padding-top: 12px;
+    max-width: 15%;
+    height: auto;
+}
+
 .img-thumbnail {
     padding: .25rem;
     background-color: #fff;

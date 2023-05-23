@@ -61,6 +61,7 @@
           // Create a new user document in Firestore with the user's UID as the document ID
           return db.collection('users').doc(user.uid).set({
             email: email,
+            uid: user.uid,
             category: category
           });
         })
