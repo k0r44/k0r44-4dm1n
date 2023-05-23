@@ -9,24 +9,26 @@
     <h1>Login and Daftar Firebase</h1>
     <div id="login-form">
       <h2>Masuk</h2>
-      <input type="text" id="email" placeholder="Email" required>
+      <input type="email" id="email" placeholder="Email" required>
       <input type="password" id="password" placeholder="Password" required>
-      <button onclick="login(event)">Masuk</button>
+      <button onclick="login()">Masuk</button>
     </div>
     <div id="signup-form">
       <h2>Daftar</h2>
-      <input type="text" id="new-email" placeholder="Email" required>
+      <input type="email" id="new-email" placeholder="Email" required>
       <input type="password" id="new-password" placeholder="Password" required>
-      <select id="category" required>
+      <select id="kategori" required>
         <option value="">Pilih Kategori</option>
         <option value="code">Code</option>
         <option value="design">Design</option>
       </select>
-      <button onclick="signup(event)">Daftar</button>
+      <button onclick="signup()">Daftar</button>
     </div>
     <div id="success-message"></div>
     <div id="error-message"></div>
   </div>
+
+  <div id="category-content"></div>
 
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
@@ -50,7 +52,7 @@ measurementId: "G-VJT00SD3NT"
     var signupForm = document.getElementById('signup-form');
     var successMessage = document.getElementById('success-message');
     var errorMessage = document.getElementById('error-message');
-    var signupErrorMessage = document.getElementById('signup-error-message');
+    var categoryContent = document.getElementById('category-content');
 
     // Show login form
     function showLoginForm() {
@@ -58,23 +60,22 @@ measurementId: "G-VJT00SD3NT"
       signupForm.style.display = 'block';
       successMessage.style.display = 'none';
       errorMessage.style.display = 'none';
-      signupErrorMessage.style.display = 'none';
+      categoryContent.innerHTML = '';
     }
 
     // Perform login
-    function login(event) {
-      event.preventDefault(); // Prevent page refresh
+    function login() {
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
 
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(function(userCredential) {
           var user = userCredential.user;
-          var category = user.email.split('@')[0]; // Assuming category is the prefix before the '@' sign in the email
-          if (category === 'code') {
-            window.location.href = '/c/code/'; // Replace with the correct URL
-          } else if (category === 'design') {
-            window.location.href = '/items/category/design/application/'; // Replace with the correct URL
+          loadCategoryPage(user.uid); // Load the category page dynamically using AJAX
+
+          // Check if the current URL is already the category page
+          if (!window.location.href.includes('/items/category/' + category + '/')) {
+            window.location.href = '/items/category/' + category + '/'; // Redirect to the category page
           }
         })
         .catch(function(error) {
@@ -84,15 +85,15 @@ measurementId: "G-VJT00SD3NT"
     }
 
     // Perform signup
-    function signup(event) {
-      event.preventDefault(); // Prevent page refresh
+    function signup() {
       var email = document.getElementById('new-email').value;
       var password = document.getElementById('new-password').value;
-      var category = document.getElementById('category').value;
+      var category = document.getElementById('kategori').value;
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(userCredential) {
           var user = userCredential.user;
+          // Create a new user document in Firestore with the user's UID as the document ID
           return firebase.firestore().collection('users').doc(user.uid).set({
             email: email,
             category: category
@@ -101,39 +102,53 @@ measurementId: "G-VJT00SD3NT"
         .then(function() {
           successMessage.innerHTML = 'Akun berhasil dibuat. Silakan masuk.';
           successMessage.style.display = 'block';
-          showLoginForm();
+          // After successful signup, redirect the user to the category page
+          window.location.href = '/items/category/' + category + '/';
         })
         .catch(function(error) {
-          signupErrorMessage.innerHTML = error.message;
-          signupErrorMessage.style.display = 'block';
+          errorMessage.innerHTML = error.message;
+          errorMessage.style.display = 'block';
         });
     }
 
-    // Check if user is already logged in
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    var categoryRef = firebase.firestore().collection('users').doc(user.uid);
-    categoryRef.get()
-      .then(function(doc) {
-        if (doc.exists) {
-          var category = doc.data().category;
-          if (category === 'code') {
-            window.location.href = '/c/code/'; // Replace with the correct URL
-          } else if (category === 'design') {
-            window.location.href = '/'; // Replace with the correct URL
-          }
-        } else {
-          showLoginForm();
+
+    // Load category page dynamically using AJAX
+    function loadCategoryPage(category) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          categoryContent.innerHTML = this.responseText;
         }
-      })
-      .catch(function(error) {
+      };
+      xhttp.open('GET', '/items/category/' + category + '/', true); // Replace with the correct URL for the category page
+      xhttp.send();
+    }
+
+    // Check if user is already logged in
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var categoryRef = firebase.firestore().collection('users').doc(user.uid);
+        categoryRef.get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var category = doc.data().category;
+              loadCategoryPage(user.uid); // Load the category page dynamically using AJAX
+
+              // Check if the current URL is already the category page
+              if (!window.location.href.includes('/items/category/' + user.uid + '/')) {
+                window.location.href = '/items/category/' + user.uid + '/'; // Redirect to the category page
+              }
+            } else {
+              showLoginForm();
+            }
+          })
+          .catch(function(error) {
+            showLoginForm();
+          });
+      } else {
         showLoginForm();
-      });
-  } else {
-    // User is not logged in, redirect to login page
-    window.location.href = '/test.html'; // Replace with the correct URL of your login page
-  }
-});
+      }
+    });
   </script>
 </body>
 </html>
