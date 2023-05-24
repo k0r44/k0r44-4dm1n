@@ -1,12 +1,11 @@
-
-    var db = firebase.firestore();
+var db = firebase.firestore();
 
     // Get elements
     var loginForm = document.getElementById('login-form');
     var signupForm = document.getElementById('signup-form');
     var successMessage = document.getElementById('success-message');
     var errorMessage = document.getElementById('error-message');
-    var categoryContent = document.getElementById('kategori');
+    var categoryContent = document.getElementById('category-content');
 
     // Show login form
     function showLoginForm() {
@@ -37,10 +36,12 @@
                 if (!window.location.href.includes('/items/category/' + category + '/')) {
                   window.location.href = '/items/category/' + category + '/'; // Redirect to the category page
                 }
+              } else {
+                showLoginForm();
               }
             })
             .catch(function(error) {
-              console.log(error);
+              showLoginForm();
             });
         })
         .catch(function(error) {
@@ -85,7 +86,8 @@
           categoryContent.innerHTML = this.responseText;
         }
       };
-      xhttp.open('GET', true); // Replace with the correct URL for the category page
+      xhttp.open('GET', '/items/category/' + category + '/', true); // Replace with the correct URL for the category page
+      xhttp.send();
     }
 
     // Check if user is already logged in
