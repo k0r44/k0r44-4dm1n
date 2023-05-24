@@ -24,7 +24,7 @@ function showgallery(curarra) {
             <div class="logo-wrapper">
               <a href="/">
                 <img class="img-fluid for-light" src="/assets/img/logo/kora.png" alt=""></a>
-              <div class="back-btn"><i data-feather="grid"></i></div>
+              <div class="back-btn"><i data-feather="x"></i></div>
             </div>
 
             <div class="logo-icon-wrapper">
