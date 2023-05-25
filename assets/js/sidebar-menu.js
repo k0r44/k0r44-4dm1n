@@ -3,6 +3,8 @@ import('/assets/plugins/sidebar/sidebar.js');
 
 // Design Sidebar 
 import('/assets/plugins/sidebar/design/kora.min.js');
+// Design Source Code
+import('/assets/plugins/sidebar/source-code/kora.min.js');
 
 import('/assets/plugins/footer/kora.min.js');
 
