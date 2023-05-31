@@ -33,6 +33,7 @@ firebase.auth().onAuthStateChanged((user) => {
           document.getElementById('calendar').style.display = 'block';
           document.getElementById('color').style.display = 'block';
           document.getElementById('uxdesign').style.display = 'block';
+          document.getElementById('code').style.display = 'block';
           document.getElementById('starter-kit').style.display = 'block';
         }
       }
