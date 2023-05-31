@@ -1,3 +1,48 @@
+// Mendapatkan kategori pengguna dari Firestore saat halaman dimuat
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    const userUID = user.uid;
+    firebase.firestore().collection('users').doc(userUID).get().then((doc) => {
+      if (doc.exists) {
+        const userCategory = doc.data().category;
+
+        // Sesuaikan tampilan navbar berdasarkan kategori pengguna
+        if (userCategory === 'color') {
+          document.getElementById('dashboards').style.display = 'block';
+          document.getElementById('calendar').style.display = 'block';
+          document.getElementById('color').style.display = 'block';
+          document.getElementById('uxdesign').style.display = 'none';
+          document.getElementById('code').style.display = 'none';
+          document.getElementById('starter-kit').style.display = 'block';
+        } else if (userCategory === 'design') {
+          document.getElementById('dashboards').style.display = 'block';
+          document.getElementById('calendar').style.display = 'block';
+          document.getElementById('color').style.display = 'none';
+          document.getElementById('uxdesign').style.display = 'block';
+          document.getElementById('code').style.display = 'none';
+          document.getElementById('starter-kit').style.display = 'block';
+        } else if (userCategory === 'source-code') {
+          document.getElementById('dashboards').style.display = 'block';
+          document.getElementById('calendar').style.display = 'block';
+          document.getElementById('color').style.display = 'none';
+          document.getElementById('uxdesign').style.display = 'none';
+          document.getElementById('code').style.display = 'block';
+          document.getElementById('starter-kit').style.display = 'block';
+        } else {
+          document.getElementById('dashboards').style.display = 'block';
+          document.getElementById('calendar').style.display = 'block';
+          document.getElementById('color').style.display = 'block';
+          document.getElementById('uxdesign').style.display = 'block';
+          document.getElementById('starter-kit').style.display = 'block';
+        }
+      }
+    }).catch((error) => {
+      console.log("Error getting user category:", error);
+    });
+  } else {
+    // Pengguna tidak masuk, lakukan sesuatu (misalnya, arahkan ke halaman masuk)
+  }
+});
 
 // filter array 
 let filterarray = [];
@@ -45,13 +90,12 @@ function showgallery(curarra) {
                       <i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
                     </div>
                   </li>
-                  
                   <li class="pin-title sidebar-list">
                     <h6>Pinned</h6>
                   </li>
                   <hr>
 
-                  <li class="sidebar-list">
+                  <li class="sidebar-list" id="dashboards">
                     <i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title link-nav" href="/">
                       <i data-feather="home"></i>
@@ -59,7 +103,7 @@ function showgallery(curarra) {
                     </a>
                   </li>
 
-                  <li class="sidebar-list">
+                  <li class="sidebar-list" id="calendar">
                     <i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title link-nav" href="/p/calendar">
                       <i data-feather="calendar"></i>
@@ -67,17 +111,29 @@ function showgallery(curarra) {
                     </a>
                   </li>
 
-                  <li class="sidebar-list">
+                  <li class="sidebar-list" id="color">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/design/">
-                      <i data-feather="image"></i>
-                      <span>Design</span>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/color">
+                      <i data-feather="edit-3"></i>
+                      <span>Color</span>
                     </a>
                   </li>
 
-                  <li class="sidebar-list">
+                  <li class="sidebar-list" id="uxdesign">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/source-code/">
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                      <i data-feather="image"></i>
+                      <span class="lan-6">UX Design</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="/items/design/ux-design/application">Application</a></li>
+                      <li><a href="/items/design/ux-design/web-design">Web Design</a></li>
+                    </ul>
+                  </li>
+
+                  <li class="sidebar-list" id="code">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/color">
                       <i data-feather="code"></i>
                       <span>Source Code</span>
                     </a>
@@ -89,7 +145,7 @@ function showgallery(curarra) {
                     </a>
                   </li>
 
-                  <li class="sidebar-list">
+                  <li class="sidebar-list" id="starter-kit">
                     <i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title link-nav" href="">
                       <i data-feather="file-text"></i>
