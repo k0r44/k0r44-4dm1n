@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
       initialView: 'dayGridMonth',
+      /* date
       initialDate: '2023-11-12',
+      Date */
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       selectable: true,
