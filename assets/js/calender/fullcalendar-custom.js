@@ -26,9 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // dayMaxEvents: true, // allow "more" link when too many events
       events: [
         {
-          title: 'Pembuatan Website',
-          start: '2023-05-01',
-          end: '2023-05-31T12:00:00'
+          title: 'New Update',
+          start: '2023-05-31'
         },
 
         /* Koraa
