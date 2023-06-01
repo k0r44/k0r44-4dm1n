@@ -620,7 +620,7 @@ progress {
 
 .img-logo {
     padding-top: 12px;
-    max-width: 15%;
+    width: 200px;
     height: auto;
 }
 
