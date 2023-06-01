@@ -23,32 +23,32 @@ document.head.appendChild(meta);
 
 
 
-var property = document.createElement('meta');
-property.name = 'og:url';
-property.content = 'https://admin.koraa.my.id/';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.name = 'og:url';
+meta.content = 'https://admin.koraa.my.id/';
+document.head.appendChild(meta);
 
-var property = document.createElement('meta');
-property.name = 'og:title';
-property.content = 'Admin | Koraa';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.property = 'og:title';
+meta.content = 'Admin | Koraa';
+document.head.appendChild(meta);
 
-var property = document.createElement('meta');
-property.name = 'og:description';
-property.content = 'Koraa merupakan salah satu e-commerce di Indonesia yang menawarkan berbagai macam source code, design, dll';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.property = 'og:description';
+meta.content = 'Koraa merupakan salah satu e-commerce di Indonesia yang menawarkan berbagai macam source code, design, dll';
+document.head.appendChild(meta);
 
-var property = document.createElement('meta');
-property.name = 'og:image';
-property.content = 'https://admin.koraa.my.id/assets/img/koraa.png';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.property = 'og:image';
+meta.content = 'https://admin.koraa.my.id/assets/img/koraa.png';
+document.head.appendChild(meta);
 
-var property = document.createElement('meta');
-property.name = 'og:site_name';
-property.content = 'admin koraa';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.property = 'og:site_name';
+meta.content = 'admin koraa';
+document.head.appendChild(meta);
 
-var property = document.createElement('meta');
-property.name = 'og:ttl';
-property.content = '3600"';
-document.head.appendChild(property);
+var meta = document.createElement('meta');
+meta.property = 'og:ttl';
+meta.content = '3600"';
+document.head.appendChild(meta);
