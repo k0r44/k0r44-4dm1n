@@ -5,7 +5,7 @@ document.head.appendChild(link);
 
 var linkCanonical = document.createElement('link');
 linkCanonical.rel = 'canonical';
-linkCanonical.href = 'https://admin.koraa.my.id/assets/img/koraa.png';
+linkCanonical.href = 'https://admin.koraa.my.id/assets/img/icons/koraa.png';
 document.head.appendChild(linkCanonical);
 
 
@@ -39,7 +39,7 @@ document.head.appendChild(metaDescriptionOG);
 
 var metaImage = document.createElement('meta');
 metaImage.setAttribute('property', 'og:image');
-metaImage.content = 'https://admin.koraa.my.id/assets/img/koraa.png';
+metaImage.content = 'https://admin.koraa.my.id/assets/img/icons/koraa.png';
 document.head.appendChild(metaImage);
 
 var metaSiteName = document.createElement('meta');
