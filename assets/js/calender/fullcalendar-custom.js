@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
           start: '2023-05-31'
         },
 
+        {
+          title: 'Tidak Dapat Di Akses',
+          start: '2023-06-02'
+        },
+
         /* Koraa
         {
           title: 'Reporting about Theme',
