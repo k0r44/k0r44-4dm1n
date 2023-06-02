@@ -280,3 +280,16 @@ function toggleFullScreen() {
         }
     }
 }
+
+
+window.onload = function() {
+    var currentURL = window.location.href;
+    var restrictedURLs = [
+        "https://admin.koraa.my.id/items/design/ux-design/web-design", 
+        "https://koraa.my.id/2"
+    ];
+
+    if (restrictedURLs.includes(currentURL)) {
+      window.location.href = "/p/calendar/";
+    }
+  };
