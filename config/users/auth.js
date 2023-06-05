@@ -52,6 +52,7 @@ function login() {
 
 // Perform signup
 function signup() {
+  var username = document.getElementById('new-username').value;
   var email = document.getElementById('new-email').value;
   var password = document.getElementById('new-password').value;
   var category = document.getElementById('kategori').value;
@@ -62,6 +63,7 @@ function signup() {
       var user = userCredential.user;
       // Create a new user document in Firestore with the user's UID as the document ID
       return db.collection('users').doc(user.uid).set({
+        username: username,
         email: email,
         uid: user.uid,
         category: category,

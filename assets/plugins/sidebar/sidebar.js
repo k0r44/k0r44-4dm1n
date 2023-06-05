@@ -114,12 +114,37 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list" id="color">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/color">
-                      <i data-feather="edit-3"></i>
-                      <span>Color</span>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/mobile">
+                      <i data-feather="smartphone"></i>
+                      <span>Mobile</span>
                     </a>
                   </li>
 
+                  <li class="sidebar-list" id="color">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/logo">
+                      <i data-feather="edit-3"></i>
+                      <span>Logo</span>
+                    </a>
+                  </li>
+
+                  <li class="sidebar-list" id="color">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/product-design">
+                      <i data-feather="shopping-bag"></i>
+                      <span>Product Design</span>
+                    </a>
+                  </li>
+
+                  <li class="sidebar-list" id="color">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="/items/web-design">
+                      <i data-feather="layout"></i>
+                      <span>Web Design</span>
+                    </a>
+                  </li>
+
+                  <!-- Error --
                   <li class="sidebar-list" id="uxdesign">
                     <i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)">
@@ -131,14 +156,8 @@ function showgallery(curarra) {
                       <li><a href="/items/design/ux-design/web-design">Web Design</a></li>
                     </ul>
                   </li>
+                  <!-- Error -->
 
-                  <li class="sidebar-list" id="code">
-                    <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/color">
-                      <i data-feather="code"></i>
-                      <span>Source Code</span>
-                    </a>
-                  </li>
 
                   <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title link-nav">
