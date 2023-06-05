@@ -155,6 +155,13 @@
     --theme-secondary: #eeb82f
 }
 
+input:invalid {
+    border: 1px solid red;
+  }
+  textarea:invalid {
+    border: 1px solid red;
+  }
+
 .font-Montserrat {
     font-family: "Montserrat", sans-serif, sans-serif
 }

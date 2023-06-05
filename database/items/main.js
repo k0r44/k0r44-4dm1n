@@ -30,6 +30,7 @@ myForm.addEventListener('submit', function(e) {
   var img = document.getElementById('img').value;
   var name = document.getElementById('name').value;
   var preview = document.getElementById('preview').value;
+  var desc = document.getElementById('desc').value;
 
   // Get the current user's UID
   var user = firebase.auth().currentUser;
@@ -52,6 +53,7 @@ myForm.addEventListener('submit', function(e) {
           name: name,
           author: author,
           preview: preview,
+          desc: desc,
           time: time
         })
         .then(function() {
@@ -68,6 +70,7 @@ myForm.addEventListener('submit', function(e) {
             name: name,
             author: author,
             preview: preview,
+            desc: desc,
             time: time
           })
           .then(function() {
