@@ -24,7 +24,7 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      var categoryRef = db.collection('users').doc(user.displayName); // Menggunakan displayName sebagai username
+      var categoryRef = db.collection('users').doc(user.uid);
 
       categoryRef.get()
         .then(function (doc) {
@@ -61,10 +61,8 @@ function signup() {
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      user.updateProfile({ displayName: username }) // Menggunakan displayName sebagai username
-
-      // Create a new user document in Firestore with the user's username as the document ID
-      return db.collection('users').doc(username).set({
+      // Create a new user document in Firestore with the user's UID as the document ID
+      return db.collection('users').doc(user.uid).set({
         username: username,
         email: email,
         uid: user.uid,
@@ -84,6 +82,7 @@ function signup() {
     });
 }
 
+
 // Load category page dynamically using AJAX
 function loadCategoryPage(category) {
   var xhttp = new XMLHttpRequest();
@@ -99,7 +98,7 @@ function loadCategoryPage(category) {
 // Check if user is already logged in
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    var categoryRef = db.collection('users').doc(user.displayName); // Menggunakan displayName sebagai username
+    var categoryRef = db.collection('users').doc(user.uid);
     categoryRef.get()
       .then(function (doc) {
         if (doc.exists) {
@@ -121,4 +120,3 @@ firebase.auth().onAuthStateChanged(function (user) {
     showLoginForm();
   }
 });
-

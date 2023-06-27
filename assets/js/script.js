@@ -1,3 +1,5 @@
+window.location.href = "/error";
+
 (function ($) {
     "use strict";
 
