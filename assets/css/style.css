@@ -155,6 +155,64 @@
     --theme-secondary: #eeb82f
 }
 
+/* Loader Upload */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9999;
+  }
+  
+#loader {
+    width: 48px;
+    height: 12px;
+    margin-top: 40px;
+    background: #FFF;
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+  }
+  #loader::after {
+    content: '';  
+    left: 50%;
+    top: -47px;
+    transform: translate(-50%, 0);
+    position: absolute;
+    border: 15px solid transparent;
+    border-bottom-color: #FFF;
+    box-sizing: border-box;
+    animation: bump 0.4s ease-in-out infinite alternate;
+  }
+  #loader::before {
+    content: '';  
+    left: 50%;
+    bottom: 15px;
+    transform: translate(-50%, 0);
+    position: absolute;
+    width: 15px;
+    height: 20px;
+    background: #FFF;
+    box-sizing: border-box;
+    animation: bump 0.4s ease-in-out infinite alternate;
+  }
+  
+  @keyframes bump {
+    0% {
+      transform: translate(-50%, 5px);
+    }
+    100% {
+      transform: translate(-50%, -5px);
+    }
+  }
+      
+/* Loader Upload */
+
 input:invalid {
     border: 1px solid red;
   }

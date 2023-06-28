@@ -294,3 +294,11 @@ window.onload = function() {
       window.location.href = "/p/calendar/";
     }
   };
+
+
+  // Mendapatkan elemen overlay
+var overlay = document.getElementById('overlay');
+
+// Menampilkan overlay saat data dikirim
+overlay.style.display = 'block';
+overlay.style.display = 'none';

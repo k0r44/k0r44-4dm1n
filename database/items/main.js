@@ -17,106 +17,134 @@ document.addEventListener("DOMContentLoaded", function () {
 
   db = firebase.firestore().collection(`/koraa/items/${category}`);
   userCollection = firebase.firestore().collection("users");
-});
 
-// Get the form element
-var myForm = document.getElementById('myForm');
+  // Get the form element
+  var myForm = document.getElementById('myForm');
 
-// Listen for form submission
-myForm.addEventListener('submit', function(e) {
-  e.preventDefault();
+  // Show overlay function
+  function showOverlay() {
+    var overlay = document.getElementById('overlay');
+    overlay.style.display = 'block';
+  }
 
-  // Get form values
-  var img = document.getElementById('img').value;
-  var name = document.getElementById('name').value;
-  var preview = document.getElementById('preview').value;
-  var desc = document.getElementById('desc').value;
+  // Hide overlay function
+  function hideOverlay() {
+    var overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
+  }
 
-  // Get the current user's displayName
-  var user = firebase.auth().currentUser;
-  var displayName = user.displayName;
+  // Listen for form submission
+  myForm.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  // Retrieve the user's document from the "users" collection
-  userCollection.doc(displayName).get()
-    .then(function(doc) {
-      if (doc.exists) {
-        var userData = doc.data();
-        var author = userData.username; // Assuming "email" is the field to be used as the author
+    // Show overlay
+    showOverlay();
 
-        // Generate a new document ID
-        var newDocRef = db.doc();
-        var time = firebase.firestore.Timestamp.now();
+    // Get form values
+    var name = document.getElementById('name').value;
+    var preview = document.getElementById('preview').value;
+    var desc = document.getElementById('desc').value;
 
-        // Save data to Firestore with the same document ID
-        newDocRef.set({
-          img: img,
-          name: name,
-          author: author,
-          preview: preview,
-          desc: desc,
-          time: time,
-          links: `https://www.koraa.my.id/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
-        })
-        .then(function() {
-          alert('Form submitted successfully');
-          myForm.reset();
-          console.log('Document written with displayName: ', displayName);
+    // Get the current user's displayName
+    var user = firebase.auth().currentUser;
+    var displayName = user.displayName;
 
-          // Create a new collection "items" within the user's document
-          var userItemsCollection = userCollection.doc(displayName).collection("items");
+    // Retrieve the user's document from the "users" collection
+    userCollection.doc(displayName).get()
+      .then(function(doc) {
+        if (doc.exists) {
+          var userData = doc.data();
+          var author = userData.username; // Assuming "username" is the field to be used as the author
 
-          // Save data to userItemsCollection with the same document ID
-          userItemsCollection.doc(newDocRef.id).set({
-            img: img,
-            name: name,
-            author: author,
-            preview: preview,
-            desc: desc,
-            time: time,
-            links: `https://www.koraa.my.id/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
-          })
-          .then(function() {
-            console.log('Item added to "items" collection with ID: ', newDocRef.id);
-          })
-          .catch(function(error) {
-            console.error('Error adding item to "items" collection: ', error);
-          });
-        })
-        .catch(function(error) {
-          console.error('Error adding document: ', error);
-        });
-      } else {
-        console.log("User document not found");
-      }
-    })
-    .catch(function(error) {
-      console.error("Error retrieving user document:", error);
-    });
-});
+          // Get the file input element
+          var fileInput = document.getElementById('fileButton');
 
+          // Check if a file is selected
+          if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+            var fileName = Date.now() + '_' + file.name;
 
-// Upload image to Firebase Storage
-var storageRef = firebase.storage().ref();
+            // Upload image to Firebase Storage
+            var storagePath = `/koraa/items/${category}/${displayName}/${fileName}`;
+            var storageRef = firebase.storage().ref(storagePath);
 
-document.getElementById('fileButton').addEventListener('change', function(e) {
-  var file = e.target.files[0];
-  var fileName = Date.now() + '_' + file.name;
+            var uploadTask = storageRef.put(file);
 
-  // Get the current user's displayName
-  var user = firebase.auth().currentUser;
-  var displayName = user.displayName;
+            uploadTask.on('state_changed', function(snapshot) {
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+            }, function(error) {
+              console.error('Error uploading file: ', error);
+              // Hide overlay
+              hideOverlay();
+            }, function() {
+              uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                console.log('File available at', downloadURL);
 
-  var uploadTask = storageRef.child(`/koraa/items/${category}/${displayName}/${fileName}`).put(file);
+                // Save data to Firestore with the same document ID
+                var newDocRef = db.doc();
+                var time = firebase.firestore.Timestamp.now();
 
-  uploadTask.on('state_changed', function(snapshot) {
-    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-  }, function(error) {
-    console.error('Error uploading file: ', error);
-  }, function() {
-    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-      console.log('File available at', downloadURL);
-      document.getElementById('img').value = downloadURL;
-    });
+                newDocRef.set({
+                  img: downloadURL,
+                  name: name,
+                  author: author,
+                  preview: preview,
+                  desc: desc,
+                  time: time,
+                  links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
+                })
+                  .then(function() {
+                    alert('Form submitted successfully');
+                    myForm.reset();
+                    console.log('Document written with displayName: ', displayName);
+
+                    // Create a new collection "items" within the user's document
+                    var userItemsCollection = userCollection.doc(displayName).collection("items");
+
+                    // Save data to userItemsCollection with the same document ID
+                    userItemsCollection.doc(newDocRef.id).set({
+                      img: downloadURL,
+                      name: name,
+                      author: author,
+                      preview: preview,
+                      desc: desc,
+                      time: time,
+                      links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
+                    })
+                      .then(function() {
+                        console.log('Item added to "items" collection with ID: ', newDocRef.id);
+                      })
+                      .catch(function(error) {
+                        console.error('Error adding item to "items" collection: ', error);
+                      })
+                      .finally(function() {
+                        // Hide overlay
+                        hideOverlay();
+                      });
+                  })
+                  .catch(function(error) {
+                    console.error('Error adding document: ', error);
+                    // Hide overlay
+                    hideOverlay();
+                  });
+              });
+            });
+          } else {
+            console.error('No file selected');
+            // Hide overlay
+            hideOverlay();
+          }
+        } else {
+          console.log("User document not found");
+          // Hide overlay
+          hideOverlay();
+        }
+      })
+      .catch(function(error) {
+        console.error("Error retrieving user document:", error);
+        // Hide overlay
+        hideOverlay();
+      });
   });
 });
