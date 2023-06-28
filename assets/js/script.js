@@ -1,6 +1,3 @@
-if (window.location.href !== "https://koraa.my.id") {
-    window.location.href = "https://koraa.my.id";
-}
 
 (function ($) {
     "use strict";

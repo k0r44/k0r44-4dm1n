@@ -121,4 +121,3 @@ firebase.auth().onAuthStateChanged(function (user) {
     showLoginForm();
   }
 });
-

@@ -32,12 +32,12 @@ myForm.addEventListener('submit', function(e) {
   var preview = document.getElementById('preview').value;
   var desc = document.getElementById('desc').value;
 
-  // Get the current user's UID
+  // Get the current user's displayName
   var user = firebase.auth().currentUser;
-  var uid = user.uid;
+  var displayName = user.displayName;
 
   // Retrieve the user's document from the "users" collection
-  userCollection.doc(uid).get()
+  userCollection.doc(displayName).get()
     .then(function(doc) {
       if (doc.exists) {
         var userData = doc.data();
@@ -54,15 +54,16 @@ myForm.addEventListener('submit', function(e) {
           author: author,
           preview: preview,
           desc: desc,
-          time: time
+          time: time,
+          links: `https://www.koraa.my.id/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
         })
         .then(function() {
           alert('Form submitted successfully');
           myForm.reset();
-          console.log('Document written with UID: ', uid);
+          console.log('Document written with displayName: ', displayName);
 
           // Create a new collection "items" within the user's document
-          var userItemsCollection = userCollection.doc(uid).collection("items");
+          var userItemsCollection = userCollection.doc(displayName).collection("items");
 
           // Save data to userItemsCollection with the same document ID
           userItemsCollection.doc(newDocRef.id).set({
@@ -71,7 +72,8 @@ myForm.addEventListener('submit', function(e) {
             author: author,
             preview: preview,
             desc: desc,
-            time: time
+            time: time,
+            links: `https://www.koraa.my.id/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
           })
           .then(function() {
             console.log('Item added to "items" collection with ID: ', newDocRef.id);
@@ -83,7 +85,6 @@ myForm.addEventListener('submit', function(e) {
         .catch(function(error) {
           console.error('Error adding document: ', error);
         });
-
       } else {
         console.log("User document not found");
       }
@@ -93,6 +94,7 @@ myForm.addEventListener('submit', function(e) {
     });
 });
 
+
 // Upload image to Firebase Storage
 var storageRef = firebase.storage().ref();
 
@@ -100,11 +102,11 @@ document.getElementById('fileButton').addEventListener('change', function(e) {
   var file = e.target.files[0];
   var fileName = Date.now() + '_' + file.name;
 
-  // Get the current user's UID
+  // Get the current user's displayName
   var user = firebase.auth().currentUser;
-  var uid = user.uid;
+  var displayName = user.displayName;
 
-  var uploadTask = storageRef.child(`/koraa/items/${category}/${uid}/${fileName}`).put(file);
+  var uploadTask = storageRef.child(`/koraa/items/${category}/${displayName}/${fileName}`).put(file);
 
   uploadTask.on('state_changed', function(snapshot) {
     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
