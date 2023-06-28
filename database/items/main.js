@@ -36,17 +36,29 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for form submission
   myForm.addEventListener('submit', function(e) {
     e.preventDefault();
-
+    
     // Show overlay
     showOverlay();
 
+    // Check if user is logged in
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // User is logged in, continue with form submission logic
+      submitForm(user);
+    } else {
+      // User is not logged in, redirect to login page
+      window.location.href = '/auth/login/';
+    }
+  });
+
+  // Function to submit the form
+  function submitForm(user) {
     // Get form values
     var name = document.getElementById('name').value;
     var preview = document.getElementById('preview').value;
     var desc = document.getElementById('desc').value;
 
     // Get the current user's displayName
-    var user = firebase.auth().currentUser;
     var displayName = user.displayName;
 
     // Retrieve the user's document from the "users" collection
@@ -146,5 +158,5 @@ document.addEventListener("DOMContentLoaded", function () {
         // Hide overlay
         hideOverlay();
       });
-  });
+  }
 });

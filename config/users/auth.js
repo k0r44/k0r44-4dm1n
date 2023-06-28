@@ -1,3 +1,4 @@
+firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
 // Get elements
@@ -72,17 +73,15 @@ function signup() {
         signupTime: signupTime
       });
     })
-    .then(function () {
-      successMessage.innerHTML = 'Akun berhasil dibuat. Silakan masuk.';
-      successMessage.style.display = 'block';
-      // After successful signup, redirect the user to the category page
-      window.location.href = '/items/' + category + '/';
+    .then(function() {
+      window.location.href = '/';
     })
     .catch(function (error) {
       errorMessage.innerHTML = error.message;
       errorMessage.style.display = 'block';
     });
 }
+
 
 // Load category page dynamically using AJAX
 function loadCategoryPage(category) {
