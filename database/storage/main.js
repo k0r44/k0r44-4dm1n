@@ -15,29 +15,39 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 // Mendapatkan ukuran dan metadata file
 function getFileInfo(username) {
-  var storageRef = firebase.storage().ref('/items/' + username);
-  storageRef.listAll().then(function(res) {
-    if (res.items.length > 0) {
-      var filePromises = res.items.map(function(itemRef) {
-        return itemRef.getMetadata().then(function(metadata) {
-          // Mengakses metadata file
-          var namaFile = metadata.name;
-          var ukuranFile = metadata.size;
-          var tanggalUpload = new Date(metadata.timeCreated).toLocaleDateString(); // Mengubah format tanggal
+    var storageRef = firebase.storage().ref('/items/' + username);
+    storageRef.listAll().then(function(res) {
+      if (res.items.length > 0) {
+        var filePromises = res.items.map(function(itemRef) {
+          return itemRef.getMetadata().then(function(metadata) {
+            // Mengakses metadata file
+            var namaFile = metadata.name;
+            var ukuranFile = metadata.size;
+            var tanggalUpload = new Date(metadata.timeCreated).toLocaleDateString(); // Mengubah format tanggal
   
-          // Mengubah ukuran file menjadi KB, MB, atau GB
-          var ukuranFormatted = formatSize(ukuranFile);
+            // Mengubah ukuran file menjadi KB, MB, atau GB
+            var ukuranFormatted = formatSize(ukuranFile);
+  
+            // Menentukan ikon Feather Icons berdasarkan jenis file
+            var jenisFile = '';
+            if (namaFile.endsWith('.png') || namaFile.endsWith('.jpg')) {
+              jenisFile = 'image';
+            } else if (namaFile.endsWith('.mp4')) {
+              jenisFile = 'video';
+            } else {
+              jenisFile = 'file'; // Ikon default untuk jenis file lainnya
+            }
   
           // Menampilkan informasi file
           var fileInfoHTML = 
             '<li class="folder-box d-flex align-items-center">' +
-            '<div class="d-flex align-items-center files-list">' +
-            '<div class="flex-shrink-0 file-left"><i class="f-22 fa fa-folder font-primary"></i></div>' +
-            '<div class="flex-grow-1 ms-3">' +
-            '<h6>' + namaFile + '</h6>' +
-            '<p>' + tanggalUpload + ', ' + ukuranFormatted + '</p>' +
-            '</div>' +
-            '</div>' +
+                '<div class="d-flex align-items-center files-list">' +
+                    '<div class="flex-shrink-0 file-left"><i data-feather="' + jenisFile + '"></i></div>' +
+                        '<div class="flex-grow-1 ms-3">' +
+                        '<h6>' + namaFile + '</h6>' +
+                        '<p>' + tanggalUpload + ', ' + ukuranFormatted + '</p>' +
+                    '</div>' +
+                '</div>' +
             '</li>';
   
           return {
@@ -132,18 +142,7 @@ function formatSize(size) {
   }
 }
 
-// Fungsi untuk mendapatkan batas penyimpanan berdasarkan plan
-function getPlanStorageLimit(plan) {
-  if (plan === 'free') {
-    return '10 GB';
-  } else if (plan === 'silver') {
-    return '200 GB';
-  } else if (plan === 'unlimited') {
-    return 'unlimited';
-  } else {
-    return 'Unknown';
-  }
-}
+
 
 // Fungsi untuk mengubah ukuran penyimpanan dalam byte menjadi satuan yang lebih besar
 function convertSizeToBytes(size) {

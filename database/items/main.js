@@ -67,55 +67,53 @@ document.addEventListener("DOMContentLoaded", function () {
         if (doc.exists) {
           var userData = doc.data();
           var author = userData.username; // Assuming "username" is the field to be used as the author
+          var userPlan = userData.plan || 'free'; // Assuming "plan" is the field that stores the user's plan
 
           // Get the file input element
           var fileInput = document.getElementById('fileButton');
 
           // Check if a file is selected
           if (fileInput.files.length > 0) {
-            var file = fileInput.files[0];
-            var fileName = Date.now() + '_' + file.name;
+            // Check if the user has reached the storage limit based on their plan
+            var storageRef = firebase.storage().ref();
+            var userStorageRef = storageRef.child(`/items/${displayName}`);
+            userStorageRef.listAll().then(function(res) {
+              var totalSize = 0;
+              res.items.forEach(function(itemRef) {
+                totalSize += itemRef.size;
+              });
 
-            // Upload image to Firebase Storage
-            var storagePath = `/items/${displayName}/${fileName}`;
-            var storageRef = firebase.storage().ref(storagePath);
+              var planStorageLimit = getPlanStorageLimit(userPlan);
+              var usedStoragePercentage = ((totalSize / convertSizeToBytes(planStorageLimit)) * 100).toFixed(2);
 
-            var uploadTask = storageRef.put(file);
+              // Check if the user has exceeded the storage limit
+              if (usedStoragePercentage <= 100) {
+                // Proceed with file upload and data saving
+                var file = fileInput.files[0];
+                var fileName = Date.now() + '_' + file.name;
 
-            uploadTask.on('state_changed', function(snapshot) {
-              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log('Upload is ' + progress + '% done');
-            }, function(error) {
-              console.error('Error uploading file: ', error);
-              // Hide overlay
-              hideOverlay();
-            }, function() {
-              uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                console.log('File available at', downloadURL);
+                // Upload image to Firebase Storage
+                var storagePath = `/items/${displayName}/${fileName}`;
+                var storageRef = firebase.storage().ref(storagePath);
 
-                // Save data to Firestore with the same document ID
-                var newDocRef = db.doc();
-                var time = firebase.firestore.Timestamp.now();
+                var uploadTask = storageRef.put(file);
 
-                newDocRef.set({
-                  img: downloadURL,
-                  name: name,
-                  author: author,
-                  preview: preview,
-                  desc: desc,
-                  time: time,
-                  links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
-                })
-                  .then(function() {
-                    alert('Form submitted successfully');
-                    myForm.reset();
-                    console.log('Document written with displayName: ', displayName);
+                uploadTask.on('state_changed', function(snapshot) {
+                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  console.log('Upload is ' + progress + '% done');
+                }, function(error) {
+                  console.error('Error uploading file: ', error);
+                  // Hide overlay
+                  hideOverlay();
+                }, function() {
+                  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log('File available at', downloadURL);
 
-                    // Create a new collection "items" within the user's document
-                    var userItemsCollection = userCollection.doc(displayName).collection("items");
+                    // Save data to Firestore with the same document ID
+                    var newDocRef = db.doc();
+                    var time = firebase.firestore.Timestamp.now();
 
-                    // Save data to userItemsCollection with the same document ID
-                    userItemsCollection.doc(newDocRef.id).set({
+                    newDocRef.set({
                       img: downloadURL,
                       name: name,
                       author: author,
@@ -125,22 +123,51 @@ document.addEventListener("DOMContentLoaded", function () {
                       links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
                     })
                       .then(function() {
-                        console.log('Item added to "items" collection with ID: ', newDocRef.id);
+                        alert('Form submitted successfully');
+                        myForm.reset();
+                        console.log('Document written with displayName: ', displayName);
+
+                        // Create a new collection "items" within the user's document
+                        var userItemsCollection = userCollection.doc(displayName).collection("items");
+
+                        // Save data to userItemsCollection with the same document ID
+                        userItemsCollection.doc(newDocRef.id).set({
+                          img: downloadURL,
+                          name: name,
+                          author: author,
+                          preview: preview,
+                          desc: desc,
+                          time: time,
+                          links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
+                        })
+                          .then(function() {
+                            console.log('Item added to "items" collection with ID: ', newDocRef.id);
+                          })
+                          .catch(function(error) {
+                            console.error('Error adding item to "items" collection: ', error);
+                          })
+                          .finally(function() {
+                            // Hide overlay
+                            hideOverlay();
+                          });
                       })
                       .catch(function(error) {
-                        console.error('Error adding item to "items" collection: ', error);
-                      })
-                      .finally(function() {
+                        console.error('Error adding document: ', error);
                         // Hide overlay
                         hideOverlay();
                       });
-                  })
-                  .catch(function(error) {
-                    console.error('Error adding document: ', error);
-                    // Hide overlay
-                    hideOverlay();
                   });
-              });
+                });
+              } else {
+                // Display an error message to the user
+                alert('Storage limit exceeded. Upgrade your plan to upload more files.');
+                // Hide overlay
+                hideOverlay();
+              }
+            }).catch(function(error) {
+              console.error('Error:', error);
+              // Hide overlay
+              hideOverlay();
             });
           } else {
             console.error('No file selected');
@@ -159,4 +186,28 @@ document.addEventListener("DOMContentLoaded", function () {
         hideOverlay();
       });
   }
+
+  // Function to convert size to bytes
+  function convertSizeToBytes(size) {
+    var units = {
+      'KB': 1024,
+      'MB': 1024 * 1024,
+      'GB': 1024 * 1024 * 1024
+    };
+
+    var pattern = /(\d+\.?\d*)\s*(KB|MB|GB)/i;
+    var matches = size.match(pattern);
+
+    if (matches && matches.length === 3) {
+      var value = parseFloat(matches[1]);
+      var unit = matches[2].toUpperCase();
+
+      if (unit in units) {
+        return value * units[unit];
+      }
+    }
+
+    return 0;
+  }
+
 });

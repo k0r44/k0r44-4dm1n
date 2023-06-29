@@ -20,3 +20,13 @@ window.TivoAdminConfig = {
 };
 
 
+fetch('/config/storage/main.js')
+  .then(response => response.text())
+  .then(scriptContent => {
+    const scriptElement = document.createElement('script');
+    scriptElement.textContent = scriptContent;
+    document.head.appendChild(scriptElement);
+  })
+  .catch(error => {
+    console.error('Error fetching script:', error);
+  });
