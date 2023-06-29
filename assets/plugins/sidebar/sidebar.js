@@ -158,6 +158,19 @@ function showgallery(curarra) {
                   </li>
                   <!-- Error -->
 
+                  <li class="sidebar-list">
+                    <a class="sidebar-link sidebar-title link-nav">
+                      <span>File</span>
+                    </a>
+                  </li>
+
+                  <li class="sidebar-list" id="starter-kit">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="/p/file-manager">
+                      <i data-feather="database"></i>
+                      <span>File Storage</span>
+                    </a>
+                  </li>
 
                   <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title link-nav">

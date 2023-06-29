@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var fileName = Date.now() + '_' + file.name;
 
             // Upload image to Firebase Storage
-            var storagePath = `/koraa/items/${category}/${displayName}/${fileName}`;
+            var storagePath = `/items/${displayName}/${fileName}`;
             var storageRef = firebase.storage().ref(storagePath);
 
             var uploadTask = storageRef.put(file);
