@@ -56,7 +56,6 @@ function login() {
     });
 }
 
-
 // Perform signup
 function signup() {
   var username = document.getElementById('new-username').value;
