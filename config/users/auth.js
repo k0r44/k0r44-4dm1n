@@ -70,6 +70,7 @@ function signup() {
         email: email,
         uid: user.uid,
         category: category,
+        plan: 'free',
         signupTime: signupTime
       });
     })
