@@ -21,28 +21,33 @@ function showLoginForm() {
 function login() {
   var email = document.getElementById('email').value;
   var password = document.getElementById('password').value;
+  var loginTime = new Date().toLocaleString(); // Get the current time on login
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      var categoryRef = db.collection('users').doc(user.displayName); // Menggunakan displayName sebagai username
+      var categoryRef = db.collection('users').doc(user.displayName); // Use displayName as the username
 
-      categoryRef.get()
-        .then(function (doc) {
-          if (doc.exists) {
-            var category = doc.data().category;
-            loadCategoryPage(category); // Load the category page dynamically using AJAX
+      // Update the loginTime in the user document
+      return categoryRef.update({ loginTime: loginTime })
+        .then(function() {
+          categoryRef.get()
+            .then(function (doc) {
+              if (doc.exists) {
+                var category = doc.data().category;
+                loadCategoryPage(category); // Load the category page dynamically using AJAX
 
-            // Check if the current URL is already the category page
-            if (!window.location.href.includes('/items/' + category + '/')) {
-              window.location.href = '/items/' + category + '/'; // Redirect to the category page
-            }
-          } else {
-            showLoginForm();
-          }
-        })
-        .catch(function (error) {
-          showLoginForm();
+                // Check if the current URL is already the category page
+                if (!window.location.href.includes('/items/' + category + '/')) {
+                  window.location.href = '/items/' + category + '/'; // Redirect to the category page
+                }
+              } else {
+                showLoginForm();
+              }
+            })
+            .catch(function (error) {
+              showLoginForm();
+            });
         });
     })
     .catch(function (error) {
@@ -51,18 +56,20 @@ function login() {
     });
 }
 
+
 // Perform signup
 function signup() {
   var username = document.getElementById('new-username').value;
   var email = document.getElementById('new-email').value;
   var password = document.getElementById('new-password').value;
   var category = document.getElementById('kategori').value;
-  var signupTime = new Date().toLocaleString(); // Mendapatkan waktu saat ini
+  var signupTime = new Date().toLocaleString(); // Get the current time on signup
+  var loginTime = signupTime; // Use signupTime as the loginTime on signup
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      user.updateProfile({ displayName: username }) // Menggunakan displayName sebagai username
+      user.updateProfile({ displayName: username }) // Use displayName as the username
 
       // Create a new user document in Firestore with the user's username as the document ID
       return db.collection('users').doc(username).set({
@@ -71,7 +78,8 @@ function signup() {
         uid: user.uid,
         category: category,
         plan: 'free',
-        signupTime: signupTime
+        signupTime: signupTime,
+        loginTime: loginTime // Add loginTime on signup
       });
     })
     .then(function() {
@@ -82,7 +90,6 @@ function signup() {
       errorMessage.style.display = 'block';
     });
 }
-
 
 // Load category page dynamically using AJAX
 function loadCategoryPage(category) {
@@ -99,7 +106,7 @@ function loadCategoryPage(category) {
 // Check if user is already logged in
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    var categoryRef = db.collection('users').doc(user.displayName); // Menggunakan displayName sebagai username
+    var categoryRef = db.collection('users').doc(user.displayName); // Use displayName as the username
     categoryRef.get()
       .then(function (doc) {
         if (doc.exists) {
