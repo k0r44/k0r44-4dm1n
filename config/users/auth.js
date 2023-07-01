@@ -65,24 +65,39 @@ function signup() {
   var signupTime = new Date().toLocaleString(); // Get the current time on signup
   var loginTime = signupTime; // Use signupTime as the loginTime on signup
 
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(function (userCredential) {
-      var user = userCredential.user;
-      user.updateProfile({ displayName: username }) // Use displayName as the username
+  // Check if the displayName is already taken
+  db.collection('users').where('username', '==', username).get()
+    .then(function (querySnapshot) {
+      if (!querySnapshot.empty) {
+        // Display an error message if the displayName is already taken
+        errorMessage.innerHTML = 'Username is already taken. Please choose a different username.';
+        errorMessage.style.display = 'block';
+      } else {
+        // Create a new user with the provided credentials
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            var user = userCredential.user;
+            user.updateProfile({ displayName: username }) // Use displayName as the username
 
-      // Create a new user document in Firestore with the user's username as the document ID
-      return db.collection('users').doc(username).set({
-        username: username,
-        email: email,
-        uid: user.uid,
-        category: category,
-        plan: 'free',
-        signupTime: signupTime,
-        loginTime: loginTime // Add loginTime on signup
-      });
-    })
-    .then(function() {
-      window.location.href = '/';
+            // Create a new user document in Firestore with the user's username as the document ID
+            return db.collection('users').doc(username).set({
+              username: username,
+              email: email,
+              uid: user.uid,
+              category: category,
+              plan: 'free',
+              signupTime: signupTime,
+              loginTime: loginTime // Add loginTime on signup
+            });
+          })
+          .then(function() {
+            window.location.href = '/';
+          })
+          .catch(function (error) {
+            errorMessage.innerHTML = error.message;
+            errorMessage.style.display = 'block';
+          });
+      }
     })
     .catch(function (error) {
       errorMessage.innerHTML = error.message;

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Item</title>
+  <!-- Masukkan referensi CSS dan script yang diperlukan di sini -->
+</head>
+<body>
+  <!-- Form edit item -->
+  <input type="text" id="item-name" placeholder="Item Name">
+  <textarea id="item-desc" placeholder="Item Description"></textarea>
+  <select id="visibility-select">
+    <option value="everyone">Everyone</option>
+    <option value="private">Private</option>
+  </select>
+  <button id="save-button">Save</button>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script>
+    // Inisialisasi aplikasi Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+    authDomain: "koraa-id.firebaseapp.com",
+    databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
+    projectId: "koraa-id",
+    storageBucket: "koraa-id.appspot.com",
+    messagingSenderId: "360256061577",
+    appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+    measurementId: "G-VJT00SD3NT"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Mengambil referensi Firestore
+    const db = firebase.firestore();
+
+    // Mendapatkan itemId dari URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('itemId');
+
+    // Lakukan operasi yang diperlukan untuk mengedit item dengan itemId yang diterima
+
+    // Contoh: Update nilai pada input field dengan data item yang akan diedit
+    const itemNameInput = document.getElementById('item-name');
+    const itemDescInput = document.getElementById('item-desc');
+    const visibilitySelect = document.getElementById('visibility-select');
+
+    // Mendapatkan data item dari Firestore berdasarkan itemId
+    db.collection('items').doc(itemId).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const itemData = doc.data();
+          itemNameInput.value = itemData.name;
+          itemDescInput.value = itemData.desc;
+          visibilitySelect.value = itemData.visibility;
+          // Lanjutkan dengan pengisian nilai pada elemen-elemen form lainnya
+        } else {
+          console.log("Item not found");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting item:", error);
+      });
+
+    // Tambahkan event listener untuk tombol Simpan atau Submit form
+    const saveButton = document.getElementById('save-button');
+    saveButton.addEventListener('click', function() {
+      // Lakukan operasi untuk menyimpan perubahan pada item
+
+      // Contoh: Mendapatkan nilai dari input field dan select option
+      const newItemName = itemNameInput.value;
+      const newItemDesc = itemDescInput.value;
+      const newVisibility = visibilitySelect.value;
+
+      // Update data item di Firestore
+      db.collection('items').doc(itemId).update({
+        name: newItemName,
+        desc: newItemDesc,
+        visibility: newVisibility,
+        // Lanjutkan dengan pembaruan nilai pada properti lainnya
+      })
+        .then(() => {
+          console.log("Item successfully updated");
+
+          // Update juga item di koleksi users/<displayName>/items
+          const user = firebase.auth().currentUser;
+          const author = user.displayName;
+
+          db.collection('users').doc(author).collection('items').doc(itemId).update({
+            name: newItemName,
+            desc: newItemDesc,
+            visibility: newVisibility,
+            // Lanjutkan dengan pembaruan nilai pada properti lainnya
+          })
+            .then(() => {
+              console.log("Item successfully updated in users collection");
+              // Redirect ke halaman lain atau lakukan operasi lain setelah sukses menyimpan perubahan
+            })
+            .catch((error) => {
+              console.log("Error updating item in users collection:", error);
+              // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
+            });
+
+        })
+        .catch((error) => {
+          console.log("Error updating item:", error);
+          // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
+        });
+    });
+
+  </script>
+</body>
+</html>

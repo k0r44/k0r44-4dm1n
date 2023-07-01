@@ -19,7 +19,6 @@ window.TivoAdminConfig = {
 	danger: danger,
 };
 
-
 fetch('/config/storage/main.js')
   .then(response => response.text())
   .then(scriptContent => {

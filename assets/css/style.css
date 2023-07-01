@@ -29720,7 +29720,6 @@ footer {
 .user-profile .post-about ul li p {
     font-size: 12px;
     line-height: 1;
-    text-transform: capitalize
 }
 
 .user-profile .post-about ul li:nth-child(n+2) {
@@ -40474,6 +40473,10 @@ body[class*="dark-"] .horizontal-wrapper .for-dark {
 
 body[class*="dark-"] .horizontal-wrapper .for-light {
     display: none
+}
+
+.img-logo {
+    width: 120px;
 }
 
 .customizer-links {
