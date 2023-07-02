@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var desc = document.getElementById('desc').value;
 
     // Get the current user's displayName
-    var displayName = user.displayName;
+    var displayName = user.uid;
 
     // Retrieve the user's document from the "users" collection
     userCollection

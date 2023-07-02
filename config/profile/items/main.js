@@ -1,5 +1,4 @@
-// Inisialisasi aplikasi Firebase
-firebase.initializeApp(firebaseConfig);
+
 // Mengambil referensi Firestore
 const db = firebase.firestore();
 
@@ -9,7 +8,7 @@ var userfullNameText = document.getElementsByClassName('username')[0];
 // Set user details and login time
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    var author = user.displayName; // Menggunakan displayName sebagai nilai author
+    var author = user.uid; // Menggunakan displayName sebagai nilai author
     var categoryRef = firebase.firestore().collection('users').doc(author);
     categoryRef.get()
       .then(function(doc) {
@@ -87,7 +86,7 @@ function getUserItems(author) {
                 <h6>${item.visibility}</h6>
               </div>
               <ul class="card-social">
-                <!-- Coming Soon --
+                <!-- Coming Soon -->
                 <li>
                   <a href="javascript:void(0)" class="edit-item" data-itemid="${itemId}">
                     <i class="ri-pencil-line"></i>
@@ -143,7 +142,7 @@ function getUserItems(author) {
         viewCounter.textContent = formattedView;
 
         // Tambahkan listener realtime untuk view counter pada item
-        db.collection(`users/${author}/items`)
+        db.collection(`items`)
           .doc(itemId)
           .onSnapshot((itemSnapshot) => {
             const updatedItemData = itemSnapshot.data();
@@ -161,13 +160,21 @@ function getUserItems(author) {
     });
 }
 
+// Event listener untuk klik ikon pensil
+const editItemIcons = document.getElementsByClassName('edit-item');
+for (let i = 0; i < editItemIcons.length; i++) {
+  editItemIcons[i].addEventListener('click', function(event) {
+    const itemId = this.dataset.itemid;
+    editItem(itemId);
+  });
+}
+
 // Fungsi untuk mengedit item berdasarkan itemId
 function editItem(itemId) {
   // Lakukan operasi yang diperlukan untuk menuju form edit item
   // Misalnya, alihkan pengguna ke halaman form edit item dengan mengirim itemId sebagai parameter
-  window.location.href = `edit-item.html?itemId=${itemId}`;
+  window.location.href = `edit/?itemId=${itemId}`;
 }
-
 
 // Fungsi untuk menghapus item dan memperbarui tampilan
 function deleteItem(author, itemId) {

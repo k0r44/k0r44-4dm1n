@@ -1,11 +1,8 @@
-// Inisialisasi Firebase
-firebase.initializeApp(firebaseConfig);
-      
 // Memeriksa status login pengguna saat ini
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-      var username = user.displayName; // Menggunakan displayName pengguna sebagai username
-      checkPlanStatus(username);
+      var uid = user.uid; // Menggunakan displayName pengguna sebagai username
+      checkPlanStatus(uid);
   } else {
       console.log('Pengguna belum login');
       window.location.href = '/auth/login/'; // Mengarahkan pengguna ke halaman login
@@ -13,8 +10,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 // Memeriksa status plan pengguna
-function checkPlanStatus(username) {
-  getPlanFromFirestore(username).then(function(plan) {
+function checkPlanStatus(uid) {
+  getPlanFromFirestore(uid).then(function(plan) {
     var userPlan = plan || 'free'; // Jika plan kosong, asumsikan sebagai "free"
     if (userPlan === 'silver') {
       var lastSilverUsage = localStorage.getItem('lastSilverUsage');
@@ -24,14 +21,14 @@ function checkPlanStatus(username) {
         // Jika belum ada waktu terakhir penggunaan plan "silver", simpan waktu saat ini
         localStorage.setItem('lastSilverUsage', currentTime);
         var expirationTime = currentTime + 30 * 24 * 60 * 60 * 1000; // Menambahkan 5 menit dalam milidetik
-        updatePlanExpirationTime(username, expirationTime); // Simpan waktu kedaluwarsa plan "silver" di Firestore
-        getFileInfo(username);
+        updatePlanExpirationTime(uid, expirationTime); // Simpan waktu kedaluwarsa plan "silver" di Firestore
+        getFileInfo(uid);
       } else {
         var expirationTime = parseInt(lastSilverUsage) + 30 * 24 * 60 * 60 * 1000; // Menambahkan 5 menit dalam milidetik
         if (currentTime >= expirationTime) {
           // Jika waktu terakhir penggunaan plan "silver" sudah melewati waktu kedaluwarsa (lebih dari 5 menit),
           // ubah plan pengguna menjadi "free" dan hapus waktu terakhir penggunaan dari localStorage
-          changePlanToFree(username);
+          changePlanToFree(uid);
           localStorage.removeItem('lastSilverUsage');
         } else {
           var timeUntilExpiration = expirationTime - currentTime;
@@ -42,11 +39,11 @@ function checkPlanStatus(username) {
           console.log('Waktu plan akan berubah menjadi "free":', expirationDate.toLocaleString());
           console.log('Sisa waktu: ' + remainingMinutes + ' menit');
 
-          getFileInfo(username);
+          getFileInfo(uid);
         }
       }
     } else {
-      getFileInfo(username);
+      getFileInfo(uid);
     }
   }).catch(function(error) {
     console.error('Error:', error);
@@ -54,9 +51,9 @@ function checkPlanStatus(username) {
 }
 
 // Fungsi untuk memperbarui waktu kedaluwarsa plan "silver" di Firestore
-function updatePlanExpirationTime(username, expirationTime) {
+function updatePlanExpirationTime(uid, expirationTime) {
   var usersCollection = firebase.firestore().collection('users');
-  var userDoc = usersCollection.doc(username);
+  var userDoc = usersCollection.doc(uid);
   userDoc.update({ planExpiration: new Date(expirationTime).toLocaleString() })
     .then(function() {
       console.log('Waktu kedaluwarsa plan "silver" berhasil diperbarui di Firestore');
@@ -68,16 +65,16 @@ function updatePlanExpirationTime(username, expirationTime) {
 
 
 // Fungsi untuk mengubah plan pengguna menjadi "free"
-function changePlanToFree(username) {
+function changePlanToFree(uid) {
   var usersCollection = firebase.firestore().collection('users');
-  var userDoc = usersCollection.doc(username);
+  var userDoc = usersCollection.doc(uid);
   userDoc.update({ 
     plan: 'free',
     planExpiration: firebase.firestore.FieldValue.delete() // Menghapus field planExpiration
   })
     .then(function() {
       console.log('Plan pengguna berhasil diubah menjadi "free"');
-      getFileInfo(username);
+      getFileInfo(uid);
     })
     .catch(function(error) {
       console.error('Error:', error);
@@ -88,8 +85,8 @@ function changePlanToFree(username) {
 
 
 // Mendapatkan ukuran dan metadata file
-function getFileInfo(username) {
-  var storageRef = firebase.storage().ref('/items/' + username);
+function getFileInfo(uid) {
+  var storageRef = firebase.storage().ref('/items/' + uid);
   storageRef.listAll().then(function(res) {
       if (res.items.length > 0) {
           var filePromises = res.items.map(function(itemRef) {
@@ -141,7 +138,7 @@ function getFileInfo(username) {
                 var totalSizeFormatted = formatSize(totalSize);
 
                 // Mendapatkan informasi plan pengguna dari Firestore
-                getPlanFromFirestore(username).then(function(plan) {
+                getPlanFromFirestore(uid).then(function(plan) {
                     var userPlan = plan || 'free'; // Jika plan kosong, asumsikan sebagai "free"
 
                     var planStorageLimit = getPlanStorageLimit(userPlan);
@@ -223,7 +220,7 @@ function getFileInfo(username) {
             console.log('Tidak ada file yang ditemukan');
 
             // Mendapatkan informasi plan pengguna dari Firestore
-            getPlanFromFirestore(username).then(function(plan) {
+            getPlanFromFirestore(uid).then(function(plan) {
                 var userPlan = plan || 'free'; // Jika plan kosong, asumsikan sebagai "free"
                 var planStorageLimit = getPlanStorageLimit(userPlan);
 
@@ -299,10 +296,10 @@ function convertSizeToBytes(size) {
 }
 
 // Fungsi untuk mendapatkan informasi plan pengguna dari Firestore
-function getPlanFromFirestore(username) {
+function getPlanFromFirestore(uid) {
     return new Promise(function(resolve, reject) {
         var usersCollection = firebase.firestore().collection('users');
-        var userDoc = usersCollection.doc(username);
+        var userDoc = usersCollection.doc(uid);
         userDoc.get().then(function(doc) {
             if (doc.exists) {
                 resolve(doc.data().plan);

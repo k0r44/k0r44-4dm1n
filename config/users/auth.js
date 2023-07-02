@@ -26,7 +26,7 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      var categoryRef = db.collection('users').doc(user.displayName); // Use displayName as the username
+      var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
 
       // Update the loginTime in the user document
       return categoryRef.update({ loginTime: loginTime })
@@ -80,7 +80,7 @@ function signup() {
             user.updateProfile({ displayName: username }) // Use displayName as the username
 
             // Create a new user document in Firestore with the user's username as the document ID
-            return db.collection('users').doc(username).set({
+            return db.collection('users').doc(user.uid).set({
               username: username,
               email: email,
               uid: user.uid,
@@ -120,7 +120,7 @@ function loadCategoryPage(category) {
 // Check if user is already logged in
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    var categoryRef = db.collection('users').doc(user.displayName); // Use displayName as the username
+    var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
     categoryRef.get()
       .then(function (doc) {
         if (doc.exists) {
