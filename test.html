@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Statistik Total View Per Hari</title>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    #chart-container {
-      width: 600px;
-      margin: 20px auto;
-    }
-  </style>
+  <title>Edit Profile</title>
 </head>
 <body>
-  <div id="chart-container">
-    <canvas id="chart"></canvas>
-  </div>
+  <h1>Edit Profile</h1>
+  
+  <form id="edit-profile-form">
+    <label for="first-name">First Name:</label>
+    <input type="text" id="first-name" name="first-name">
+    
+    <label for="last-name">Last Name:</label>
+    <input type="text" id="last-name" name="last-name">
+    
+    <label for="instagram">Instagram:</label>
+    <input type="text" id="instagram" name="instagram">
+    
+    <label for="tiktok">TikTok:</label>
+    <input type="text" id="tiktok" name="tiktok">
+    
+    <label for="bio">Bio:</label>
+    <textarea id="bio" name="bio"></textarea>
+    
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    
+    <button type="submit">Save</button>
+  </form>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  
   <script>
-    // Inisialisasi Firebase
-var firebaseConfig = {
-  apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+    // Your Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
     authDomain: "koraa-id.firebaseapp.com",
     databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
     projectId: "koraa-id",
@@ -28,70 +44,105 @@ var firebaseConfig = {
     messagingSenderId: "360256061577",
     appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
     measurementId: "G-VJT00SD3NT"
-};
-firebase.initializeApp(firebaseConfig);
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-// Mengambil referensi Firestore
-var db = firebase.firestore();
+    // Get the edit profile form element
+    var editProfileForm = document.getElementById('edit-profile-form');
 
-// Mengambil data total view per hari dari Firestore
-function getTotalViewData() {
-  var totalViewData = [];
+    // Add submit event listener to the form
+    editProfileForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
 
-  // Mengambil koleksi "users"
-  db.collection("users").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      // Mengambil data total view dari setiap dokumen
-      var totalView = doc.data().count.view.totalview;
-      totalViewData.push(totalView);
+      // Get the updated profile data
+      var firstName = document.getElementById('first-name').value;
+      var lastName = document.getElementById('last-name').value;
+      var instagram = document.getElementById('instagram').value;
+      var tiktok = document.getElementById('tiktok').value;
+      var bio = document.getElementById('bio').value;
+      var username = document.getElementById('username').value;
+
+      // Update the user profile data in the database
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          var userRef = firebase.firestore().collection('users').doc(user.uid);
+
+          // Update the user profile data in the database
+          userRef.update({
+            firstName: firstName,
+            lastName: lastName,
+            instagram: instagram,
+            tiktok: tiktok,
+            bio: bio,
+            username: username
+          })
+          .then(function() {
+            // Profile updated successfully
+            alert('Profile updated successfully');
+
+            // Update items with the same author and username
+            var itemsRef = firebase.firestore().collection('items');
+            itemsRef.where('author', '==', userRef).get()
+              .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                  var itemRef = itemsRef.doc(doc.id);
+                  itemRef.update({ author: userRef, username: usernameInput.value })
+                    .then(function() {
+                      console.log('Item updated successfully');
+                    })
+                    .catch(function(error) {
+                      console.log(error);
+                    });
+                });
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+
+            // Redirect to the user's profile page or any other desired page
+            window.location.href = '/p/profile/'; // Replace '/user/profile/' with the correct URL for the user's profile page
+          })
+          .catch(function(error) {
+            console.log(error);
+            // Handle the error appropriately
+            alert('Failed to update profile');
+          });
+        } else {
+          // User is not logged in, handle the scenario accordingly
+        }
+      });
     });
 
-    // Menggambar chart menggunakan Chart.js
-    drawChart(totalViewData);
-  }).catch((error) => {
-    console.log("Error getting documents: ", error);
-  });
-}
+    // Load existing user profile data from Firestore
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var userRef = firebase.firestore().collection('users').doc(user.uid);
+        userRef.get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var firstNameInput = document.getElementById('first-name');
+              var lastNameInput = document.getElementById('last-name');
+              var instagramInput = document.getElementById('instagram');
+              var tiktokInput = document.getElementById('tiktok');
+              var bioInput = document.getElementById('bio');
+              var usernameInput = document.getElementById('username');
 
-// Menggambar chart dengan data yang diberikan
-function drawChart(data) {
-  var ctx = document.getElementById('chart').getContext('2d');
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: getDatesArray(data.length),
-      datasets: [{
-        label: 'Total View Per Hari',
-        data: data,
-        backgroundColor: 'rgba(0, 123, 255, 0.3)',
-        borderColor: 'rgba(0, 123, 255, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+              var data = doc.data();
+              firstNameInput.value = data.firstName || '';
+              lastNameInput.value = data.lastName || '';
+              instagramInput.value = data.instagram || '';
+              tiktokInput.value = data.tiktok || '';
+              bioInput.value = data.bio || '';
+              usernameInput.value = data.username || '';
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
-    }
-  });
-}
-
-// Menghasilkan array label dengan tanggal (hari) untuk chart
-function getDatesArray(length) {
-  var datesArray = [];
-  var currentDate = new Date();
-  for (var i = length - 1; i >= 0; i--) {
-    var date = new Date(currentDate);
-    date.setDate(date.getDate() - i);
-    datesArray.push(date.toDateString());
-  }
-  return datesArray;
-}
-
-// Memanggil fungsi untuk mengambil data dan menggambar chart
-getTotalViewData();
+    });
 
   </script>
 </body>

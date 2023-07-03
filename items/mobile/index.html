@@ -5,14 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content="Koraa merupakan salah satu e-commerce di Indonesia yang menawarkan berbagai macam source code, design, dll">
+    <meta name="title"
+        content="Koraa merupakan salah satu e-commerce di Indonesia yang menawarkan berbagai macam source code, design, dll">
     <meta name="keywords" content="koraa">
     <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
     <title>Koraa - Mobile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -84,59 +87,70 @@
                                         <h5>Upload Image</h5>
                                         <form id="myForm">
                                             <div class="product-group">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="mb-3">
-                                                            <input class="form-control" type="file" aria-label="file example" id="fileButton" accept="image/*" required="" data-bs-original-title="" title="">
-                                                        </div>
-                                                    </div>
+                                              <div class="row">
+                                                <div class="col-sm-12">
+                                                  <div class="mb-3">
+                                                    <input class="form-control" type="file" aria-label="file example" id="fileButton" accept="image/*" required>
+                                                  </div>
                                                 </div>
-
+                                              </div>
                                             </div>
-
-                                        <h5>Description</h5>
-                                        <form>
-                                            <div class="product-group">
+                                          
+                                            <h5>Description</h5>
+                                            <form>
+                                              <div class="product-group">
                                                 <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Items Name</label>
-                                                            <input class="form-control" placeholder="Enter Items Name" type="text" id="name" required>
-                                                            <span class="text-danger"></span>
-                                                        </div>
+                                                  <div class="col-sm-12">
+                                                    <div class="mb-3">
+                                                      <label class="form-label">Items Name</label>
+                                                      <input class="form-control" placeholder="Enter Items Name" type="text" id="name" required>
+                                                      <span class="text-danger"></span>
                                                     </div>
+                                                  </div>
                                                 </div>
-
+                                          
                                                 <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Items Url Instagram</label>
-                                                            <input class="form-control" placeholder="Enter Items Url Instagram" type="text" pattern="https://www.instagram.com/.*" id="preview" required>
-                                                            <span class="text-danger"></span>
-                                                        </div>
+                                                  <div class="col-sm-12">
+                                                    <div class="mb-3">
+                                                      <label class="form-label">Items Url Instagram</label>
+                                                      <input class="form-control" placeholder="Enter Items Url Instagram" type="text" pattern="https://www.instagram.com/.*" id="preview" required>
+                                                      <span class="text-danger"></span>
                                                     </div>
+                                                  </div>
                                                 </div>
-
+                                          
                                                 <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Description</label>
-                                                            <textarea class="form-control" placeholder="Enter Items Desc" id="desc" required></textarea>
-                                                            <span class="text-danger"></span>
-                                                          </div>
+                                                  <div class="col-sm-12">
+                                                    <div class="mb-3">
+                                                      <label class="form-label">Items Visibility</label>
+                                                      <select class="form-select" id="visibility" required>
+                                                        <option value="" selected disabled>Select..</option>
+                                                        <option value="everyone">Everyone</option>
+                                                        <option value="private">Private</option>
+                                                      </select>
                                                     </div>
+                                                  </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="mt-4">
-                                                <span>JIka Tidak Bisa Submit Harap Tuliskan 1 Huruf Input Mana Saja Lalu Hapus.</span>
+                                          
                                                 <div class="row">
-                                                    <div class="col-sm-12 text-end">
-                                                        <button class="btn btn-primary me-3" type="submit" >ADD </button>
+                                                  <div class="col-sm-12">
+                                                    <div class="mb-3">
+                                                      <label class="form-label">Description</label>
+                                                      <textarea class="form-control" placeholder="Enter Items Desc" id="desc" required></textarea>
+                                                      <span class="text-danger"></span>
                                                     </div>
+                                                  </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                              </div>
+                                          
+                                              <div class="mt-4">
+                                                <div class="row">
+                                                  <div class="col-sm-12 text-end">
+                                                    <button class="btn btn-primary me-3" type="submit" id="submitButton" disabled>ADD</button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +195,7 @@
     <script src="/assets/js/theme-customizer/customizer.js"></script>
     <script src="/assets/js/input/items/design/kora.min.js"></script>
     <!-- login js-->
-
+    
 </body>
 
 </html>

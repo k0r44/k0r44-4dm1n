@@ -79,7 +79,7 @@ function getUserItems(author) {
         const itemHtml = `
           <div class="col-lg-4 col-md-6 box-col-33" id="${itemId}">
             <div class="card custom-card">
-              <div class="card-header"><img class="img-fluid" src="${item.img}" alt=""></div>
+              <div class="card-header"><img class="img-fluid" src="${item.file}" alt=""></div>
               <div class="card-profile"><img class="rounded-circle" src="https://www.koraa.my.id/assets/img/logo/koraa.png" alt=""></div>
               <div class="text-center profile-details"><a href="https://koraa.my.id${item.links}">
                   <h4>${item.name}</h4></a>

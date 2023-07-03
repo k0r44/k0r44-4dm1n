@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Construct the itemData object based on the category
                             var itemData = {
-                              img: downloadURL,
+                              file: downloadURL,
                               name: name,
                               author: author,
                               preview: preview,
