@@ -617,6 +617,11 @@ progress {
     height: auto
 }
 
+.img-fluid-items {
+    max-width: 100%;
+    height: auto
+}
+
 .img-fluid-profile {
     max-width: 100%;
     height: auto

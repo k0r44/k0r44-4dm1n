@@ -79,7 +79,7 @@ function getUserItems(author) {
         const itemHtml = `
           <div class="col-lg-4 col-md-6 box-col-33" id="${itemId}">
             <div class="card custom-card">
-              <div class="card-header"><img class="img-fluid" src="${item.file}" alt=""></div>
+              <div class="card-header"><img class="img-fluid-items" src="${item.file}" alt=""></div>
               <div class="card-profile"><img class="rounded-circle" src="https://www.koraa.my.id/assets/img/logo/koraa.png" alt=""></div>
               <div class="text-center profile-details"><a href="https://koraa.my.id${item.links}">
                   <h4>${item.name}</h4></a>
@@ -173,7 +173,7 @@ for (let i = 0; i < editItemIcons.length; i++) {
 function editItem(itemId) {
   // Lakukan operasi yang diperlukan untuk menuju form edit item
   // Misalnya, alihkan pengguna ke halaman form edit item dengan mengirim itemId sebagai parameter
-  window.location.href = `edit/?itemId=${itemId}`;
+  window.location.href = `/p/items/edit/?itemId=${itemId}`;
 }
 
 // Fungsi untuk menghapus item dan memperbarui tampilan
