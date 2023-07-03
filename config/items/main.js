@@ -86,7 +86,7 @@ function getUserItems(author) {
                 <h6>${item.visibility}</h6>
               </div>
               <ul class="card-social">
-                <!-- Coming Soon -->
+                <!-- Coming Soon --
                 <li>
                   <a href="javascript:void(0)" class="edit-item" data-itemid="${itemId}">
                     <i class="ri-pencil-line"></i>
