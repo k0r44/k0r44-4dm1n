@@ -166,7 +166,7 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list" id="starter-kit">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/p/profile/items">
+                    <a class="sidebar-link sidebar-title link-nav" href="/p/items">
                       <i data-feather="file"></i>
                       <span>Items Upload</span>
                     </a>

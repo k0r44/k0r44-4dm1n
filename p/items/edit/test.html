@@ -5,6 +5,7 @@
   <!-- Masukkan referensi CSS dan script yang diperlukan di sini -->
 </head>
 <body>
+  <div id="item-preview"></div>
   <!-- Form edit item -->
   <input type="text" id="item-name" placeholder="Item Name">
   <textarea id="item-desc" placeholder="Item Description"></textarea>
@@ -194,7 +195,7 @@
           const itemDataRef = db.collection('items').doc(itemId);
           itemDataRef.update({
             fileName: fileName,
-            img: url,
+            file: url,
             // Lanjutkan dengan pembaruan nilai pada properti lainnya
           })
 
@@ -202,7 +203,7 @@
           const userRef = db.collection('users').doc(author).collection('items').doc(itemId);
           userRef.update({
             fileName: fileName,
-            img: url,
+            file: url,
             // Lanjutkan dengan pembaruan nilai pada properti lainnya
           })
 
@@ -223,6 +224,30 @@
         // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
       });
     }
+
+    // Update item preview with item name and description
+const itemPreview = document.getElementById('item-preview');
+
+db.collection('items').doc(itemId).get()
+  .then((doc) => {
+    if (doc.exists) {
+      const itemData = doc.data();
+      itemNameInput.value = itemData.name;
+      itemDescInput.value = itemData.desc;
+      
+      // Update item preview
+      itemPreview.innerHTML = `
+        <h2>${itemData.name}</h2>
+        <p>${itemData.desc}</p>
+      `;
+      
+      // Rest of the code...
+    }
+  })
+  .catch((error) => {
+    console.log("Error getting item:", error);
+  });
+
   </script>
 </body>
 </html>

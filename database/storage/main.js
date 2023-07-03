@@ -74,7 +74,7 @@ function changePlanToFree(uid) {
   })
     .then(function() {
       console.log('Plan pengguna berhasil diubah menjadi "free"');
-      getFileInfo(uid);
+      getFileInfo(uid); 
     })
     .catch(function(error) {
       console.error('Error:', error);

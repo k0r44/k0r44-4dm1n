@@ -140,8 +140,10 @@ document.addEventListener("DOMContentLoaded", function () {
                               time: time,
                               fileName: fileName,
                               visibility: visibility,
-                              links: `/details/?category=${category}&id=${newDocRef.id}` // Constructing the links field
+                              links: `/details/?category=${category}&id=${newDocRef.id}`, // Constructing the links field
+                              uid: displayName // Add the uid field
                             };
+                            
 
                             // Add additional fields based on the category
                             if (category === 'mobile') {

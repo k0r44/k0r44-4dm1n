@@ -62,15 +62,17 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3>Add Items</h3>
+                                <h3>Edit Items</h3>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="/"><i data-feather="home"></i></a>
                                     </li>
-                                    <li class="breadcrumb-item">Items</li>
-                                    <li class="breadcrumb-item active">Add Items</li>
+                                    <li class="breadcrumb-item">
+                                        <a href="/p/items">Items</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Edit Items</li>
                                 </ol>
                             </div>
                         </div>
@@ -79,83 +81,63 @@
                 <!-- Container-fluid starts-->
                 <div class="container-fluid add-product">
                     <div class="row">
-                        <div class="col-xl-0">
+
+                        <div class="col-xl-15">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="product-info">
-
-                                        <h5>Upload Image</h5>
-                                        <form id="myForm">
+                                        <h5>Items</h5>
+                                        <form>
                                             <div class="product-group">
-                                              <div class="row">
-                                                <div class="col-sm-12">
-                                                  <div class="mb-3">
-                                                    <input class="form-control" type="file" aria-label="file example" id="fileButton" accept="image/*,video/*" required>
-                                                  </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Item Name</label>
+                                                            <input class="form-control" placeholder="Enter Product Name"
+                                                                type="text" id="item-name"><span
+                                                                class="text-danger"></span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                              </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Item Description</label>
+                                                            <textarea class="form-control"
+                                                                placeholder="Enter Items Description" type="text"
+                                                                id="item-desc"></textarea>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                          
-                                            <h5>Description</h5>
-                                            <form>
-                                              <div class="product-group">
+                                            <h5 class="mt-4">Categories</h5>
+                                            <div class="product-group">
                                                 <div class="row">
-                                                  <div class="col-sm-12">
-                                                    <div class="mb-3">
-                                                      <label class="form-label">Items Name</label>
-                                                      <input class="form-control" placeholder="Enter Items Name" type="text" id="name" required>
-                                                      <span class="text-danger"></span>
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Items Visibility</label>
+                                                            <select class="form-select" id="visibility-select">
+                                                                <option value="everyone">Everyone</option>
+                                                                <option value="private">Private</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                  </div>
                                                 </div>
-                                          
-                                                <div class="row">
-                                                  <div class="col-sm-12">
-                                                    <div class="mb-3">
-                                                      <label class="form-label">Items Url Instagram</label>
-                                                      <input class="form-control" placeholder="Enter Items Url Instagram" type="text" pattern="https://www.instagram.com/.*" id="preview" required>
-                                                      <span class="text-danger"></span>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                          
-                                                <div class="row">
-                                                  <div class="col-sm-12">
-                                                    <div class="mb-3">
-                                                      <label class="form-label">Items Visibility</label>
-                                                      <select class="form-select" id="visibility" required>
-                                                        <option value="" selected disabled>Select..</option>
-                                                        <option value="everyone">Everyone</option>
-                                                        <option value="private">Private</option>
-                                                      </select>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                          
-                                                <div class="row">
-                                                  <div class="col-sm-12">
-                                                    <div class="mb-3">
-                                                      <label class="form-label">Description</label>
-                                                      <textarea class="form-control" placeholder="Enter Items Desc" id="desc" required></textarea>
-                                                      <span class="text-danger"></span>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                          
-                                              <div class="mt-4">
-                                                <div class="row">
-                                                  <div class="col-sm-12 text-end">
-                                                    <button class="btn btn-primary me-3" type="submit" id="submitButton" disabled>ADD</button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </form>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 text-end">
+                                                <button class="btn btn-primary me-3" id="save-button">Update
+                                                    Items</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- Container-fluid Ends-->
@@ -171,7 +153,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
     <script src="https://koraaid.000webhostapp.com/"></script>
     <script src="/config/db.js"></script>
-    <script src="/database/items/main.js"></script>
+    <script src="/config/items/edit/main.js"></script>
 
     <!-- latest jquery-->
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
@@ -195,7 +177,7 @@
     <script src="/assets/js/theme-customizer/customizer.js"></script>
     <script src="/assets/js/input/items/design/kora.min.js"></script>
     <!-- login js-->
-    
+
 </body>
 
 </html>
