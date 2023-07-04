@@ -1,191 +1,223 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Informasi File</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-  </style>
+  <title>Profil Pengguna</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <h1>Informasi File</h1>
-  <ul id="fileList"></ul>
-  <ul id="totalSizeInfo"></ul>
+  <h1>Profil Pengguna</h1>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <div class="user-info">
+    <img class="user-pic" src="" alt="User Picture">
+    <h2 class="user-fullname"></h2>
+    <p class="user-email"></p>
+    <p class="user-category"></p>
+    <p class="username"></p>
+    <p class="signup-time"></p>
+    <p class="plan-expiration"></p>
+    <p class="user-links"></p>
+    <p class="user-bio"></p>
+    <p class="mfa-notification"></p>
+    <button id="enable-mfa-button">Aktifkan Faktor Ganda</button>
+  </div>
 
+  <button id="logout-button">Logout</button>
+
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
   <script>
-    // Konfigurasi Firebase
-    var firebaseConfig = {
-      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
-    authDomain: "koraa-id.firebaseapp.com",
-    databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
-    projectId: "koraa-id",
-    storageBucket: "koraa-id.appspot.com",
-    messagingSenderId: "360256061577",
-    appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
-    measurementId: "G-VJT00SD3NT"
-    };
-
     // Inisialisasi Firebase
-    firebase.initializeApp(firebaseConfig);
+var firebaseConfig = {
+  apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+  authDomain: "koraa-id.firebaseapp.com",
+  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
+  projectId: "koraa-id",
+  storageBucket: "koraa-id.appspot.com",
+  messagingSenderId: "360256061577",
+  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+  measurementId: "G-VJT00SD3NT"
+};
 
-    // Memeriksa status login pengguna saat ini
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var uid = user.uid; // Menggunakan uid pengguna sebagai username
-        getFileInfo(uid);
-      } else {
-        console.log('Pengguna belum login');
-      }
+// Inisialisasi aplikasi Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Mengambil referensi Firestore
+const db = firebase.firestore();
+
+// Get user details elements
+var userfullNameText = document.getElementsByClassName('user-fullname')[0];
+var userEmailText = document.getElementsByClassName('user-email')[0];
+var userCategoryText = document.getElementsByClassName('user-category')[0];
+var userPictureSRC = document.getElementsByClassName('user-pic')[0];
+var usernameText = document.getElementsByClassName('username')[0];
+var signupTimeText = document.getElementsByClassName('signup-time')[0];
+var planExpirationText = document.getElementsByClassName('plan-expiration')[0];
+var userLinksText = document.getElementsByClassName('user-links')[0];
+var userBioText = document.getElementsByClassName('user-bio')[0];
+var mfaNotification = document.getElementsByClassName('mfa-notification')[0];
+var enableMFAButton = document.getElementById('enable-mfa-button');
+
+// Set user details and login time
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    var author = user.uid;
+    var categoryRef = firebase.firestore().collection('users').doc(author);
+    categoryRef.get()
+      .then(function (doc) {
+        if (doc.exists) {
+          var firstName = doc.data().firstName;
+          var lastName = doc.data().lastName;
+
+          if (firstName || lastName) {
+            userfullNameText.textContent = (firstName ? firstName + " " : "") + (lastName ? lastName : "");
+          } else {
+            userfullNameText.textContent = "By Koraa";
+          }
+
+          userEmailText.textContent = user.email;
+          userCategoryText.textContent = doc.data().category;
+
+          if (doc.data().profile) {
+            userPictureSRC.src = doc.data().profile;
+          } else {
+            userPictureSRC.src = 'https://www.koraa.my.id/assets/img/logo/koraa.png';
+          }
+
+          usernameText.textContent = doc.data().username;
+          signupTimeText.textContent = doc.data().signupTime;
+
+          if (doc.data().planExpiration) {
+            planExpirationText.textContent = doc.data().planExpiration;
+          } else {
+            planExpirationText.textContent = "Plan tidak tersedia";
+          }
+
+          var userLinksLink = document.createElement('a');
+          userLinksLink.href = "https://www.koraa.my.id/user/?author=" + doc.data().username;
+          userLinksLink.textContent = "https://www.koraa.my.id/user/?author=" + doc.data().username;
+          userLinksLink.target = "_blank";
+
+          userLinksText.innerHTML = '';
+          userLinksText.appendChild(userLinksLink);
+
+          if (doc.data().bio) {
+            userBioText.innerHTML = doc.data().bio;
+          } else {
+            userBioText.textContent = "Bio tidak tersedia";
+          }
+
+          getUserItems(author);
+
+          // Check MFA status and display notification
+          getMFAStatus(user)
+            .then(function (mfaStatus) {
+              if (mfaStatus) {
+                mfaNotification.textContent = "Faktor Ganda sudah diaktifkan.";
+              } else {
+                mfaNotification.textContent = "Faktor Ganda belum diaktifkan.";
+                enableMFAButton.style.display = "block";
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else {
+          userfullNameText.textContent = "User not logged in";
+          userEmailText.textContent = "Email not available";
+          userCategoryText.textContent = "Category not available";
+          signupTimeText.textContent = "";
+          planExpirationText.textContent = "User not logged in";
+          userBioText.textContent = "User not logged in";
+          mfaNotification.textContent = "User not logged in";
+
+          loginTimeText.addEventListener('click', function () {
+            window.location.href = '/auth/login/';
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  } else {
+    userEmailText.textContent = "User not logged in";
+    userCategoryText.textContent = "";
+    planExpirationText.textContent = "User not logged in";
+    signupTimeText.textContent = "User not logged in";
+    loginTimeText.textContent = "User not logged in";
+    mfaNotification.textContent = "User not logged in";
+
+    userEmailText.addEventListener('click', function () {
+      window.location.href = '/auth/login/';
     });
 
-    // Mendapatkan ukuran dan metadata file
-    function getFileInfo(uid) {
-      var storageRef = firebase.storage().ref('items/' + uid);
-      storageRef.listAll().then(function(res) {
-        if (res.items.length > 0) {
-          var filePromises = res.items.map(function(itemRef) {
-            return itemRef.getMetadata().then(function(metadata) {
-              // Mengakses metadata file
-              var namaFile = metadata.name;
-              var ukuranFile = metadata.size;
-              var tanggalUpload = metadata.timeCreated;
+    signupTimeText.addEventListener('click', function () {
+      window.location.href = '/auth/login/';
+    });
 
-              // Mengubah ukuran file menjadi KB, MB, atau GB
-              var ukuranFormatted = formatSize(ukuranFile);
+    loginTimeText.addEventListener('click', function () {
+      window.location.href = '/auth/login/';
+    });
+  }
+});
 
-              // Mengubah tanggal upload menjadi format yang diinginkan
-              var tanggalFormatted = formatDate(tanggalUpload);
+// Get logout button element
+var logoutButton = document.getElementById('logout-button');
 
-              // Menampilkan informasi file
-              var fileInfoHTML = '<li class="folder-box d-flex align-items-center">' +
-                '<div class="d-flex align-items-center files-list">' +
-                '<div class="flex-shrink-0 file-left"><i class="f-22 fa fa-folder font-primary"></i></div>' +
-                '<div class="flex-grow-1 ms-3">' +
-                '<h6>' + namaFile + '</h6>' +
-                '<p>' + tanggalFormatted + ', ' + ukuranFormatted + '</p>' +
-                '</div>' +
-                '</div>' +
-                '</li>';
+// Add event listener to logout button
+logoutButton.addEventListener('click', function () {
+  firebase.auth().signOut()
+    .then(function () {
+      window.location.href = '/auth/login/';
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
 
-              return {
-                fileInfoHTML: fileInfoHTML,
-                ukuranFile: ukuranFile
-              };
-            });
-          });
-
-          Promise.all(filePromises).then(function(fileInfoArray) {
-            var fileInfoHTML = fileInfoArray.map(function(fileInfoObj) {
-              return fileInfoObj.fileInfoHTML;
-            }).join('');
-            var totalSize = fileInfoArray.reduce(function(acc, fileInfoObj) {
-              return acc + fileInfoObj.ukuranFile;
-            }, 0);
-            var totalSizeFormatted = formatSize(totalSize);
-
-            // Mendapatkan informasi plan pengguna dari Firestore
-            getPlanFromFirestore(uid).then(function(plan) {
-              var totalSizeInfo = '<li>' +
-                '<div class="btn btn-outline-primary"><i data-feather="database"></i>Storage</div>' +
-                '<div class="m-t-15">' +
-                '<div class="progress sm-progress-bar mb-3">' +
-                '<div class="progress-bar bg-primary" role="progressbar" style="width: 25%" ' +
-                'aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>' +
-                '</div>' +
-                '<h6 class="f-w-500">' + totalSizeFormatted + ' of ' + getPlanStorageLimit(plan) + ' used</h6>' +
-                '</div>' +
-                '</li>';
-
-              document.getElementById('fileList').innerHTML = fileInfoHTML;
-              document.getElementById('totalSizeInfo').innerHTML = totalSizeInfo;
-
-              // Memuat ikon Feather Icons
-              feather.replace();
-            }).catch(function(error) {
-              console.error('Error:', error);
-            });
-          }).catch(function(error) {
-            console.error('Error:', error);
-          });
-        } else {
-          console.log('Tidak ada file yang ditemukan');
-        }
-      }).catch(function(error) {
-        console.error('Error:', error);
+// Add event listener to enable MFA button
+enableMFAButton.addEventListener('click', function () {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    sendMFANotification(user)
+      .then(function () {
+        mfaNotification.textContent = "Permintaan Faktor Ganda telah dikirim ke perangkat terdaftar.";
+        enableMFAButton.style.display = "none";
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    }
+  }
+});
 
-    // Fungsi untuk mengubah ukuran file menjadi KB, MB, atau GB
-    function formatSize(size) {
-      if (size < 1024) {
-        return size + ' bytes';
-      } else if (size < 1024 * 1024) {
-        return (size / 1024).toFixed(2) + ' KB';
-      } else if (size < 1024 * 1024 * 1024) {
-        return (size / (1024 * 1024)).toFixed(2) + ' MB';
-      } else {
-        return (size / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
-      }
-    }
+// Function to send MFA notification to user
+function sendMFANotification(user) {
+  return new Promise(function (resolve, reject) {
+    // Implement the logic to send the MFA notification
+    // You can use Firebase Cloud Messaging or other notification services
+    // to send the notification to the user's registered device(s)
 
-    // Fungsi untuk mendapatkan batas penyimpanan berdasarkan plan
-    function getPlanStorageLimit(plan) {
-      if (plan === 'free') {
-        return '100 GB';
-      } else if (plan === 'silver') {
-        return '200 GB';
-      } else {
-        return 'Unknown';
-      }
-    }
+    // Replace the following code with your actual implementation
+    // This is just a placeholder
+    console.log("Sending MFA notification to user:", user.uid);
+    resolve();
+  });
+}
 
-    // Fungsi untuk mendapatkan informasi plan pengguna dari Firestore
-    function getPlanFromFirestore(uid) {
-      return new Promise(function(resolve, reject) {
-        var usersCollectionRef = firebase.firestore().collection('users');
-        var userDocRef = usersCollectionRef.doc(uid);
-        userDocRef.get().then(function(doc) {
-          if (doc.exists) {
-            var userData = doc.data();
-            var plan = userData.plan; // Ganti dengan nama field yang sesuai di Firestore
-            resolve(plan);
-          } else {
-            reject(new Error('Dokumen pengguna tidak ditemukan'));
-          }
-        }).catch(function(error) {
-          reject(error);
-        });
-      });
-    }
+// Function to get MFA status for user
+function getMFAStatus(user) {
+  return new Promise(function (resolve, reject) {
+    // Implement the logic to check the MFA status for the user
+    // You can use Firebase Authentication APIs or any other methods
+    // to retrieve the MFA status for the user
 
-    // Fungsi untuk memformat tanggal
-    function formatDate(tanggalUpload) {
-      var date = new Date(tanggalUpload);
-
-      var seconds = Math.floor((Date.now() - date) / 1000);
-      var interval = Math.floor(seconds / 31536000);
-
-      if (interval > 1) {
-        return date.toLocaleDateString();
-      } else if (interval === 1) {
-        return '1 day ago';
-      } else if (seconds >= 3600) {
-        var hours = Math.floor(seconds / 3600);
-        return hours + ' hours ago';
-      } else if (seconds >= 60) {
-        var minutes = Math.floor(seconds / 60);
-        return minutes + ' minutes ago';
-      } else {
-        return seconds + ' seconds ago';
-      }
-    }
+    // Replace the following code with your actual implementation
+    // This is just a placeholder
+    var mfaStatus = false;
+    console.log("Checking MFA status for user:", user.uid);
+    resolve(mfaStatus);
+  });
+}
   </script>
 </body>
 </html>

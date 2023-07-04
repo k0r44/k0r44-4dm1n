@@ -37,13 +37,13 @@
     // Your Firebase configuration
     var firebaseConfig = {
       apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
-    authDomain: "koraa-id.firebaseapp.com",
-    databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
-    projectId: "koraa-id",
-    storageBucket: "koraa-id.appspot.com",
-    messagingSenderId: "360256061577",
-    appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
-    measurementId: "G-VJT00SD3NT"
+  authDomain: "koraa-id.firebaseapp.com",
+  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
+  projectId: "koraa-id",
+  storageBucket: "koraa-id.appspot.com",
+  messagingSenderId: "360256061577",
+  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+  measurementId: "G-VJT00SD3NT"
     };
     
     // Initialize Firebase
@@ -75,34 +75,45 @@
             lastName: lastName,
             instagram: instagram,
             tiktok: tiktok,
-            bio: bio,
-            username: username
+            bio: bio
           })
           .then(function() {
-            // Profile updated successfully
-            alert('Profile updated successfully');
+            // Username updated successfully
+            console.log('Profile updated successfully');
 
-            // Update items with the same author and username
-            var itemsRef = firebase.firestore().collection('items');
-            itemsRef.where('author', '==', userRef).get()
-              .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                  var itemRef = itemsRef.doc(doc.id);
-                  itemRef.update({ author: userRef, username: usernameInput.value })
-                    .then(function() {
-                      console.log('Item updated successfully');
-                    })
-                    .catch(function(error) {
-                      console.log(error);
+            // Update the username in the user's document
+            userRef.update({ username: username })
+              .then(function() {
+                console.log('Username updated successfully');
+
+                // Update items with the same author and username
+                var itemsRef = firebase.firestore().collection('items');
+                itemsRef.where('author', '==', user.uid).get()
+                  .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                      var itemid = doc.id;
+                      var itemRef = itemsRef.doc(itemid);
+                      itemRef.update({ author: username })
+                        .then(function() {
+                          console.log('Item updated successfully');
+                        })
+                        .catch(function(error) {
+                          console.log(error);
+                        });
                     });
-                });
+                  })
+                  .catch(function(error) {
+                    console.log(error);
+                  });
+
+                // Redirect to the user's profile page or any other desired page
+                window.location.href = '/p/profile/'; // Replace '/user/profile/' with the correct URL for the user's profile page
               })
               .catch(function(error) {
                 console.log(error);
+                // Handle the error appropriately
+                alert('Failed to update username');
               });
-
-            // Redirect to the user's profile page or any other desired page
-            window.location.href = '/p/profile/'; // Replace '/user/profile/' with the correct URL for the user's profile page
           })
           .catch(function(error) {
             console.log(error);
