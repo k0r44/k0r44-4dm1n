@@ -82,7 +82,7 @@ function signup() {
             // Create a new user document in Firestore with the user's username as the document ID
             return db.collection('users').doc(user.uid).set({
               username: username,
-              usernameLower: username.toLowerCase(), // Add lowercase username for case-insensitive comparison
+              username: username.toLowerCase(), // Add lowercase username for case-insensitive comparison
               email: email,
               uid: user.uid,
               category: category,
