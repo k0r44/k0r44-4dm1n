@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         {
-          title: 'Tidak Dapat Di Akses',
-          start: '2023-06-02'
+          title: 'New Fitur Edit Items!!',
+          start: '2023-07-13'
         },
 
         /* Koraa
