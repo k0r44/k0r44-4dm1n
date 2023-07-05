@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Add additional fields based on the category
                             if (category === 'mobile') {
-                              itemData.category = 'mobile';
+                              itemData.category = 'mobile'; 
                             } else if (category === 'logo') {
                               itemData.category = 'logo';
                             } else if (category === 'product design') {
