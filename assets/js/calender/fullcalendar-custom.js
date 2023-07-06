@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // dayMaxEvents: true, // allow "more" link when too many events
       events: [
         {
-          title: 'New Update',
-          start: '2023-05-31'
+          title: 'New Fitur Mail',
+          start: '2023-07-07'
         },
 
         {

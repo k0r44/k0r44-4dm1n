@@ -1,223 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Profil Pengguna</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Mail Details</title>
+  <style>
+    /* Tambahkan gaya CSS sesuai kebutuhan Anda */
+    .mail-details {
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Profil Pengguna</h1>
-
-  <div class="user-info">
-    <img class="user-pic" src="" alt="User Picture">
-    <h2 class="user-fullname"></h2>
-    <p class="user-email"></p>
-    <p class="user-category"></p>
-    <p class="username"></p>
-    <p class="signup-time"></p>
-    <p class="plan-expiration"></p>
-    <p class="user-links"></p>
-    <p class="user-bio"></p>
-    <p class="mfa-notification"></p>
-    <button id="enable-mfa-button">Aktifkan Faktor Ganda</button>
+  <div class="mail-details">
+    <h1>Mail Details</h1>
+    <div class="mail-content"></div>
   </div>
 
-  <button id="logout-button">Logout</button>
-
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
   <script>
     // Inisialisasi Firebase
-var firebaseConfig = {
-  apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
   authDomain: "koraa-id.firebaseapp.com",
-  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
   projectId: "koraa-id",
   storageBucket: "koraa-id.appspot.com",
   messagingSenderId: "360256061577",
   appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
   measurementId: "G-VJT00SD3NT"
-};
+    };
 
-// Inisialisasi aplikasi Firebase
-firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
 
-// Mengambil referensi Firestore
-const db = firebase.firestore();
+    // Mengambil referensi Firestore
+    const db = firebase.firestore();
 
-// Get user details elements
-var userfullNameText = document.getElementsByClassName('user-fullname')[0];
-var userEmailText = document.getElementsByClassName('user-email')[0];
-var userCategoryText = document.getElementsByClassName('user-category')[0];
-var userPictureSRC = document.getElementsByClassName('user-pic')[0];
-var usernameText = document.getElementsByClassName('username')[0];
-var signupTimeText = document.getElementsByClassName('signup-time')[0];
-var planExpirationText = document.getElementsByClassName('plan-expiration')[0];
-var userLinksText = document.getElementsByClassName('user-links')[0];
-var userBioText = document.getElementsByClassName('user-bio')[0];
-var mfaNotification = document.getElementsByClassName('mfa-notification')[0];
-var enableMFAButton = document.getElementById('enable-mfa-button');
+    // Mendapatkan ID item dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('id');
 
-// Set user details and login time
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    var author = user.uid;
-    var categoryRef = firebase.firestore().collection('users').doc(author);
-    categoryRef.get()
-      .then(function (doc) {
-        if (doc.exists) {
-          var firstName = doc.data().firstName;
-          var lastName = doc.data().lastName;
+    // Mendapatkan ID pengguna saat ini
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const userId = user.uid;
 
-          if (firstName || lastName) {
-            userfullNameText.textContent = (firstName ? firstName + " " : "") + (lastName ? lastName : "");
-          } else {
-            userfullNameText.textContent = "By Koraa";
-          }
+        // Mendapatkan referensi koleksi Firestore
+        const collectionRef = db.collection(`users/${userId}/mails`);
 
-          userEmailText.textContent = user.email;
-          userCategoryText.textContent = doc.data().category;
+        // Mendapatkan detail item dari Firestore berdasarkan ID
+        collectionRef.doc(itemId).get()
+          .then(function(doc) {
+            if (doc.exists) {
+              const mail = doc.data();
 
-          if (doc.data().profile) {
-            userPictureSRC.src = doc.data().profile;
-          } else {
-            userPictureSRC.src = 'https://www.koraa.my.id/assets/img/logo/koraa.png';
-          }
-
-          usernameText.textContent = doc.data().username;
-          signupTimeText.textContent = doc.data().signupTime;
-
-          if (doc.data().planExpiration) {
-            planExpirationText.textContent = doc.data().planExpiration;
-          } else {
-            planExpirationText.textContent = "Plan tidak tersedia";
-          }
-
-          var userLinksLink = document.createElement('a');
-          userLinksLink.href = "https://www.koraa.my.id/user/?author=" + doc.data().username;
-          userLinksLink.textContent = "https://www.koraa.my.id/user/?author=" + doc.data().username;
-          userLinksLink.target = "_blank";
-
-          userLinksText.innerHTML = '';
-          userLinksText.appendChild(userLinksLink);
-
-          if (doc.data().bio) {
-            userBioText.innerHTML = doc.data().bio;
-          } else {
-            userBioText.textContent = "Bio tidak tersedia";
-          }
-
-          getUserItems(author);
-
-          // Check MFA status and display notification
-          getMFAStatus(user)
-            .then(function (mfaStatus) {
-              if (mfaStatus) {
-                mfaNotification.textContent = "Faktor Ganda sudah diaktifkan.";
-              } else {
-                mfaNotification.textContent = "Faktor Ganda belum diaktifkan.";
-                enableMFAButton.style.display = "block";
+              // Menampilkan konten surat pada halaman
+              const mailContentElements = document.getElementsByClassName('mail-content');
+              for (let i = 0; i < mailContentElements.length; i++) {
+                const mailContentElement = mailContentElements[i];
+                mailContentElement.innerHTML = `
+                  <h2>${mail.username}</h2>
+                  <p>From: ${mail.from}</p>
+                  <p>To: ${mail.to}</p>
+                  <p>Date: ${mail.date}</p>
+                  <p>${mail.body}</p>
+                `;
               }
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        } else {
-          userfullNameText.textContent = "User not logged in";
-          userEmailText.textContent = "Email not available";
-          userCategoryText.textContent = "Category not available";
-          signupTimeText.textContent = "";
-          planExpirationText.textContent = "User not logged in";
-          userBioText.textContent = "User not logged in";
-          mfaNotification.textContent = "User not logged in";
-
-          loginTimeText.addEventListener('click', function () {
-            window.location.href = '/auth/login/';
+            } else {
+              console.log('Document not found');
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
           });
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  } else {
-    userEmailText.textContent = "User not logged in";
-    userCategoryText.textContent = "";
-    planExpirationText.textContent = "User not logged in";
-    signupTimeText.textContent = "User not logged in";
-    loginTimeText.textContent = "User not logged in";
-    mfaNotification.textContent = "User not logged in";
-
-    userEmailText.addEventListener('click', function () {
-      window.location.href = '/auth/login/';
+      } else {
+        console.log('User not logged in');
+      }
     });
-
-    signupTimeText.addEventListener('click', function () {
-      window.location.href = '/auth/login/';
-    });
-
-    loginTimeText.addEventListener('click', function () {
-      window.location.href = '/auth/login/';
-    });
-  }
-});
-
-// Get logout button element
-var logoutButton = document.getElementById('logout-button');
-
-// Add event listener to logout button
-logoutButton.addEventListener('click', function () {
-  firebase.auth().signOut()
-    .then(function () {
-      window.location.href = '/auth/login/';
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-});
-
-// Add event listener to enable MFA button
-enableMFAButton.addEventListener('click', function () {
-  var user = firebase.auth().currentUser;
-  if (user) {
-    sendMFANotification(user)
-      .then(function () {
-        mfaNotification.textContent = "Permintaan Faktor Ganda telah dikirim ke perangkat terdaftar.";
-        enableMFAButton.style.display = "none";
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-});
-
-// Function to send MFA notification to user
-function sendMFANotification(user) {
-  return new Promise(function (resolve, reject) {
-    // Implement the logic to send the MFA notification
-    // You can use Firebase Cloud Messaging or other notification services
-    // to send the notification to the user's registered device(s)
-
-    // Replace the following code with your actual implementation
-    // This is just a placeholder
-    console.log("Sending MFA notification to user:", user.uid);
-    resolve();
-  });
-}
-
-// Function to get MFA status for user
-function getMFAStatus(user) {
-  return new Promise(function (resolve, reject) {
-    // Implement the logic to check the MFA status for the user
-    // You can use Firebase Authentication APIs or any other methods
-    // to retrieve the MFA status for the user
-
-    // Replace the following code with your actual implementation
-    // This is just a placeholder
-    var mfaStatus = false;
-    console.log("Checking MFA status for user:", user.uid);
-    resolve(mfaStatus);
-  });
-}
   </script>
 </body>
 </html>
