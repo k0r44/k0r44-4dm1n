@@ -1,15 +1,4 @@
-/*!
- * Bootstrap Grid v5.0.0-beta1 (https://getbootstrap.com/)
- * Copyright 2011-2020 The Bootstrap Authors
- * Copyright 2011-2020 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
-/*!
- * Bootstrap v5.0.0-beta1 (https://getbootstrap.com/)
- * Copyright 2011-2020 The Bootstrap Authors
- * Copyright 2011-2020 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
+
  :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
@@ -661,7 +650,7 @@ progress {
     padding-right: var(--bs-gutter-x, .75rem);
     padding-left: var(--bs-gutter-x, .75rem);
     margin-right: auto;
-    margin-left: auto
+    margin-left: auto;
 }
 
 @media (min-width: 576px) {
@@ -8925,7 +8914,7 @@ fieldset:disabled .btn {
 }
 
 .rounded-circle {
-    border-radius: 50% !important
+    border-radius: 50% !important;
 }
 
 .rounded-pill {

@@ -64,7 +64,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                               <div class="row">
                                 <div class="col-xl-12">
                                   <div class="d-flex align-items-center">
-                                    <img class="me-3 rounded-circle" src="/assets/img/mail/user.png" alt="">
+                                    <img class="me-3 rounded-circle" src="${mail.img || '/assets/img/mail/user.png'}" alt="" style="width: 48px; height: 48px;">
                                     <div class="flex-grow-1">
                                       <h6 class="d-block">${mail.username}</h6>
                                       <p>${mail.subject}</p>
@@ -89,12 +89,12 @@ firebase.auth().onAuthStateChanged(function(user) {
                                   <ul class="actions">
                                     <li>
                                       <a class="btn btn-primary" href="mailto:${mail.email}">
-                                        <i class="fa fa-reply me-2"></i>Reply
+                                        <i class="ri-reply-fill me-2"></i>Reply
                                       </a>
                                     </li>
                                     <li>
                                       <a class="btn btn-danger" href="javascript:void(0)" onclick="deleteMail()">
-                                        <i class="fa fa-share me-2"></i>Forward
+                                        <i class="ri-delete-bin-line  me-2"></i>Delete
                                       </a>
                                     </li>
                                   </ul>

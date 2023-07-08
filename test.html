@@ -1,64 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Items</title>
+  <title>Dynamic Sidebar Example</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="inbox-test"></div>
+  <div id="sidebar"></div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
 
   <script>
-    // Inisialisasi Firebase
+    // Konfigurasi Firebase
     var firebaseConfig = {
       apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
   authDomain: "koraa-id.firebaseapp.com",
+  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
   projectId: "koraa-id",
   storageBucket: "koraa-id.appspot.com",
   messagingSenderId: "360256061577",
   appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
   measurementId: "G-VJT00SD3NT"
     };
+    
+    // Inisialisasi Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Referensi ke koleksi "users" dengan user UID
-    var userCollection = firebase.firestore().collection("users").doc(user.uid).collection("mails");
+    // filter array
+    let filterarray = [];
 
-    // Fungsi untuk mendapatkan item-item pengguna dan menambahkan listener realtime
-    function getUserItems(author) {
-      userCollection.onSnapshot((querySnapshot) => {
-        const itemsContainer = document.querySelector(".inbox-test");
-        let html = "";
+    // gallery card array
+    let galleryarray = [
+      {
+        id: 1
+      },
+    ];
 
-        querySnapshot.forEach((doc) => {
-          const item = doc.data();
-          const itemId = doc.id;
+    // Mengecek status login pengguna
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // Jika pengguna telah login
+        showgallery(galleryarray, user.uid);
+      } else {
+        // Jika pengguna tidak login atau logout
+        // Lakukan tindakan yang sesuai
+      }
+    });
 
-          const itemHtml = `
-            <div class="d-flex">
-              <div class="flex-shrink-0">
-                <img class="me-3 rounded-circle" src="../assets/images/user/user.png" alt="">
-              </div>
-              <div class="flex-grow-1">
-                <h6>${item.username}</h6>
-                <p>${item.description}</p>
-              </div>
-            </div>
-          `;
+    // create function to show card
+    function showgallery(curarra, uid) {
+      document.getElementById("sidebar").innerText = "";
 
-          html += itemHtml;
-        });
+      for (var i = 0; i < curarra.length; i++) {
+        var birthday = new Date(); // Mengonversi string tanggal ulang tahun menjadi objek Date
+        var today = new Date(); // Mendapatkan tanggal hari ini
 
-        // Render tampilan HTML setelah semua item ditambahkan
-        itemsContainer.innerHTML = html;
-      });
+        // Mendapatkan data pengguna dari database berdasarkan user.uid
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(uid)
+          .get()
+          .then(function (snapshot) {
+            var userData = snapshot.data();
+            birthday = new Date(userData.birthday);
+
+            // Memeriksa apakah hari ini adalah ulang tahun pengguna
+            if (birthday.getDate() === today.getDate() && birthday.getMonth() === today.getMonth()) {
+              document.getElementById("sidebar").innerHTML += `
+                <div class="sidebar-wrapper">
+                  <!-- Kode lainnya -->
+                  <li class="sidebar-list" id="starter-kit">
+                    <i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title link-nav" href="">
+                      <i data-feather="file-text"></i>
+                      <span>Starter Kit</span>
+                    </a>
+                  </li>
+                  <!-- Kode lainnya -->
+                </div>
+              `;
+            } else {
+              // Tampilkan elemen sidebar lainnya seperti sebelumnya
+              document.getElementById("sidebar").innerHTML += `
+                <div class="sidebar-wrapper">
+                  <!-- Kode lainnya -->
+                </div>
+              `;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
-
-    // Panggil fungsi getUserItems dengan parameter user UID
-    getUserItems(user.uid);
   </script>
 </body>
 </html>

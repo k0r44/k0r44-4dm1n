@@ -5232,7 +5232,7 @@ strong~p {
     letter-spacing: 0.5px;
     border-radius: 20px;
     -webkit-box-shadow: 0 0 20px rgba(8, 21, 66, 0.05);
-    box-shadow: 0 0 20px rgba(8, 21, 66, 0.05)
+    box-shadow: 0 0 20px rgba(8, 21, 66, 0.05);
 }
 
 .card:hover {
@@ -5562,7 +5562,7 @@ strong~p {
 
 .custom-card {
     overflow: hidden;
-    padding: 30px
+    padding: 30px;
 }
 
 .custom-card .card-header {
@@ -46948,3 +46948,10 @@ html[dir="rtl"] body.dark-only .page-wrapper .page-body-wrapper .page-body .card
 }
 
 /*# sourceMappingURL=style.css.map */
+.✔ {
+    background-color: #f6f8fc;
+  }
+  .dibaca .flex-grow-1 h6 {
+      font-weight: normal;   
+      font-weight: 600;
+  }
