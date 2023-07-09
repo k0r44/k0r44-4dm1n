@@ -83,7 +83,7 @@
                             <p>Hi There,</p>
                             <p>Please verify your account by checking your email inbox.</p>
                             <div class="text-center">
-                                <a href="javascript:void(0);" onclick="openGmailApp();" style="padding: 10px; background-color: #5c61f2; color: #fff; display: inline-block; border-radius:30px; margin-bottom:18px; font-weight:600; padding:0.6rem 1.75rem;">Open Mail</a>
+                                <a  href="https://mail.google.com" style="padding: 10px; background-color: #5c61f2; color: #fff; display: inline-block; border-radius:30px; margin-bottom:18px; font-weight:600; padding:0.6rem 1.75rem;">Open Mail</a>
                             </div>
                             <p>To proceed to the main page, you need to verify your email first.</p>
                             <p style="margin-bottom: 0">Good luck! Hope it works.</p>
@@ -108,25 +108,6 @@
         </tr>
       </tbody>
     </table>
-
-    <script>
-        function openGmailApp() {
-          var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        
-          // Periksa jika perangkat adalah Android
-          if (/android/i.test(userAgent)) {
-            window.location.href = "intent://#Intent;action=com.google.android.gm;end";
-          }
-          // Periksa jika perangkat adalah iOS
-          else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            window.location.href = "googlegmail://";
-          }
-          // Jika perangkat tidak diketahui, buka Gmail di browser
-          else {
-            window.open("https://mail.google.com");
-          }
-        }
-        </script>
         
   </body>
 </html>
