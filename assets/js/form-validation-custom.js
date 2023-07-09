@@ -2,14 +2,14 @@
 (function() {
         'use strict';
         window.addEventListener('load', function() {
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
+            var divs = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(divs, function(div) {
+                div.addEventListener('submit', function(event) {
+                    if (div.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
                     }
-                    form.classList.add('was-validated');
+                    div.classList.add('was-validated');
                 }, false);
             });
         }, false);

@@ -46,7 +46,7 @@
                                 <img class="img-logo for-light" src="/assets/img/logo/kora.png" alt="Koraa">
                             </a>
                         </div>
-                        <div class="login-main">
+                        <form class="login-main needs-validation" novalidate="" onsubmit="event.preventDefault(); login();">
                             <div class="theme-form" id="login-form">
                                 <h4 class="text-center">Sign in to account</h4>
                                 <p class="text-center">Enter your email & password to login</p>
@@ -77,7 +77,7 @@
                                     <a class="ms-2" href="../daftar/">Create Account</a>
                                 </p>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -97,9 +97,10 @@
         <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
         <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
         <!-- Sidebar jquery-->
+        <script src="/assets/js/form-validation-custom.js"></script>
         <script src="/assets/js/config.js"></script>
         <!-- Template js-->
-        <script src="https://admin.pixelstrap.com/tivo/assets/js/script.js"></script>
+        <script src="/assets/js/script.js"></script>
         <!-- login js-->
 
 </body>

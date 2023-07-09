@@ -1,81 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mail Details</title>
+  <title>Login/Signup Page</title>
   <style>
-    /* Tambahkan gaya CSS sesuai kebutuhan Anda */
-    .mail-details {
-      padding: 20px;
+    /* CSS styling for the login/signup form */
+    #login-form,
+    #signup-form {
+      display: none;
+    }
+
+    #success-message,
+    #error-message {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="mail-details">
-    <h1>Mail Details</h1>
-    <div class="mail-content"></div>
+  <h1>Login/Signup Page</h1>
+
+  <div id="login-form">
+    <h2>Login</h2>
+    <form onsubmit="event.preventDefault(); login();">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+  <div id="signup-form">
+    <h2>Signup</h2>
+    <form onsubmit="event.preventDefault(); signup();">
+      <input type="text" id="new-username" placeholder="Username" required>
+      <input type="email" id="new-email" placeholder="Email" required>
+      <input type="password" id="new-password" placeholder="Password" required>
+      <select id="kategori" required>
+        <option value="">Select Category</option>
+        <option value="category1">Category 1</option>
+        <option value="category2">Category 2</option>
+      </select>
+      <button type="submit">Signup</button>
+    </form>
+  </div>
+
+  <div id="success-message">
+    <h3>Success!</h3>
+    <p>User registered successfully.</p>
+  </div>
+
+  <div id="error-message">
+    <h3>Error!</h3>
+    <p></p>
+  </div>
+
+  <div id="category-content"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
-    // Inisialisasi Firebase
-    const firebaseConfig = {
+    // Initialize Firebase
+    var firebaseConfig = {
       apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
   authDomain: "koraa-id.firebaseapp.com",
+  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
   projectId: "koraa-id",
   storageBucket: "koraa-id.appspot.com",
   messagingSenderId: "360256061577",
   appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
   measurementId: "G-VJT00SD3NT"
     };
-
     firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
-    // Mengambil referensi Firestore
-    const db = firebase.firestore();
+// Get elements
+var loginForm = document.getElementById('login-form');
+var signupForm = document.getElementById('signup-form');
+var successMessage = document.getElementById('success-message');
+var errorMessage = document.getElementById('error-message');
+var categoryContent = document.getElementById('category-content');
 
-    // Mendapatkan ID item dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const itemId = urlParams.get('id');
+// Show login form
+function showLoginForm() {
+  loginForm.style.display = 'block';
+  signupForm.style.display = 'block';
+  successMessage.style.display = 'none';
+  errorMessage.style.display = 'none';
+  categoryContent.innerHTML = '';
+}
 
-    // Mendapatkan ID pengguna saat ini
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        const userId = user.uid;
+// Perform login
+function login() {
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
+  var loginTime = new Date().toLocaleString(); // Get the current time on login
 
-        // Mendapatkan referensi koleksi Firestore
-        const collectionRef = db.collection(`users/${userId}/mails`);
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function (userCredential) {
+      var user = userCredential.user;
+      var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
 
-        // Mendapatkan detail item dari Firestore berdasarkan ID
-        collectionRef.doc(itemId).get()
-          .then(function(doc) {
-            if (doc.exists) {
-              const mail = doc.data();
+      // Update the loginTime in the user document
+      return categoryRef.update({ loginTime: loginTime })
+        .then(function() {
+          categoryRef.get()
+            .then(function (doc) {
+              if (doc.exists) {
+                var category = doc.data().category;
+                loadCategoryPage(category); // Load the category page dynamically using AJAX
 
-              // Menampilkan konten surat pada halaman
-              const mailContentElements = document.getElementsByClassName('mail-content');
-              for (let i = 0; i < mailContentElements.length; i++) {
-                const mailContentElement = mailContentElements[i];
-                mailContentElement.innerHTML = `
-                  <h2>${mail.username}</h2>
-                  <p>From: ${mail.from}</p>
-                  <p>To: ${mail.to}</p>
-                  <p>Date: ${mail.date}</p>
-                  <p>${mail.body}</p>
-                `;
+                // Check if the current URL is already the category page
+                if (!window.location.href.includes('/items/' + category + '/')) {
+                  window.location.href = '/items/' + category + '/'; // Redirect to the category page
+                }
+              } else {
+                showLoginForm();
               }
-            } else {
-              console.log('Document not found');
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      } else {
-        console.log('User not logged in');
-      }
+            })
+            .catch(function (error) {
+              showLoginForm();
+            });
+        });
+    })
+    .catch(function (error) {
+      errorMessage.innerHTML = error.message;
+      errorMessage.style.display = 'block';
     });
+}
+
+// Perform signup
+function signup() {
+  var username = document.getElementById('new-username').value;
+  var email = document.getElementById('new-email').value;
+  var password = document.getElementById('new-password').value;
+  var category = document.getElementById('kategori').value;
+  var signupTime = new Date().toLocaleString(); // Get the current time on signup
+  var loginTime = signupTime; // Use signupTime as the loginTime on signup
+
+  // Check if the username is already taken
+  db.collection('users').where('username', '==', username.toLowerCase()).get()
+    .then(function (querySnapshot) {
+      if (!querySnapshot.empty) {
+        // Display an error message if the username is already taken
+        errorMessage.innerHTML = 'Username is already taken. Please choose a different username.';
+        errorMessage.style.display = 'block';
+      } else {
+        // Create a new user with the provided credentials
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            var user = userCredential.user;
+            user.updateProfile({ displayName: username }) // Use displayName as the username
+
+            // Create a new user document in Firestore with the user's username as the document ID
+            return db.collection('users').doc(user.uid).set({
+              username: username,
+              lowercaseUsername: username.toLowerCase(), // Add lowercase username for case-insensitive comparison
+              email: email,
+              uid: user.uid,
+              category: category,
+              plan: 'free',
+              signupTime: signupTime,
+              loginTime: loginTime // Add loginTime on signup
+            });
+          })
+          .then(function() {
+            window.location.href = '/';
+          })
+          .catch(function (error) {
+            errorMessage.innerHTML = error.message;
+            errorMessage.style.display = 'block';
+          });
+      }
+    })
+    .catch(function (error) {
+      errorMessage.innerHTML = error.message;
+      errorMessage.style.display = 'block';
+    });
+}
+
+
+// Load category page dynamically using AJAX
+function loadCategoryPage(category) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      categoryContent.innerHTML = this.responseText;
+    }
+  };
+  xhttp.open('GET', '/items/' + category + '/', true); // Replace with the correct URL for the category page
+  xhttp.send();
+}
+
+// Check if user is already logged in
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
+    categoryRef.get()
+      .then(function (doc) {
+        if (doc.exists) {
+          var category = doc.data().category;
+          loadCategoryPage(category); // Load the category page dynamically using AJAX
+
+          // Check if the current URL is already the category page
+          if (!window.location.href.includes('/items/' + category + '/')) {
+            window.location.href = '/items/' + category + '/'; // Redirect to the category page
+          }
+        } else {
+          showLoginForm();
+        }
+      })
+      .catch(function (error) {
+        showLoginForm();
+      });
+  } else {
+    showLoginForm();
+  }
+});
+
+
   </script>
 </body>
 </html>

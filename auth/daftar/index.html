@@ -48,16 +48,16 @@
                                 <img class="img-logo for-light" src="/assets/img/logo/kora.png" alt="Koraa">
                             </a>
                         </div>
-                        <div class="login-main">
-                            <div class="theme-form" id="signup-form">
+                        <form class="login-main needs-validation" novalidate="" onsubmit="event.preventDefault(); signup();">
+                            <div class="theme-form">
                                 <h4 class="text-center">Create your account</h4>
                                 <p class="text-center">Enter your personal details to create account</p>
                                 <div id="success-message"></div>
                                 <div id="error-message"></div>
                                 <div class="form-group">
                                     <label class="col-form-label">Username</label>
-                                    <input class="form-control" id="new-username" type="text" required=""
-                                        placeholder="Username">
+                                    <input class="form-control" id="new-username" type="text"
+                                        placeholder="Username" required>
                                 </div>
 
                                 <div class="form-group">
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label">Category</label>
                                     <select class="form-select" id="kategori" required>
-                                        <option selected disabled>Choose Category...</option>
+                                        <option selected="" disabled="" value="">Choose Category...</option>
                                         <option value="mobile">Mobile</option>
                                         <option value="logo">Logo</option>
                                         <option value="product-design">Product Design</option>
@@ -88,15 +88,15 @@
 
                                 <div class="form-group mb-0">
                                     <div class="text-end mt-3">
-                                        <button class="btn btn-primary btn-block w-100" onclick="signup()">Sign
-                                            Up</button>
+                                        <button class="btn btn-primary btn-block w-100" onclick="signup()" id="signup-button" disabled>Sign Up</button>
+
                                     </div>
                                 </div>
                                 <p class="mt-4 mb-0 text-center">Already have an account?
                                     <a class="ms-2" href="../login/">Sign in</a>
                                 </p>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -115,9 +115,10 @@
         <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
         <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
         <!-- Sidebar jquery-->
+        <script src="/assets/js/form-validation-custom.js"></script>
         <script src="/assets/js/config.js"></script>
         <!-- Template js-->
-        <script src="https://admin.pixelstrap.com/tivo/assets/js/script.js"></script>
+        <script src="/assets/js/script.js"></script>
         <!-- login js-->
 
 </body>

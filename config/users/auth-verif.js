@@ -1,3 +1,4 @@
+// Firebase initialization
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
@@ -26,7 +27,7 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function (userCredential) {
       var user = userCredential.user;
-      var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
+      var categoryRef = db.collection('users').doc(user.uid); // Use uid as the document ID
 
       // Update the loginTime in the user document
       return categoryRef.update({ loginTime: loginTime })
@@ -126,6 +127,27 @@ function loadCategoryPage(category) {
   xhttp.open('GET', '/items/' + category + '/', true); // Replace with the correct URL for the category page
   xhttp.send();
 }
+
+// Validate form and enable/disable sign up button
+function validateForm() {
+  var username = document.getElementById('new-username').value;
+  var email = document.getElementById('new-email').value;
+  var password = document.getElementById('new-password').value;
+  var category = document.getElementById('kategori').value;
+  var signupButton = document.getElementById('signup-button');
+
+  if (username !== '' && email !== '' && password !== '' && category !== '') {
+    signupButton.disabled = false; // Enable sign up button
+  } else {
+    signupButton.disabled = true; // Disable sign up button
+  }
+}
+
+// Add event listeners for form validation
+document.getElementById('new-username').addEventListener('input', validateForm);
+document.getElementById('new-email').addEventListener('input', validateForm);
+document.getElementById('new-password').addEventListener('input', validateForm);
+document.getElementById('kategori').addEventListener('change', validateForm);
 
 // Check if user is already logged in
 firebase.auth().onAuthStateChanged(function (user) {
