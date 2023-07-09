@@ -60,7 +60,7 @@ function login() {
 
 // Perform signup
 function signup() {
-  var username = document.getElementById('new-username').value;
+  var username = document.getElementById('new-username').value.toLowerCase();
   var email = document.getElementById('new-email').value;
   var password = document.getElementById('new-password').value;
   var category = document.getElementById('kategori').value;
@@ -84,7 +84,6 @@ function signup() {
             // Create a new user document in Firestore with the user's uid as the document ID
             return db.collection('users').doc(user.uid).set({
               username: username,
-              usernameLower: username.toLowerCase(), // Add lowercase username for case-insensitive comparison
               email: email,
               uid: user.uid,
               category: category,
