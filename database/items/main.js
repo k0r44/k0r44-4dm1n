@@ -143,7 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               links: `/details/?category=${category}&id=${newDocRef.id}`, // Constructing the links field
                               uid: displayName // Add the uid field
                             };
-                            
 
                             // Add additional fields based on the category
                             if (category === 'mobile') {
@@ -250,26 +249,31 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
- // Mendapatkan elemen-elemen yang diperlukan
- var fileInput = document.getElementById('fileButton');
- var nameInput = document.getElementById('name');
- var previewInput = document.getElementById('preview');
- var visibilityInput = document.getElementById('visibility');
- var descInput = document.getElementById('desc');
- var submitButton = document.getElementById('submitButton');
+// Mendapatkan elemen-elemen yang diperlukan
+var fileInput = document.getElementById('fileButton');
+var nameInput = document.getElementById('name');
+var previewInput = document.getElementById('preview');
+var visibilityInput = document.getElementById('visibility');
+var descInput = document.getElementById('desc');
+var submitButton = document.getElementById('submitButton');
 
- // Mendefinisikan fungsi validasi
- function validateForm() {
-   if (fileInput.value && nameInput.value && previewInput.value && visibilityInput.value && descInput.value) {
-	 submitButton.disabled = false; // Mengaktifkan tombol jika semua data diisi
-   } else {
-	 submitButton.disabled = true; // Menonaktifkan tombol jika ada data yang belum diisi
-   }
- }
+// Mendefinisikan fungsi validasi
+function validateForm() {
+  if (fileInput.value && nameInput.value && previewInput.value && visibilityInput.value && descInput.value) {
+    submitButton.disabled = false; // Mengaktifkan tombol jika semua data diisi
+  } else {
+    submitButton.disabled = true; // Menonaktifkan tombol jika ada data yang belum diisi
+  }
+}
 
- // Menambahkan event listener untuk memanggil fungsi validasi setiap kali input berubah
- fileInput.addEventListener('change', validateForm);
- nameInput.addEventListener('input', validateForm);
- previewInput.addEventListener('input', validateForm);
- visibilityInput.addEventListener('change', validateForm);
- descInput.addEventListener('input', validateForm);
+// Menambahkan event listener untuk memanggil fungsi validasi setiap kali input berubah
+fileInput.addEventListener('change', validateForm);
+nameInput.addEventListener('input', validateForm);
+previewInput.addEventListener('input', validateForm);
+visibilityInput.addEventListener('change', validateForm);
+descInput.addEventListener('input', function() {
+  var descValue = descInput.value;
+  var formattedDesc = descValue.replace(/  /g, '&nbsp;');
+  descInput.value = formattedDesc;
+  validateForm();
+});
