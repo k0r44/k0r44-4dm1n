@@ -1,101 +1,230 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Dynamic Sidebar Example</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="sidebar"></div>
+<html lang="en">
 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koraa - Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar/scrollbar.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/date-picker/date-picker.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/owlcarousel/owlcarousel.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/prism/prism.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+
+</head>
+
+<body>
+  <!-- tap on top starts-->
+  <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+  <!-- tap on tap ends-->
+
+  <!-- Loader starts-->
+  <div class="loader-wrapper">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"> </div>
+    <div class="dot"></div>
+  </div>
+  <!-- Loader ends-->
+
+  <!-- page-wrapper Start-->
+  <div class="page-wrapper compact-wrapper" id="pageWrapper">
+    <!-- Page Header Start-->
+    <div id="header"></div>
+    <!-- Page Header Ends-->
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+      <!-- Page Sidebar Start-->
+      <div id="sidebar"></div>
+      <!-- Page Sidebar Ends-->
+      <div class="page-body">
+        <div class="container-fluid">
+          <div class="page-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3>Default</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html"><i data-feather="home"></i></a></li>
+                  <li class="breadcrumb-item">Dashboard</li>
+                  <li class="breadcrumb-item active">Default</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid dashboard-default">
+          <div class="row">
+
+            <div class="col-xl-4 col-md-6 box-col-40 xl-40">
+              <div class="card appointment-detail">
+                <div class="card-header pb-0">
+                  <div class="d-flex justify-content-between">
+                    <div class="flex-grow-1">
+                      <p class="square-after f-w-600 header-text-primary">total appointment<i class="fa fa-circle"> </i>
+                      </p>
+                      <h4>12 meet</h4>
+                    </div>
+                    <div class="setting-list">
+                      <ul class="list-unstyled setting-option">
+                        <li>
+                          <div class="setting-light"><i class="icon-layout-grid2"></i></div>
+                        </li>
+                        <li><i class="view-html fa fa-code font-white"></i></li>
+                        <li><i class="icofont icofont-maximize full-card font-white"></i></li>
+                        <li><i class="icofont icofont-minus minimize-card font-white"></i></li>
+                        <li><i class="icofont icofont-refresh reload-card font-white"></i></li>
+                        <li><i class="icofont icofont-error close-card font-white"> </i></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive theme-scrollbar">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="d-flex"><img class="img-fluid align-top circle"
+                                src="../assets/images/dashboard/default/01.png" alt="">
+                              <div class="flex-grow-1"><a href="user-profile.html"><span>Ossim keter</span></a>
+                                <p class="mb-0">1 Hour</p>
+                              </div>
+                              <div class="active-status active-online"></div>
+                            </div>
+                          </td>
+                          <td>16 August </td>
+                          <td class="text-end">
+                            <button class="btn btn-primary" type="button"
+                              onclick="document.location='user-cards.html'">Pending</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex"><img class="img-fluid align-top circle"
+                                src="../assets/images/dashboard/default/02.png" alt="">
+                              <div class="flex-grow-1"><a href="user-profile.html"><span>Venter loren</span></a>
+                                <p class="mb-0">Now</p>
+                              </div>
+                              <div class="active-status active-busy"></div>
+                            </div>
+                          </td>
+                          <td>21 September </td>
+                          <td class="text-end">
+                            <button class="btn btn-secondary" type="button"
+                              onclick="document.location='user-cards.html'">Done<i
+                                class="fa fa-check-circle"></i></button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex"><img class="img-fluid align-top circle"
+                                src="../assets/images/dashboard/default/03.png" alt="">
+                              <div class="flex-grow-1"><a href="user-profile.html"><span>Fran loain</span></a>
+                                <p class="mb-0">2 Day After</p>
+                              </div>
+                              <div class="active-status active-offline"></div>
+                            </div>
+                          </td>
+                          <td>06 March</td>
+                          <td class="text-end">
+                            <button class="btn btn-success" type="button"
+                              onclick="document.location='user-cards.html'">Pending</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex"><img class="img-fluid align-top circle"
+                                src="../assets/images/dashboard/default/04.png" alt="">
+                              <div class="flex-grow-1"><a href="user-profile.html"><span>Loften Horen</span></a>
+                                <p class="mb-0">Day End</p>
+                              </div>
+                              <div class="active-status active-online"></div>
+                            </div>
+                          </td>
+                          <td>12 February</td>
+                          <td class="text-end">
+                            <button class="btn btn-info" type="button"
+                              onclick="document.location='user-cards.html'">Pending</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex"><img class="img-fluid align-top circle"
+                                src="../assets/images/dashboard/default/05.png" alt="">
+                              <div class="flex-grow-1"><a href="user-profile.html"><span>Loie fenter</span></a>
+                                <p class="mb-0">2 Day After</p>
+                              </div>
+                              <div class="active-status active-offline"></div>
+                            </div>
+                          </td>
+                          <td>06 March</td>
+                          <td class="text-end">
+                            <button class="btn btn-danger" type="button"
+                              onclick="document.location='user-cards.html'">Pending</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Container-fluid Ends-->
+      </div>
+      <!-- footer start-->
+      <footer id="footer"></footer>
+    </div>
+  </div>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://dbkoraa.000webhostapp.com/"></script>
+  <script src="/database/dashboards/kora.min.js"></script>
 
-  <script>
-    // Konfigurasi Firebase
-    var firebaseConfig = {
-      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
-  authDomain: "koraa-id.firebaseapp.com",
-  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
-  projectId: "koraa-id",
-  storageBucket: "koraa-id.appspot.com",
-  messagingSenderId: "360256061577",
-  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
-  measurementId: "G-VJT00SD3NT"
-    };
-    
-    // Inisialisasi Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    // filter array
-    let filterarray = [];
-
-    // gallery card array
-    let galleryarray = [
-      {
-        id: 1
-      },
-    ];
-
-    // Mengecek status login pengguna
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // Jika pengguna telah login
-        showgallery(galleryarray, user.uid);
-      } else {
-        // Jika pengguna tidak login atau logout
-        // Lakukan tindakan yang sesuai
-      }
-    });
-
-    // create function to show card
-    function showgallery(curarra, uid) {
-      document.getElementById("sidebar").innerText = "";
-
-      for (var i = 0; i < curarra.length; i++) {
-        var birthday = new Date(); // Mengonversi string tanggal ulang tahun menjadi objek Date
-        var today = new Date(); // Mendapatkan tanggal hari ini
-
-        // Mendapatkan data pengguna dari database berdasarkan user.uid
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(uid)
-          .get()
-          .then(function (snapshot) {
-            var userData = snapshot.data();
-            birthday = new Date(userData.birthday);
-
-            // Memeriksa apakah hari ini adalah ulang tahun pengguna
-            if (birthday.getDate() === today.getDate() && birthday.getMonth() === today.getMonth()) {
-              document.getElementById("sidebar").innerHTML += `
-                <div class="sidebar-wrapper">
-                  <!-- Kode lainnya -->
-                  <li class="sidebar-list" id="starter-kit">
-                    <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="">
-                      <i data-feather="file-text"></i>
-                      <span>Starter Kit</span>
-                    </a>
-                  </li>
-                  <!-- Kode lainnya -->
-                </div>
-              `;
-            } else {
-              // Tampilkan elemen sidebar lainnya seperti sebelumnya
-              document.getElementById("sidebar").innerHTML += `
-                <div class="sidebar-wrapper">
-                  <!-- Kode lainnya -->
-                </div>
-              `;
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    }
-  </script>
+  <!-- latest jquery-->
+  <script src="/assets/js/jquery-3.6.0.min.js"></script>
+  <!-- Bootstrap js-->
+  <script src="/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  <!-- feather icon js-->
+  <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
+  <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
+  <!-- scrollbar js-->
+  <script src="/assets/js/scrollbar/simplebar.js"></script>
+  <script src="/assets/js/scrollbar/custom.js"></script>
+  <!-- Sidebar jquery-->
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/sidebar-menu.js"></script>
+  <script src="/assets/vendors/prism/prism.min.js"></script>
+  <script src="/assets/js/clipboard/clipboard.min.js"></script>
+  <script src="/assets/js/counter/jquery.waypoints.min.js"></script>
+  <script src="/assets/js/counter/jquery.counterup.min.js"></script>
+  <script src="/assets/js/counter/counter-custom.js"></script>
+  <script src="/assets/js/custom-card/custom-card.js"></script>
+  <script src="/assets/vendors/date-picker/datepicker.js"></script>
+  <script src="/assets/vendors/date-picker/datepicker.en.js"></script>
+  <script src="/assets/vendors/date-picker/datepicker.custom.js"></script>
+  <script src="/assets/vendors/owlcarousel/owl.carousel.js"></script>
+  <script src="/assets/js/general-widget.js"></script>
+  <script src="/assets/js/height-equal.js"></script>
+  <script src="/assets/js/script.js"></script>
+  <script src="/assets/js/theme-customizer/customizer.js"></script>
 </body>
+
 </html>
