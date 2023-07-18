@@ -8,6 +8,7 @@ var signupForm = document.getElementById('signup-form');
 var successMessage = document.getElementById('success-message');
 var errorMessage = document.getElementById('error-message');
 var categoryContent = document.getElementById('category-content');
+var signupButton = document.getElementById('signup-button');
 
 // Show login form
 function showLoginForm() {
@@ -31,7 +32,7 @@ function login() {
 
       // Update the loginTime in the user document
       return categoryRef.update({ loginTime: loginTime })
-        .then(function() {
+        .then(function () {
           categoryRef.get()
             .then(function (doc) {
               if (doc.exists) {
@@ -59,18 +60,18 @@ function login() {
 
 // Perform signup
 function signup() {
-  var username = document.getElementById('new-username').value;
+  var username = document.getElementById('new-username').value.toLowerCase();
   var email = document.getElementById('new-email').value;
   var password = document.getElementById('new-password').value;
   var category = document.getElementById('kategori').value;
   var signupTime = new Date().toLocaleString(); // Get the current time on signup
   var loginTime = signupTime; // Use signupTime as the loginTime on signup
 
-  // Check if the displayName is already taken
-  db.collection('users').where('username', '==', username).get()
+  // Check if the username is already taken
+  db.collection('users').where('username', '==', username.toLowerCase()).get()
     .then(function (querySnapshot) {
       if (!querySnapshot.empty) {
-        // Display an error message if the displayName is already taken
+        // Display an error message if the username is already taken
         errorMessage.innerHTML = 'Username is already taken. Please choose a different username.';
         errorMessage.style.display = 'block';
       } else {
@@ -80,29 +81,19 @@ function signup() {
             var user = userCredential.user;
             user.updateProfile({ displayName: username }) // Use displayName as the username
 
-            // Send email verification to the user
-            user.sendEmailVerification()
-              .then(function() {
-                // Email verification sent
-                // Create a new user document in Firestore with the user's username as the document ID
-                return db.collection('users').doc(user.uid).set({
-                  username: username,
-                  email: email,
-                  uid: user.uid,
-                  category: category,
-                  plan: 'free',
-                  signupTime: signupTime,
-                  loginTime: loginTime
-                });
-              })
-              .then(function() {
-                // Redirect the user to a page informing them to check their email for verification
-                window.location.href = '/verify-email';
-              })
-              .catch(function (error) {
-                errorMessage.innerHTML = error.message;
-                errorMessage.style.display = 'block';
-              });
+            // Create a new user document in Firestore with the user's uid as the document ID
+            return db.collection('users').doc(user.uid).set({
+              username: username,
+              email: email,
+              uid: user.uid,
+              category: category,
+              plan: 'free',
+              signupTime: signupTime,
+              loginTime: loginTime // Add loginTime on signup
+            });
+          })
+          .then(function () {
+            window.location.href = '/';
           })
           .catch(function (error) {
             errorMessage.innerHTML = error.message;
@@ -134,7 +125,6 @@ function validateForm() {
   var email = document.getElementById('new-email').value;
   var password = document.getElementById('new-password').value;
   var category = document.getElementById('kategori').value;
-  var signupButton = document.getElementById('signup-button');
 
   if (username !== '' && email !== '' && password !== '' && category !== '') {
     signupButton.disabled = false; // Enable sign up button
@@ -152,31 +142,26 @@ document.getElementById('kategori').addEventListener('change', validateForm);
 // Check if user is already logged in
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    if (user.emailVerified) {
-      var categoryRef = db.collection('users').doc(user.uid); // Use displayName as the username
-      categoryRef.get()
-        .then(function (doc) {
-          if (doc.exists) {
-            var category = doc.data().category;
-            loadCategoryPage(category); // Load the category page dynamically using AJAX
+    var categoryRef = db.collection('users').doc(user.uid); // Use uid as the document ID
+    categoryRef.get()
+      .then(function (doc) {
+        if (doc.exists) {
+          var category = doc.data().category;
+          loadCategoryPage(category); // Load the category page dynamically using AJAX
 
-            // Check if the current URL is already the category page
-            if (!window.location.href.includes('/items/' + category + '/')) {
-              window.location.href = '/items/' + category + '/'; // Redirect to the category page
-            }
-          } else {
-            showLoginForm();
+          // Check if the current URL is already the category page
+          if (!window.location.href.includes('/items/' + category + '/')) {
+            window.location.href = '/items/' + category + '/'; // Redirect to the category page
           }
-        })
-        .catch(function (error) {
+        } else {
           showLoginForm();
-        });
-    } else {
-      // Display a message to the user informing them that their account is not yet verified
-      errorMessage.innerHTML = 'Please verify your email to proceed.';
-      errorMessage.style.display = 'block';
-    }
+        }
+      })
+      .catch(function (error) {
+        showLoginForm();
+      });
   } else {
     showLoginForm();
   }
 });
+

@@ -1,3 +1,4 @@
+// Firebase initialization
 firebase.initializeApp(firebaseConfig);
 
 // Mendapatkan referensi objek firebase.auth()
@@ -8,6 +9,6 @@ auth.onAuthStateChanged(function(user) {
   // Memeriksa apakah pengguna telah masuk dan email sudah diverifikasi
   if (user && user.emailVerified) {
     // Redirect pengguna ke halaman tujuan
-    window.location.href = "/";
+    window.location.replace("/");
   }
 });
