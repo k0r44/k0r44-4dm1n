@@ -39,8 +39,8 @@ function login() {
                 loadCategoryPage(category); // Load the category page dynamically using AJAX
 
                 // Check if the current URL is already the category page
-                if (!window.location.href.includes('/items/' + category + '/')) {
-                  window.location.href = '/items/' + category + '/'; // Redirect to the category page
+                if (!window.location.href.includes('/')) {
+                  window.location.href = '/'; // Redirect to the category page
                 }
               } else {
                 showLoginForm();
@@ -124,7 +124,7 @@ function loadCategoryPage(category) {
       categoryContent.innerHTML = this.responseText;
     }
   };
-  xhttp.open('GET', '/items/' + category + '/', true); // Replace with the correct URL for the category page
+  xhttp.open('GET', '/', true); // Replace with the correct URL for the category page
   xhttp.send();
 }
 
@@ -161,8 +161,8 @@ firebase.auth().onAuthStateChanged(function (user) {
             loadCategoryPage(category); // Load the category page dynamically using AJAX
 
             // Check if the current URL is already the category page
-            if (!window.location.href.includes('/items/' + category + '/')) {
-              window.location.href = '/items/' + category + '/'; // Redirect to the category page
+            if (!window.location.href.includes('/')) {
+              window.location.href = '/'; // Redirect to the category page
             }
           } else {
             showLoginForm();

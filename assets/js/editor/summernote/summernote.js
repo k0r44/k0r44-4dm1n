@@ -158,7 +158,7 @@ var dialog = renderer.create('<div class="modal" aria-hidden="false" tabindex="-
         (options.title
             ? '    <div class="modal-header">' +
                 '      <h4 class="modal-title">' + options.title + '</h4>' +
-                '      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' +
+                '      <button type="button" class="btn btn-primary " data-bs-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' +
                 '    </div>' : ''),
         '    <div class="modal-body">' + options.body + '</div>',
         (options.footer
@@ -1805,16 +1805,6 @@ $$1.extend($$1.summernote.lang, {
             center: 'Align center',
             right: 'Align right',
             justify: 'Justify full'
-        },
-        color: {
-            recent: 'Recent Color',
-            more: 'More Color',
-            background: 'Background Color',
-            foreground: 'Foreground Color',
-            transparent: 'Transparent',
-            setTransparent: 'Set transparent',
-            reset: 'Reset',
-            resetToDefault: 'Reset to default'
         },
         shortcut: {
             shortcuts: 'Keyboard shortcuts',
@@ -5233,85 +5223,7 @@ var Buttons = /** @class */ (function () {
                 })
             ]).render();
         });
-        this.context.memo('button.color', function () {
-            return _this.ui.buttonGroup({
-                className: 'note-color',
-                children: [
-                    _this.button({
-                        className: 'note-current-color-button',
-                        contents: _this.ui.icon(_this.options.icons.font + ' note-recent-color'),
-                        tooltip: _this.lang.color.recent,
-                        click: function (e) {
-                            var $button = $$1(e.currentTarget);
-                            _this.context.invoke('editor.color', {
-                                backColor: $button.attr('data-backColor'),
-                                foreColor: $button.attr('data-foreColor')
-                            });
-                        },
-                        callback: function ($button) {
-                            var $recentColor = $button.find('.note-recent-color');
-                            $recentColor.css('background-color', '#FFFF00');
-                            $button.attr('data-backColor', '#FFFF00');
-                        }
-                    }),
-                    _this.button({
-                        className: 'dropdown-toggle',
-                        contents: _this.ui.dropdownButtonContents('', _this.options),
-                        tooltip: _this.lang.color.more,
-                        data: {
-                            toggle: 'dropdown'
-                        }
-                    }),
-                    _this.ui.dropdown({
-                        items: [
-                            '<div class="note-palette">',
-                            '  <div class="note-palette-title">' + _this.lang.color.background + '</div>',
-                            '  <div>',
-                            '    <button type="button" class="note-color-reset btn btn-light" data-event="backColor" data-value="inherit">',
-                            _this.lang.color.transparent,
-                            '    </button>',
-                            '  </div>',
-                            '  <div class="note-holder" data-event="backColor"/>',
-                            '</div>',
-                            '<div class="note-palette">',
-                            '  <div class="note-palette-title">' + _this.lang.color.foreground + '</div>',
-                            '  <div>',
-                            '    <button type="button" class="note-color-reset btn btn-light" data-event="removeFormat" data-value="foreColor">',
-                            _this.lang.color.resetToDefault,
-                            '    </button>',
-                            '  </div>',
-                            '  <div class="note-holder" data-event="foreColor"/>',
-                            '</div>'
-                        ].join(''),
-                        callback: function ($dropdown) {
-                            $dropdown.find('.note-holder').each(function (idx, item) {
-                                var $holder = $$1(item);
-                                $holder.append(_this.ui.palette({
-                                    colors: _this.options.colors,
-                                    colorsName: _this.options.colorsName,
-                                    eventName: $holder.data('event'),
-                                    container: _this.options.container,
-                                    tooltip: _this.options.tooltip
-                                }).render());
-                            });
-                        },
-                        click: function (event) {
-                            var $button = $$1(event.target);
-                            var eventName = $button.data('event');
-                            var value = $button.data('value');
-                            if (eventName && value) {
-                                var key = eventName === 'backColor' ? 'background-color' : 'color';
-                                var $color = $button.closest('.note-color').find('.note-recent-color');
-                                var $currentButton = $button.closest('.note-color').find('.note-current-color-button');
-                                $color.css(key, value);
-                                $currentButton.attr('data-' + eventName, value);
-                                _this.context.invoke('editor.' + eventName, value);
-                            }
-                        }
-                    })
-                ]
-            }).render();
-        });
+        
         this.context.memo('button.ul', function () {
             return _this.button({
                 contents: _this.ui.icon(_this.options.icons.unorderedlist),

@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var preview = document.getElementById('preview').value;
     var visibility = document.getElementById('visibility').value;
     var desc = document.getElementById('desc').value;
+    var category = document.getElementById('category').value;
 
     // Get the current user's displayName
     var displayName = user.uid;
@@ -140,20 +141,12 @@ document.addEventListener("DOMContentLoaded", function () {
                               time: time,
                               fileName: fileName,
                               visibility: visibility,
+                              category: category,
                               links: `/details/?category=${category}&id=${newDocRef.id}`, // Constructing the links field
                               uid: displayName // Add the uid field
                             };
 
-                            // Add additional fields based on the category
-                            if (category === 'mobile') {
-                              itemData.category = 'mobile'; 
-                            } else if (category === 'logo') {
-                              itemData.category = 'logo';
-                            } else if (category === 'product design') {
-                              itemData.category = 'product design'; // Replace 'productDesignField' with the actual field name for product design category
-                            } else if (category === 'web design') {
-                              itemData.category = 'web design'; // Replace 'webDesignField' with the actual field name for web design category
-                            }
+                            
 
                             newDocRef
                               .set(itemData)

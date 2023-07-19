@@ -67,33 +67,9 @@ function showgallery(curarra) {
 
                   <li class="sidebar-list" id="color">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/mobile">
-                      <i data-feather="smartphone"></i>
-                      <span>Mobile</span>
-                    </a>
-                  </li>
-
-                  <li class="sidebar-list" id="color">
-                    <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/logo">
-                      <i data-feather="edit-3"></i>
-                      <span>Logo</span>
-                    </a>
-                  </li>
-
-                  <li class="sidebar-list" id="color">
-                    <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/product-design">
-                      <i data-feather="shopping-bag"></i>
-                      <span>Product Design</span>
-                    </a>
-                  </li>
-
-                  <li class="sidebar-list" id="color">
-                    <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="/items/web-design">
-                      <i data-feather="layout"></i>
-                      <span>Web Design</span>
+                    <a class="sidebar-link sidebar-title link-nav" href="/upload">
+                      <i data-feather="upload"></i>
+                      <span>Upload Items</span>
                     </a>
                   </li>
 
