@@ -302,3 +302,47 @@ var overlay = document.getElementById('overlay');
 // Menampilkan overlay saat data dikirim
 overlay.style.display = 'block';
 overlay.style.display = 'none';
+
+function toggleViewMore(event) {
+    event.preventDefault(); // Prevent default behavior of the anchor tag
+
+    var viewMoreBtn = document.querySelector(".viewMoreBtn");
+    var viewLessBtn = document.querySelector(".viewLessBtn");
+    var links = document.querySelectorAll('.col-sm-6.col-md-6[id="links"]');
+
+    if (viewMoreBtn.style.display === "block") {
+        viewMoreBtn.style.display = "none";
+        viewLessBtn.style.display = "inline"; // Change to "inline" to make the "View Less" link visible
+        for (var i = 0; i < links.length; i++) {
+            links[i].style.display = "block";
+        }
+    } else {
+        viewMoreBtn.style.display = "block";
+        viewLessBtn.style.display = "none";
+        for (var i = 4; i < links.length; i++) {
+            links[i].style.display = "none";
+        }
+    }
+
+    // Add cursor pointer style to viewMoreBtn and viewLessBtn
+    viewMoreBtn.style.cursor = "pointer";
+    viewLessBtn.style.cursor = "pointer";
+}
+
+// Show "View More" if there are more than four elements with class="col-sm-6 col-md-6" and id="links"
+var links = document.querySelectorAll('.col-sm-6.col-md-6[id="links"]');
+var viewMoreBtn = document.querySelector(".viewMoreBtn");
+if (links.length > 4) {
+    var viewMoreContainer = document.querySelector(".viewMoreContainer");
+    viewMoreContainer.style.display = "block";
+    viewMoreBtn.style.display = "inline"; // Change to "inline" to make the "View More" link visible
+    for (var i = 4; i < links.length; i++) {
+        links[i].style.display = "none";
+    }
+} else {
+    viewMoreBtn.style.display = "none";
+}
+
+// Call the toggleViewMore function when clicking viewMoreBtn or viewLessBtn
+viewMoreBtn.addEventListener("click", toggleViewMore);
+viewLessBtn.addEventListener("click", toggleViewMore);

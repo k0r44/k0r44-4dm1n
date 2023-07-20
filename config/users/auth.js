@@ -37,11 +37,6 @@ function login() {
               if (doc.exists) {
                 var category = doc.data().category;
                 loadCategoryPage(category); // Load the category page dynamically using AJAX
-
-                // Check if the current URL is already the category page
-                if (!window.location.href.includes('/')) {
-                  window.location.href = '/'; // Redirect to the category page
-                }
               } else {
                 showLoginForm();
               }
@@ -49,6 +44,10 @@ function login() {
             .catch(function (error) {
               showLoginForm();
             });
+        })
+        .then(function() {
+          // Redirect to the root page after successful login
+          window.location.href = '/';
         });
     })
     .catch(function (error) {
@@ -86,13 +85,13 @@ function signup() {
                 // Email verification sent
                 // Create a new user document in Firestore with the user's username as the document ID
                 return db.collection('users').doc(user.uid).set({
-                  username: username,
-                  email: email,
-                  uid: user.uid,
                   category: category,
+                  email: email,
+                  loginTime: loginTime,
                   plan: 'free',
                   signupTime: signupTime,
-                  loginTime: loginTime
+                  uid: user.uid,
+                  username: username
                 });
               })
               .then(function() {
@@ -124,7 +123,7 @@ function loadCategoryPage(category) {
       categoryContent.innerHTML = this.responseText;
     }
   };
-  xhttp.open('GET', '/', true); // Replace with the correct URL for the category page
+  xhttp.open('GET', '/', true); // Replace with the correct URL for the root page
   xhttp.send();
 }
 
@@ -159,11 +158,6 @@ firebase.auth().onAuthStateChanged(function (user) {
           if (doc.exists) {
             var category = doc.data().category;
             loadCategoryPage(category); // Load the category page dynamically using AJAX
-
-            // Check if the current URL is already the category page
-            if (!window.location.href.includes('/')) {
-              window.location.href = '/'; // Redirect to the category page
-            }
           } else {
             showLoginForm();
           }

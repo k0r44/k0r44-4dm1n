@@ -1,133 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Payment Gateway Integration</title>
+    <title>Toggle View More</title>
     <style>
-      body {
-    text-align: center;
-}
-
-h1 {
-    margin-top: 50px;
-}
-
-form {
-    margin-top: 30px;
-}
-
-button {
-    margin-top: 10px;
-}
-
+        /* Add your CSS styles here */
     </style>
 </head>
 <body>
-    <h1>Select a Plan</h1>
-    <form id="paymentForm" onsubmit="submitForm(event)">
-        <label>
-            <input type="radio" name="plan" value="basic"> Basic Plan
-        </label>
-        <label>
-            <input type="radio" name="plan" value="premium"> Premium Plan
-        </label>
-        <br>
-        <button type="submit">Pay Now</button>
-    </form>
+    <div class="container">
+        <div class="col-sm-6 col-md-6" id="links">
+            <a href="link1.html">Link 1</a>
+        </div>
+        <div class="col-sm-6 col-md-6" id="links">
+            <a href="link2.html">Link 2</a>
+        </div>
+        <div class="col-sm-6 col-md-6" id="links">
+            <a href="link3.html">Link 3</a>
+        </div>
+        <div class="col-sm-6 col-md-6" id="links">
+            <a href="link4.html">Link 4</a>
+        </div>
+        <div class="col-sm-6 col-md-6" id="links">
+            <a href="link5.html">Link 5</a>
+        </div>
+        <!-- Add more links if needed -->
+    </div>
+    <div class="viewMoreContainer">
+        <a href="" class="viewMoreBtn" onclick="toggleViewMore(event)">View More</a>
+        <button class="viewLessBtn" style="display: none;" onclick="toggleViewMore()">View Less</button>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
     <script>
-      // Inisialisasi Firebase
-var firebaseConfig = {
-  apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
-  authDomain: "koraa-id.firebaseapp.com",
-  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
-  projectId: "koraa-id",
-  storageBucket: "koraa-id.appspot.com",
-  messagingSenderId: "360256061577",
-  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
-  measurementId: "G-VJT00SD3NT"
-};
+        function toggleViewMore(event) {
+            event.preventDefault(); // Prevent default behavior of the anchor tag
 
-firebase.initializeApp(firebaseConfig);
+            var viewMoreBtn = document.querySelector(".viewMoreBtn");
+            var viewLessBtn = document.querySelector(".viewLessBtn");
+            var links = document.querySelectorAll('.col-sm-6.col-md-6[id="links"]');
 
-// Mengambil referensi Firestore
-var db = firebase.firestore();
+            if (viewMoreBtn.style.display === "block") {
+                viewMoreBtn.style.display = "none";
+                viewLessBtn.style.display = "block";
+                for (var i = 0; i < links.length; i++) {
+                    links[i].style.display = "block";
+                }
+            } else {
+                viewMoreBtn.style.display = "block";
+                viewLessBtn.style.display = "none";
+                for (var i = 4; i < links.length; i++) {
+                    links[i].style.display = "none";
+                }
+            }
+        }
 
-// Fungsi untuk mengirim data ke Firestore saat formulir dikirim
-function submitForm(event) {
-    event.preventDefault();
-    
-    var selectedPlan = document.querySelector('input[name="plan"]:checked').value;
-
-    // Simpan data pengguna ke Firestore
-    db.collection("users").doc("uid").set({
-        plan: selectedPlan
-    })
-    .then(function() {
-        console.log("Data berhasil diperbarui di Firestore.");
-        // Lakukan proses pembayaran dengan Tripay
-        processPayment(selectedPlan);
-    })
-    .catch(function(error) {
-        console.log("Terjadi kesalahan saat memperbarui data di Firestore: ", error);
-    });
-}
-
-// Fungsi untuk memproses pembayaran menggunakan Tripay
-function processPayment(selectedPlan) {
-    // Ganti dengan API Key dan URL Tripay yang valid
-    var apiKey = "x9dXBqzxid48ICcDK1gK6qZYHIWAE5DNab4SQSZn";
-    var apiUrl = "https://tripay.co.id/api/v2";
-
-    // Data yang akan dikirim ke Tripay untuk pembayaran
-    var data = {
-        method: "POST",
-        url: apiUrl + "/transaction/create",
-        headers: {
-            "Authorization": "Bearer " + apiKey,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            reference: "YOUR_UNIQUE_TRANSACTION_REFERENCE",
-            amount: 100000, // Ganti dengan jumlah pembayaran yang sesuai
-            customer_name: "John Doe",
-            customer_email: "john.doe@example.com",
-            customer_phone: "081234567890",
-            callback_url: "https://example.com/payment-callback" // Ganti dengan URL callback yang sesuai
-        })
-    };
-
-    // Kirim data pembayaran ke Tripay
-    fetch(data.url, data)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(responseData) {
-            console.log("Respon dari Tripay:", responseData);
-            // Lakukan redirect ke halaman pembayaran Tripay jika diperlukan
-            // window.location.href = responseData.data.payment_url;
-            // Setelah pembayaran berhasil, update data pengguna di Firestore
-            updatePaymentStatus(responseData.data.reference);
-        })
-        .catch(function(error) {
-            console.log("Terjadi kesalahan saat memproses pembayaran: ", error);
-        });
-}
-
-// Fungsi untuk mengupdate status pembayaran di Firestore
-function updatePaymentStatus(transactionReference) {
-    db.collection("users").doc("userData").update({
-        paymentStatus: "completed",
-        transactionReference: transactionReference
-    })
-    .then(function() {
-        console.log("Status pembayaran berhasil diperbarui di Firestore.");
-    })
-    .catch(function(error) {
-        console.log("Terjadi kesalahan saat memperbarui status pembayaran di Firestore: ", error);
-    });
-}
+        // Show "View More" if there are more than four elements with class="col-sm-6 col-md-6" and id="links"
+        var links = document.querySelectorAll('.col-sm-6.col-md-6[id="links"]');
+        var viewMoreBtn = document.querySelector(".viewMoreBtn");
+        if (links.length > 4) {
+            var viewMoreContainer = document.querySelector(".viewMoreContainer");
+            viewMoreContainer.style.display = "block";
+            viewMoreBtn.style.display = "block";
+            for (var i = 4; i < links.length; i++) {
+                links[i].style.display = "none";
+            }
+        } else {
+            viewMoreBtn.style.display = "none";
+        }
     </script>
 </body>
 </html>
