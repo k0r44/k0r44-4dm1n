@@ -167,7 +167,7 @@ function getFileInfo(uid) {
                                 '<h6>Trial Version </h6>' +
                                 '<h5>' + userPlan.toUpperCase() + '</h5>' +
                                 '<p>' + planStorageLimit + ' Space</p>' +
-                                '<div class="btn btn-outline-primary btn-xs">Selected</div>' +
+                                '<a href="/p/pricing" class="btn btn-outline-primary btn-xs">Selected</a>' +
                             '<img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">' +
                         '</div>' +
                     '</ul>';
@@ -202,7 +202,7 @@ function getFileInfo(uid) {
                                 '<h6>Trial Version </h6>' +
                                 '<h5>Unknown</h5>' +
                                 '<p>Unknown space</p>' +
-                                '<div class="btn btn-outline-primary btn-xs">Selected</div>' +
+                                '<a href="/p/pricing" class="btn btn-outline-primary btn-xs">Selected</a>' +
                             '<img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">' +
                         '</div>' +
                     '</ul>';

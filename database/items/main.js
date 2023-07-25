@@ -154,6 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 alert('Form submitted successfully');
                                 myForm.reset();
                                 console.log('Document written with displayName: ', displayName);
+                                
+                                window.location.reload();
 
                                 // Create a new collection "items" within the user's document
                                 var userItemsCollection = userCollection.doc(displayName).collection('items');

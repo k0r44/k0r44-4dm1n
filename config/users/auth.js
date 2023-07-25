@@ -89,6 +89,7 @@ function signup() {
                   email: email,
                   loginTime: loginTime,
                   plan: 'free',
+                  template: 'v1',
                   signupTime: signupTime,
                   uid: user.uid,
                   username: username
