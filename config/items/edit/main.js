@@ -1,6 +1,7 @@
 // Mengambil referensi Firestore
 const db = firebase.firestore();
 
+
 // Mendapatkan itemId dari URL parameter
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');

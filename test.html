@@ -1,156 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koraa - Dashboard</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar/scrollbar.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/date-picker/date-picker.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/owlcarousel/owlcarousel.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/prism/prism.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User View Count Chart</title>
+  <!-- Include Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-    <!-- tap on top starts-->
-    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
-    <!-- tap on tap ends-->
+  <div id="chartContainer">
+    <!-- Chart will be rendered here -->
+  </div>
 
-    <!-- Loader starts-->
-    <div class="loader-wrapper">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"> </div>
-        <div class="dot"></div>
-    </div>
-    <!-- Loader ends-->
-    
-    <!-- page-wrapper Start-->
-    <div class="page-wrapper compact-wrapper" id="pageWrapper">
-        <!-- Page Header Start-->
-        <div id="header"></div>
-        <!-- Page Header Ends-->
-        <!-- Page Body Start-->
-        <div class="page-body-wrapper">
-            <!-- Page Sidebar Start-->
-            <div id="sidebar"></div>
-            <!-- Page Sidebar Ends-->
-        <div class="page-body">
-          <div class="container-fluid">
-            <div class="page-title">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h3>Ck Editor</h3>
-                </div>
-                <div class="col-sm-6">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html"><i data-feather="home"></i></a></li>
-                    <li class="breadcrumb-item">Editors</li>
-                    <li class="breadcrumb-item active">Ck Editor</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Container-fluid starts-->
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="card-header pb-0">
-                    <h4>Ck Editor</h4>
-                  </div>
-                  <div class="card-body">
-                    <textarea id="editor1" name="editor1" cols="30" rows="10" slot="" ></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="card-header pb-0">
-                    <h4>Inline Editor</h4>
-                  </div>
-                  <div class="card-body">
-                    <div id="area1" contenteditable="true">
-                      <h1>Your title</h1>
-                      <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at vulputate urna, sed dignissim arcu. Aliquam at ligula imperdiet, faucibus ante a, interdum enim. Sed in mauris a lectus lobortis condimentum. Sed in nunc magna. Quisque massa urna, cursus vitae commodo eget, rhoncus nec erat. Sed sapien turpis, elementum sit amet elit vitae, elementum gravida eros. In ornare tempus nibh ut lobortis. Nam venenatis justo ex, vitae vulputate neque laoreet a.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Container-fluid Ends-->
-        </div>
-        <!-- footer start-->
-        <footer class="footer">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-6 p-0 footer-left">
-                <p class="mb-0">Copyright © 2023 Tivo. All rights reserved.</p>
-              </div>
-              <div class="col-md-6 p-0 footer-right">
-                <p class="mb-0">Hand-crafted & made with <i class="fa fa-heart font-danger"></i></p>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
-    <script src="https://dbkoraa.000webhostapp.com/"></script>
-    <script src="/database/dashboards/kora.min.js"></script>
+  <!-- Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
 
-    <!-- latest jquery-->
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap js-->
-    <script src="/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- feather icon js-->
-    <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
-    <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
-    <!-- scrollbar js-->
-    <script src="/assets/js/scrollbar/simplebar.js"></script>
-    <script src="/assets/js/scrollbar/custom.js"></script>
-    <!-- Sidebar jquery-->
-    <script src="/assets/js/config.js"></script>
-    <script src="/assets/js/sidebar-menu.js"></script>
-    <script src="/assets/vendors/prism/prism.min.js"></script>
-    <script src="/assets/js/clipboard/clipboard.min.js"></script>
-    <script src="/assets/js/counter/jquery.waypoints.min.js"></script>
-    <script src="/assets/js/counter/jquery.counterup.min.js"></script>
-    <script src="/assets/js/counter/counter-custom.js"></script>
-    <script src="/assets/js/custom-card/custom-card.js"></script>
-    <script src="/assets/vendors/date-picker/datepicker.js"></script>
-    <script src="/assets/vendors/date-picker/datepicker.en.js"></script>
-    <script src="/assets/vendors/date-picker/datepicker.custom.js"></script>
-    <script src="/assets/vendors/owlcarousel/owl.carousel.js"></script>
-    <script src="/assets/js/general-widget.js"></script>
-    <script src="/assets/js/height-equal.js"></script>
-    <script src="/assets/js/script.js"></script>
-    <script src="/assets/js/theme-customizer/customizer.js"></script>
-    <!-- Template js-->
-    <script src="https://admin.pixelstrap.com/tivo/assets/js/editor/ckeditor/ckeditor.js"></script>
-    <script src="https://admin.pixelstrap.com/tivo/assets/js/editor/ckeditor/adapters/jquery.js">  </script>
-    <script src="https://admin.pixelstrap.com/tivo/assets/js/editor/ckeditor/styles.js"></script>
-    <script src="https://admin.pixelstrap.com/tivo/assets/js/editor/ckeditor/ckeditor.custom.js"></script>
-    <!-- login js-->
-  </body>
+  <script>
+    // Initialize Firebase with your configuration settings
+    // Replace with your actual Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_2_DrjTzs1cIOY9_5mloWYcdLxpsFq5c",
+  authDomain: "koraa-id.firebaseapp.com",
+  databaseURL: "https://koraa-id-default-rtdb.firebaseio.com",
+  projectId: "koraa-id",
+  storageBucket: "koraa-id.appspot.com",
+  messagingSenderId: "360256061577",
+  appId: "1:360256061577:web:5d9dbb92ff3313c7b48658",
+  measurementId: "G-VJT00SD3NT"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Function to log in the user
+    function login() {
+      const email = "andrep13.id@gmail.com"; // Replace with actual user login credentials
+      const password = "Andrepp1324id"; // Replace with actual user login credentials
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // User logged in successfully
+          const user = userCredential.user;
+          const userUid = user.uid;
+          fetchUserData(userUid);
+        })
+        .catch((error) => {
+          console.log("Login error: ", error);
+        });
+    }
+
+    // Function to fetch data from Firestore based on userUid
+    function fetchUserData(userUid) {
+      db.collection(`users/${userUid}/count/view`).get()
+        .then((querySnapshot) => {
+          let totalViewCount = 0;
+
+          querySnapshot.forEach((doc) => {
+            totalViewCount += doc.data().totalView || 0;
+          });
+
+          // Render the chart
+          renderChart(totalViewCount);
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
+
+    // Function to render the chart
+    function renderChart(totalViewCount) {
+      const ctx = document.getElementById('chartContainer').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'bar', // Use 'bar', 'line', or other types for different chart styles
+        data: {
+          labels: ['Total Views'],
+          datasets: [{
+            label: 'Total Views',
+            data: [totalViewCount],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Call the login function on page load
+    login();
+  </script>
+</body>
 </html>

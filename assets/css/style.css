@@ -169,48 +169,36 @@
   
 #loader {
     width: 48px;
-    height: 12px;
-    margin-top: 40px;
-    background: #FFF;
+    height: 48px;
+    border-radius: 50%;
     position: relative;
     display: block;
     margin-left: auto;
     margin-right: auto;
     top: 50%;
-  }
-  #loader::after {
-    content: '';  
-    left: 50%;
-    top: -47px;
-    transform: translate(-50%, 0);
-    position: absolute;
-    border: 15px solid transparent;
-    border-bottom-color: #FFF;
-    box-sizing: border-box;
-    animation: bump 0.4s ease-in-out infinite alternate;
+    animation: rotate 1s linear infinite
   }
   #loader::before {
-    content: '';  
-    left: 50%;
-    bottom: 15px;
-    transform: translate(-50%, 0);
-    position: absolute;
-    width: 15px;
-    height: 20px;
-    background: #FFF;
+    content: "";
     box-sizing: border-box;
-    animation: bump 0.4s ease-in-out infinite alternate;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite ;
   }
-  
-  @keyframes bump {
-    0% {
-      transform: translate(-50%, 5px);
-    }
-    100% {
-      transform: translate(-50%, -5px);
-    }
+
+  @keyframes rotate {
+    100%   {transform: rotate(360deg)}
   }
-      
+
+  @keyframes prixClipFix {
+      0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+      25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+      50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+      100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+  }
 /* Loader Upload */
 
 input:invalid {
