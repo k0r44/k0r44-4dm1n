@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Username Page</title>
+</head>
+<body>
+  <h1>Username Page</h1>
+  <form>
+    <label for="username">Username:</label>
+    <input type="text" id="username" required>
+    <button type="button" onclick="saveUsername()">Save</button>
+  </form>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://dbkoraa.000webhostapp.com/"></script>
+  <script>
+     firebase.initializeApp(firebaseConfig);
+
+function saveUsername() {
+  var username = document.getElementById('username').value;
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    // Update the user's username in the Firestore document
+    var db = firebase.firestore();
+    var userRef = db.collection('users').doc(user.uid); // Use UID as the document ID
+    userRef.update({ username: username })
+      .then(function() {
+        // Redirect the user to the root page after saving the username
+        window.location.href = '/';
+      })
+      .catch(function (error) {
+        console.error('Error updating username:', error);
+      });
+  }
+}
+
+
+  </script>
+</body>
+</html>

@@ -20,7 +20,7 @@ function googleLogin() {
         .then(function(doc) {
           if (doc.exists) {
             // If the user exists, check if their email is verified and handle the redirection
-            window.location.href = '/';
+            checkEmailVerification(user);
           } else {
             // If the user is not registered, redirect them to the "daftar" (register) page
             window.location.href = '/auth/daftar';
@@ -36,35 +36,41 @@ function googleLogin() {
 // Google signup
 function googleSignup() {
   var provider = new firebase.auth.GoogleAuthProvider();
-  provider.addScope('profile');
+  provider.addScope('profile'); // Request access to profile information, including birthdate
   firebase.auth().signInWithPopup(provider)
     .then(function (userCredential) {
       var user = userCredential.user;
-      var signupTime = new Date().toLocaleString();
-      var loginTime = signupTime;
+      var signupTime = new Date().toLocaleString(); // Get the current time on signup
+      var loginTime = signupTime; // Use signupTime as the loginTime on signup
 
-      var birthdate = "Not available";
+      // Access birthdate from the additionalUserInfo object
+      var birthdate = "Not available"; // Default value if birthdate is not provided
       if (userCredential.additionalUserInfo && userCredential.additionalUserInfo.profile && userCredential.additionalUserInfo.profile.birthday) {
         birthdate = userCredential.additionalUserInfo.profile.birthday;
       }
-      var photoURL = user.photoURL || ''; 
 
+      // Get the Google profile picture URL
+      var photoURL = user.photoURL || ''; // Use empty string if photoURL is not available
+
+      // Create a new user document in Firestore with the user's Google email as the document ID
       return db.collection('users').doc(user.uid).set({
-        bio: '',
-        birthday: birthdate,
-
-        category: '',
-        city: '',
         email: user.email,
         loginTime: loginTime,
         plan: 'free',
         template: 'v1',
         signupTime: signupTime,
         uid: user.uid,
+        birthday: birthdate,
         profile: photoURL
       });
     })
     .then(function() {
+      var user = firebase.auth().currentUser;
+      // Send email verification to the user
+      return sendEmailVerification(user);
+    })
+    .then(function() {
+      // Redirect the user to the "username.html" page
       window.location.href = '/auth/google';
     })
     .catch(function (error) {
@@ -73,77 +79,15 @@ function googleSignup() {
     });
 }
 
-// Facebook login
-function facebookLogin() {
-  var provider = new firebase.auth.FacebookAuthProvider();
-  firebase.auth().signInWithPopup(provider)
-    .then(function (userCredential) {
-      var user = userCredential.user;
-      // Handle login success, check if user exists in Firestore, and redirect accordingly
-      checkAndRedirectUser(user.uid);
-    })
-    .catch(function (error) {
-      errorMessage.innerHTML = error.message;
-      errorMessage.style.display = 'block';
-    });
-}
-
-// Facebook signup
-function facebookSignup() {
-  var provider = new firebase.auth.FacebookAuthProvider();
-  firebase.auth().signInWithPopup(provider)
-    .then(function (userCredential) {
-      var user = userCredential.user;
-      var signupTime = new Date().toLocaleString();
-      var loginTime = signupTime;
-
-      var profilePicUrl = ''; // Get the Facebook profile picture URL
-      if (user.providerData && user.providerData.length > 0) {
-        profilePicUrl = user.providerData[0].photoURL || '';
-      }
-
-      // Create a new user document in Firestore
-      return db.collection('users').doc(user.uid).set({
-        bio: '',
-        birthday: '', // You may get the birthday if the user grants the required permission
-
-        category: '',
-        city: '',
-        email: user.email,
-        loginTime: loginTime,
-        plan: 'free',
-        template: 'v1',
-        signupTime: signupTime,
-        uid: user.uid,
-        profile: profilePicUrl
-      });
-    })
-    .then(function() {
-      // Redirect the user to the appropriate page after successful signup
-      window.location.href = '/auth/facebook';
-    })
-    .catch(function (error) {
-      errorMessage.innerHTML = error.message;
-      errorMessage.style.display = 'block';
-    });
-}
-
-// Function to check if the user exists in Firestore and redirect accordingly
-function checkAndRedirectUser(userId) {
-  return db.collection('users').doc(userId).get()
-    .then(function(doc) {
-      if (doc.exists) {
-        // If the user exists, check if their email is verified and handle the redirection
-        window.location.href = '/';
-      } else {
-        // If the user is not registered, redirect them to the "daftar" (register) page
-        window.location.href = '/auth/daftar';
-      }
-    })
-    .catch(function (error) {
-      errorMessage.innerHTML = error.message;
-      errorMessage.style.display = 'block';
-    });
+// Function to send email verification
+function sendEmailVerification(user) {
+  return user.sendEmailVerification().then(function() {
+    // Email verification sent successfully. You can add any further actions if needed.
+    console.log("Email verification sent!");
+  }).catch(function(error) {
+    // An error happened. Handle it here.
+    console.error("Error sending email verification:", error);
+  });
 }
 
 
