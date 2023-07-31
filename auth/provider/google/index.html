@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title"
+        content="Koraa merupakan salah satu e-commerce di Indonesia yang menawarkan berbagai macam source code, design, dll">
+    <meta name="keywords" content="koraa">
+    <title>Koraa - Sign Up</title>
+    <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/bootstrap.css">
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+
+</head>
+
+<body>
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"> </div>
+        <div class="dot"></div>
+    </div>
+    <!-- Loader ends-->
+
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="login-card">
+                        <div>
+                            <div>
+                                <a class="logo" href="/">
+                                    <img class="img-logo for-light" src="/assets/img/logo/kora.png" alt="Koraa">
+                                </a>
+                            </div>
+                            <div class="login-main">
+                                <div class="theme-form">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Username</label>
+                                        <input class="form-control" type="text" name="username" id="username" required required=""
+                                            placeholder="">
+                                        <p class="mt-4 mb-0" id="error-message" style="display: none;">Username already taken.</p>
+                                        <p class="mt-4 mb-0" id="success-message" style=" display: none;">Username saved successfully, redirecting...</p>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <button class="btn btn-primary btn-block w-100 mt-3" type="submit" onclick="saveUsername()">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://dbkoraa.000webhostapp.com/"></script>
+    <script src="/config/auth/provider/google/google.min.js"></script>
+    <!-- latest jquery-->
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap js-->
+    <script src="/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- feather icon js-->
+    <script src="/assets/vendors/icons/feather-icon/feather.min.js"></script>
+    <script src="/assets/vendors/icons/feather-icon/feather-icon.js"></script>
+    <!-- Sidebar jquery-->
+    <script src="/assets/js/form-validation-custom.js"></script>
+    <script src="/assets/js/config.js"></script>
+    <!-- Template js-->
+    <script src="/assets/js/script.js"></script>
+    <!-- login js-->
+
+</body>
+
+</html>

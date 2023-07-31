@@ -4,12 +4,12 @@ firebase.initializeApp(firebaseConfig);
 // Memeriksa status login pengguna saat ini
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    var username = user.displayName; // Menggunakan displayName pengguna sebagai username
+    var username = user.displayName;
     if (username) {
-      getFileInfo(username, user.uid); // Memanggil fungsi getFileInfo dengan menambahkan user.uid sebagai parameter
+      getFileInfo(username, user.uid);
     } else {
       console.log('Username belum diisi');
-      window.location.href = '/auth/google'; // Redirect user to "/auth/google" if username is not filled
+      window.location.href = '/auth/provider/google';
     }
   } else {
     console.log('Pengguna belum login');
@@ -30,11 +30,11 @@ function getFileInfo(username, uid) {
           console.log('Username ditemukan:', fileInfo.username);
         } else {
           console.log('Username tidak ditemukan');
-          window.location.href = '/auth/google'; // Redirect user to "/auth/google" if username is not found
+          window.location.href = '/auth/provider/google';
         }
       } else {
         console.log('Dokumen tidak ditemukan');
-        window.location.href = '/auth/google'; // Redirect user to "/auth/google" if document doesn't exist
+        window.location.href = '/auth/provider/google';
       }
     })
     .catch(function (error) {

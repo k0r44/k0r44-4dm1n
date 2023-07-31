@@ -91,7 +91,15 @@
                                         <button class="btn btn-primary btn-block w-100" onclick="signup()" id="signup-button" disabled>Sign Up</button>
                                     </div>
                                 </div>
-
+                                
+                                <div class="login-social-title">
+                                    <h6>Or Sign up with</h6>
+                                </div>
+                                <div class="form-group">
+                                  <ul class="login-social">
+                                    <li onclick="googleSignup()"><i class="ri-google-fill"></i></li>
+                                  </ul>
+                                </div>
                                 <p class="mt-4 mb-0 text-center">Already have an account?
                                     <a class="ms-2" href="../login/">Sign in</a>
                                 </p>
@@ -102,7 +110,6 @@
             </div>
         </div>
 
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>

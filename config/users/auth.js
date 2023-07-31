@@ -37,42 +37,53 @@ function googleLogin() {
 function googleSignup() {
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('profile');
+  provider.addScope('email');
+  provider.addScope('https://www.googleapis.com/auth/user.birthday.read'); // Adding the birthday scope
+
   firebase.auth().signInWithPopup(provider)
     .then(function (userCredential) {
       var user = userCredential.user;
       var signupTime = new Date().toLocaleString();
       var loginTime = signupTime;
-
-      var birthdate = "Not available";
-      if (userCredential.additionalUserInfo && userCredential.additionalUserInfo.profile && userCredential.additionalUserInfo.profile.birthday) {
-        birthdate = userCredential.additionalUserInfo.profile.birthday;
-      }
       var photoURL = user.photoURL || ''; 
 
-      return db.collection('users').doc(user.uid).set({
-        bio: '',
-        birthday: birthdate,
+      var userDocRef = db.collection('users').doc(user.uid);
 
-        category: '',
-        city: '',
-        email: user.email,
-        loginTime: loginTime,
-        plan: 'free',
-        template: 'v1',
-        signupTime: signupTime,
-        uid: user.uid,
-        profile: photoURL
+      // Check if the user is already registered
+      return userDocRef.get().then(function(doc) {
+        if (doc.exists) {
+          // User is already registered, redirect to a different page
+          window.location.href = '/'; // Change '/dashboard' to your desired destination
+        } else {
+          // User is not registered yet, get birthday from Google data
+          var birthdate = "Not available";
+          if (userCredential.additionalUserInfo && userCredential.additionalUserInfo.profile && userCredential.additionalUserInfo.profile.birthday) {
+            birthdate = userCredential.additionalUserInfo.profile.birthday;
+          }
+
+          return userDocRef.set({
+            bio: '',
+            birthday: birthdate,
+            category: '',
+            city: '',
+            email: user.email,
+            loginTime: loginTime,
+            plan: 'free',
+            template: 'v1',
+            signupTime: signupTime,
+            uid: user.uid,
+            profile: photoURL
+          }).then(function() {
+            window.location.href = '/auth/provider/google'; // Redirect to the signup page
+          });
+        }
       });
-    })
-    .then(function() {
-      window.location.href = '/auth/google';
     })
     .catch(function (error) {
       errorMessage.innerHTML = error.message;
       errorMessage.style.display = 'block';
     });
 }
-
 
 // Show login form
 function showLoginForm() {
