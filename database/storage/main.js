@@ -17,15 +17,13 @@ function getFileInfo(uid) {
           var filePromises = res.items.map(function(itemRef) {
               return itemRef.getMetadata().then(function(metadata) {
                   // Mengakses metadata file
-                  var dpen = metadata.name.split('.')[0]; // Mengambil nama file sebelum titik
-                  var namaFile = dpen.slice(0, 6) + '.' + metadata.name.split('.').pop(); // Mengambil 6 huruf dari dpen dan menambahkan format file
+                  var dpen = metadata.name.split('.')[0];
+                  var namaFile = dpen.slice(0, 6) + '.' + metadata.name.split('.').pop();
 
                   var ukuranFile = metadata.size;
-                  var tanggalUpload = new Date(metadata.timeCreated).toLocaleDateString(); // Mengubah format tanggal
+                  var tanggalUpload = new Date(metadata.timeCreated).toLocaleDateString();
 
-                  // Mengubah ukuran file menjadi KB, MB, atau GB
                   var ukuranFormatted = formatSize(ukuranFile);
-                    // Menampilkan informasi file
                     var fileInfoHTML = 
                     '<li class="folder-box d-flex align-items-center">' +
                         '<div class="d-flex align-items-center files-list">' +

@@ -38,7 +38,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 
           // Memeriksa apakah waktu saat ini ada di antara waktu ulang tahun dan waktu ulang tahun + satu hari terkirim
           if (timeDiff > oneDay) {
-            // Mengupdate birthdaySent menjadi false
             categoryRef.update({
               birthdaySent: false
             })
@@ -49,7 +48,6 @@ firebase.auth().onAuthStateChanged(function(user) {
                 console.log("Error memperbarui informasi pengiriman ulang tahun:", error);
               });
           } else if (timeDiff >= 0 && timeDiff <= oneDay) {
-            // Memeriksa apakah waktu saat ini ada di antara waktu ulang tahun dan waktu ulang tahun + satu hari terkirim
 
             const img = "https://www.koraa.my.id/assets/img/logo/koraa.png";
             const username = "Koraa";

@@ -1,7 +1,6 @@
 // Mengambil referensi Firestore
 const db = firebase.firestore();
 
-
 // Mendapatkan itemId dari URL parameter
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');
@@ -22,18 +21,12 @@ db.collection('items').doc(itemId).get()
       itemDescInput.value = itemData.desc;
       visibilitySelect.value = itemData.visibility;
 
-      // Lanjutkan dengan pengisian nilai pada elemen-elemen form lainnya
-
-      // Mendapatkan pengguna saat ini
       const user = firebase.auth().currentUser;
-      const author = user.displayName;
+      const author = user.uid;
 
-      // Memeriksa apakah pengguna saat ini adalah pemilik item
       if (itemData.author === author) {
-        // Pengguna saat ini adalah pemilik item, izinkan untuk melakukan edit
         saveButton.disabled = false;
       } else {
-        // Pengguna saat ini bukan pemilik item, nonaktifkan tombol simpan
         saveButton.disabled = true;
         console.log("You don't have permission to edit this item.");
       }
@@ -45,14 +38,11 @@ db.collection('items').doc(itemId).get()
     console.log("Error getting item:", error);
   });
 
-// Tambahkan event listener untuk tombol Simpan atau Submit form
 const saveButton = document.getElementById('save-button');
 saveButton.addEventListener('click', function() {
-  // Tampilkan overlay saat proses update dimulai
   const overlay = document.getElementById('overlay');
   overlay.style.display = 'block';
 
-  // Lakukan operasi untuk menyimpan perubahan pada item
   const newItemName = itemNameInput.value;
   const newItemDesc = itemDescInput.value;
   const newVisibility = visibilitySelect.value;
@@ -128,11 +118,9 @@ uploadButton.addEventListener('click', function() {
           // Hapus file storage sebelumnya
           previousFileRef.delete().then(() => {
             console.log("Previous file successfully deleted");
-            // Lanjutkan dengan upload file baru
             uploadFile(file);
           }).catch((error) => {
             console.log("Error deleting previous file:", error);
-            // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
           });
         } else {
           // Lanjutkan dengan upload file baru
@@ -143,7 +131,6 @@ uploadButton.addEventListener('click', function() {
       }
     }).catch((error) => {
       console.log("Error getting item:", error);
-      // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
     });
   } else {
     console.log("No file selected");
@@ -167,36 +154,28 @@ function uploadFile(file) {
     fileRef.getDownloadURL().then((url) => {
       console.log("Download URL:", url);
 
-      // Update field fileName di Firestore dengan nama file yang baru
       const itemDataRef = db.collection('items').doc(itemId);
       itemDataRef.update({
         fileName: fileName,
         img: url,
-        // Lanjutkan dengan pembaruan nilai pada properti lainnya
       })
 
-      // Update field fileName dan img di Firestore dengan nama file yang baru dan URL gambar
       const userRef = db.collection('users').doc(author).collection('items').doc(itemId);
       userRef.update({
         fileName: fileName,
         img: url,
-        // Lanjutkan dengan pembaruan nilai pada properti lainnya
       })
 
         .then(() => {
           console.log("File name successfully updated in Firestore");
-          // Lakukan operasi lain setelah sukses mengupload file
         })
         .catch((error) => {
           console.log("Error updating file name in Firestore:", error);
-          // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
         });
     }).catch((error) => {
       console.log("Error getting file download URL:", error);
-      // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
     });
   }).catch((error) => {
     console.log("Error uploading file:", error);
-    // Tampilkan pesan kesalahan atau lakukan operasi lain jika terjadi kesalahan
   });
 }
