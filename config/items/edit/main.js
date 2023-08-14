@@ -24,10 +24,14 @@ db.collection('items').doc(itemId).get()
       const user = firebase.auth().currentUser;
       const author = user.uid;
 
-      if (itemData.author === author) {
+      if (itemData.uid === author) {
         saveButton.disabled = false;
       } else {
         saveButton.disabled = true;
+        saveButton.style.display = 'none';
+        // Tampilkan alert bahwa user tidak memiliki izin untuk mengedit item
+        const alertDiv = document.getElementById('not-user');
+        alertDiv.style.display = 'block';
         console.log("You don't have permission to edit this item.");
       }
     } else {
@@ -40,6 +44,7 @@ db.collection('items').doc(itemId).get()
 
 const saveButton = document.getElementById('save-button');
 saveButton.addEventListener('click', function() {
+  
   const overlay = document.getElementById('overlay');
   overlay.style.display = 'block';
 
@@ -91,6 +96,7 @@ saveButton.addEventListener('click', function() {
       overlay.style.display = 'none';
     });
 });
+
 
 // Tambahkan event listener untuk tombol Upload Image
 const uploadButton = document.getElementById('save-button');
