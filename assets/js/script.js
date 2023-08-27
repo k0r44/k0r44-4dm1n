@@ -1,3 +1,4 @@
+import ("/config/db.js");
 
 (function ($) {
     "use strict";

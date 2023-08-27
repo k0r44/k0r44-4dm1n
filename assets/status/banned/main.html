@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koraa - Banned</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar/scrollbar.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/date-picker/date-picker.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/owlcarousel/owlcarousel.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/prism/prism.css">
+  <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      text-align: center;
+      margin: 0 auto;
+      width: 650px;
+      padding: 0 12px;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f6f7fb;
+      display: block;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      display: inline-block;
+      text-decoration: unset;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    p {
+      margin: 15px 0;
+    }
+
+    h5 {
+      color: #444;
+      text-align: left;
+      font-weight: 400;
+    }
+
+    img.img-fluid {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .text-center {
+      text-align: center
+    }
+
+    .title {
+      color: #444444;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 0;
+      text-transform: uppercase;
+      display: inline-block;
+      line-height: 1;
+    }
+
+    table {
+      margin-top: 30px
+    }
+
+    table.top-0 {
+      margin-top: 0;
+    }
+
+    table.order-template,
+    .order-template th,
+    .order-template td {
+      border: 1px solid #eeeeee;
+      border-collapse: collapse;
+    }
+
+    .order-template th {
+      font-size: 16px;
+      padding: 15px;
+      text-align: left;
+    }
+
+    .footer-social-icon tr td img {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    .temp-social td {
+      display: inline-block;
+    }
+
+    .temp-social td i {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #5c61f2;
+      border: 1px solid #5c61f2;
+      transition: all 0.5s ease;
+    }
+
+    .temp-social td i:hover {
+      background-color: #5c61f2;
+      color: #ffffff;
+    }
+
+    .temp-social td:nth-child(n+2) {
+      margin-left: 15px;
+    }
+
+    .main-bg-light {
+      background-color: rgba(62, 95, 206, 0.03);
+    }
+
+    .deliver-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .deliver-status li {
+      font-size: 20px;
+      font-weight: 600;
+      width: 145px;
+      position: relative;
+    }
+
+    .deliver-status li h6 {
+      font-size: 14px;
+      margin-top: 10px;
+      margin-bottom: 0;
+      color: #717171;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .deliver-status li::before {
+      content: "";
+      position: absolute;
+      top: 28%;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background-color: #5c61f2;
+    }
+
+    .deliver-status li:first-child::before,
+    .deliver-status li:last-child::before {
+      width: 50%
+    }
+
+    .deliver-status li:first-child::before,
+    .deliver-status li:nth-child(2)::before {
+      right: 0;
+      left: unset;
+    }
+
+    .deliver-status li:nth-child(3)::before,
+    .deliver-status li:last-child::before {
+      background-color: #eeb82f;
+    }
+
+    .deliver-status li .order-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #eeb82f;
+      position: relative;
+      display: flex;
+    }
+
+    .deliver-status li .order-icon {
+      color: #eeb82f;
+    }
+
+    .deliver-status li .order-icon i {
+      margin: auto;
+      font-size: 14px;
+    }
+
+    .deliver-status li .order-icon.active {
+      background-color: #5c61f2;
+    }
+
+    .deliver-status li .order-icon.active i {
+      color: #ffffff;
+    }
+
+    .temp-check {
+      fill: #61ae41;
+      height: 120px;
+      margin-bottom: 15px;
+    }
+
+    @media only screen and (max-width: 767px) {
+      body {
+        width: 93%;
+      }
+
+      .order-template tbody tr:nth-child(n+2) td img {
+        width: 40px;
+      }
+
+      .temp-check {
+        height: 80px;
+      }
+
+      .temp-social td i {
+        width: 32px !important;
+        height: 32px !important;
+      }
+
+      .temp-social td:nth-child(n+2) {
+        margin-left: 6px !important;
+      }
+
+      .deliver-status li {
+        width: 120px;
+      }
+
+      .deliver-status li .order-icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .main-section tbody td>table td img {
+        width: 200px;
+      }
+
+      .main-section {
+        padding: 30px 20px !important;
+      }
+
+      .deliver-status li h6 {
+        font-size: 13px;
+      }
+
+      .main-section tbody td table:nth-child(2) {
+        margin: 30px auto 0;
+      }
+    }
+
+    @media only screen and (max-width: 575px) {
+      .temp-check {
+        height: 70px;
+      }
+
+      .main-section tbody td>table td img {
+        width: 120px;
+      }
+
+      .deliver-status li .order-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .deliver-status li::before {
+        top: 20%;
+      }
+
+      .deliver-status li {
+        width: 105px;
+      }
+
+      .deliver-status li h6 {
+        font-size: 12px;
+      }
+
+      .content-detail tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .content-detail tbody tr td:nth-child(2) {
+        display: none;
+      }
+
+      .order-template tbody tr td:nth-child(3),
+      .order-template tbody tr th:nth-child(3) {
+        display: none;
+      }
+
+      .main-section {
+        padding: 30px 10px !important;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      .order-template th {
+        font-size: 12px;
+      }
+
+      .order-template tbody tr td:nth-child(2) {
+        padding-left: 1px !important;
+      }
+
+      .deliver-status li {
+        width: 75px;
+      }
+
+      .content-detail tbody tr td {
+        width: 70% !important;
+      }
+
+      .main-section {
+        padding: 20px 8px !important;
+        margin-top: 20px;
+      }
+    }
+
+    @media only screen and (max-width: 360px) {
+      body {
+        width: 90%;
+      }
+
+      .deliver-status li::before {
+        top: 15%;
+      }
+
+      .order-template tbody tr td {
+        width: 10px;
+      }
+
+      .order-template th {
+        padding: 10px 3px !important;
+      }
+
+      .deliver-status li {
+        width: 65px;
+      }
+
+      .main-section tbody td table:nth-child(2) {
+        margin: 15px 0 0;
+      }
+
+      .user-info h5 {
+        padding: 12px !important;
+      }
+    }
+  </style>
+</head>
+
+<body style="margin: 20px auto;">
+  <table class="main-section" align="center" border="0" cellpadding="0" cellspacing="0"
+    style="padding:30px;background-color: #fff; -webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);width: 100%; border-radius:10px;">
+    <tbody>
+      <tr>
+        <td>
+          <table align="center" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <img class="img-fluid" src="/assets/img/icons/banned.gif"
+                  style="margin-bottom: 30px; border-radius:10px; width: 50%;">
+              </tr>
+              <tr>
+                <td>
+                  <h2 class="title">Banned</h2>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="color:#717171;">Maaf, Anda telah dilarang (banned).</p>
+                  <p style="color:#717171;">Silakan hubungi administrator untuk informasi lebih lanjut.</p>
+                  <div class="text-center"><a href="https://www.koraa.my.id/" target="_blank" style="padding: 10px; background-color: #5c61f2; color: #fff; display: inline-block; border-radius:30px; margin-bottom:18px; font-weight:600; padding:0.6rem 1.75rem;">Chat Support</a></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+  </table>
+</body>
+
+</html>
