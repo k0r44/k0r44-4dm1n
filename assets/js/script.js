@@ -142,12 +142,28 @@ import ("/config/db.js");
             $("body").removeClass("offcanvas");
         }
     });
-    $(".mode").on("click", function () {
-        $('.mode i').toggleClass("fa-moon-o").toggleClass("fa-lightbulb-o");
-        $('body').toggleClass("dark-only");
-        var color = $(this).attr("data-attr");
-        localStorage.setItem('body', 'dark-only');
+
+    $(document).ready(function () {
+        // Memeriksa apakah ada preferensi tema yang tersimpan di localStorage
+        var storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+            $('body').addClass(storedTheme);
+            $('.mode i').toggleClass("fa-moon-o fa-lightbulb-o");
+        }
+    
+        // Menangani perubahan tema ketika tombol di-klik
+        $(".mode").on("click", function () {
+            var currentTheme = $('body').hasClass("dark-only") ? "dark-only" : "light-only";
+            var newTheme = currentTheme === "dark-only" ? "light-only" : "dark-only";
+    
+            $('body').removeClass(currentTheme).addClass(newTheme);
+            $('.mode i').toggleClass("fa-moon-o fa-lightbulb-o");
+    
+            // Menyimpan preferensi tema ke localStorage
+            localStorage.setItem('theme', newTheme);
+        });
     });
+    
 
     // active link
 

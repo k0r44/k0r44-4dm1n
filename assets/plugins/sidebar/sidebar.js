@@ -115,11 +115,11 @@ function showgallery(curarra) {
                     </a>
                   </li>
 
-                  <li class="sidebar-list" id="starter-kit">
+                  <li class="sidebar-list" id="documentation">
                     <i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title link-nav" href="">
+                    <a class="sidebar-link sidebar-title link-nav" href="https://docs.koraa.my.id/" target="_blank">
                       <i data-feather="file-text"></i>
-                      <span>Starter Kit</span>
+                      <span>Documentation</span>
                     </a>
                   </li>
 
